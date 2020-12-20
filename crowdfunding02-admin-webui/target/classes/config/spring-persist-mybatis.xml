@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!--Spring整和Mybatis配置，共需配置三步-->
+    <!--加载jdbc.properties-->
+    <context:property-placeholder location="classpath:config/jdbc.properties"/>
+    <!--1.配置数据源-->
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+        <property name="url" value="${jdbc.url}" />
+        <property name="username" value="${jdbc.user}" />
+        <property name="password" value="${jdbc.password}" />
+        <property name="maxActive" value="${jdbc.maxActive}" />
+    </bean>
+    <!--2.注册SqlSessionFactoryBean-->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <!--指定数据源-->
+        <property name="dataSource" ref="dataSource"/>
+        <!--指定 mybatis主配置文件-->
+        <property name="configLocation" value="classpath:config/mybatis-config.xml"/>
+    </bean>
+    <!--3.注册mapper扫描器-->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <!--指定会话工厂，如果当前上下文中只定义了一个则该属性可省去 -->
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+        <!--指定要扫描的包，即存放mapper接口的包-->
+        <!--在basePackage中使用逗号或者分号作为分隔符去给映射器接口文件设置多个包的路径，让其能够被递归扫描到。-->
+        <property name="basePackage" value="cn.andylhl.crowd.mapper"/>
+    </bean>
+
+</beans>

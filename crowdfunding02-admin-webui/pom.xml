@@ -20,11 +20,22 @@
     </properties>
 
     <dependencies>
+        <!--Spring测试依赖，整和junit-->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+        </dependency>
+        <!--Junit单元测试依赖-->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.11</version>
             <scope>test</scope>
+        </dependency>
+        <!--引入component依赖-->
+        <dependency>
+            <groupId>cn.andylhl.crowd</groupId>
+            <artifactId>crowdfunding03-admin-component</artifactId>
+            <version>1.0.0</version>
         </dependency>
     </dependencies>
 </project>

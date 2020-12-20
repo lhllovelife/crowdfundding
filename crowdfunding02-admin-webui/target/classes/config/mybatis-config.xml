@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+    <typeAliases>
+        <!-- 类型名配置包名，写参数类型和返回值类型时，只需写简单类名，不必写完整类名    -->
+        <package name="cn.andylhl.crowd.entity"/>
+    </typeAliases>
+
+    <mappers>
+        <!--配置sql映射文件的位置        -->
+        <!-- sql映射文件，配置包名，则指向该包下所有的sql映射文件       -->
+        <package name="cn.andylhl.crowd.mapper"/>
+    </mappers>
+</configuration>
