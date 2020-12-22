@@ -13,7 +13,7 @@
     <!--3.配置视图解析器-->
     <!--web静态资源统一放在WEB-INF目录下-->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <property name="prefix" value="/WEB-INF/" />
+        <property name="prefix" value="/WEB-INF/static" />
         <property name="suffix" value=".jsp"/>
     </bean>
 
