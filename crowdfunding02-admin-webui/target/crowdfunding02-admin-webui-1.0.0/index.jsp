@@ -53,5 +53,6 @@
 <h3>首页</h3>
 <input type="button" id="btn1" value="ajax发送key=value格式"> <br/>
 <input type="button" id="btn2" value="ajax发送json字符串">
+<a href="test/target.html">访问target</a>
 </body>
 </html>

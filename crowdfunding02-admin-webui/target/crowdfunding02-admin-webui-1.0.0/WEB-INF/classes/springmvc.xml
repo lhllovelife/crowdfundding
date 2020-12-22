@@ -13,8 +13,21 @@
     <!--3.配置视图解析器-->
     <!--web静态资源统一放在WEB-INF目录下-->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <property name="prefix" value="/WEB-INF/static" />
+        <property name="prefix" value="/WEB-INF/static/" />
         <property name="suffix" value=".jsp"/>
     </bean>
 
+    <!--配置view-controller-->
+    <mvc:view-controller path="test/target.html" view-name="target"/>
+    <!--基于XML的异常映射-->
+    <bean id="simpleMappingExceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+        <!--配置异常类型与具体视图页面的对应关系-->
+            <property name="exceptionMappings">
+                <props>
+                    <!--key是异常类型名-->
+                    <!--标签体中的值是写对应的视图（发生该异常要跳转到的页面）-->
+                    <prop key="java.lang.Exception">system-error</prop>
+                </props>
+            </property>
+    </bean>
 </beans>
