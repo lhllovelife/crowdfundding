@@ -99,10 +99,11 @@
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
         </dependency>
-        <!-- JSTL 标签库 -->
+        <!-- 引入 Servlet 容器中相关依赖 -->
         <dependency>
-            <groupId>jstl</groupId>
-            <artifactId>jstl</artifactId>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <scope>provided</scope>
         </dependency>
         <!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
         <!--手动处理json数据所需依赖-->
