@@ -1,6 +1,7 @@
 package cn.andylhl.crowd.web.config;
 
 import cn.andylhl.crowd.constant.Constant;
+import cn.andylhl.crowd.exception.AccessForbiddenException;
 import cn.andylhl.crowd.exception.LoginFailedException;
 import cn.andylhl.crowd.utils.CrowdUtil;
 import cn.andylhl.crowd.utils.ResultEntity;
@@ -28,6 +29,25 @@ public class CrowdExceptionResolver {
     private Logger logger = LoggerFactory.getLogger(CrowdExceptionResolver.class);
 
     /**
+     * 出现访问受保护资源异常，则跳转到登录页面
+     * @param exception
+     * @param request
+     * @param response
+     * @return
+     * @throws IOException
+     */
+    @ExceptionHandler(AccessForbiddenException.class)
+    public ModelAndView resolveAccessForbiddenException(
+            AccessForbiddenException exception,
+            HttpServletRequest request,
+            HttpServletResponse response) throws IOException {
+        logger.info("执行异常处理：AccessForbiddenException");
+        String viewname = "admin-main";
+        return commonReslove(viewname, exception, request, response);
+    }
+
+
+    /**
      * 针对出现登录失败的异常处理方法，出现登录失败异常，返回登录页面
      * @param exception
      * @param request
@@ -36,12 +56,13 @@ public class CrowdExceptionResolver {
      * @throws IOException
      */
     @ExceptionHandler(LoginFailedException.class)
-    public ModelAndView resolveNullPointerException(
+    public ModelAndView resolveLoginFailedException(
             LoginFailedException exception,
             HttpServletRequest request,
             HttpServletResponse response) throws IOException {
         logger.info("执行异常处理-登录失败异常：LoginFailedException");
-        return commonReslove("admin-login", exception, request, response);
+        String viewname = "admin-login";
+        return commonReslove(viewname, exception, request, response);
     }
 
     @ExceptionHandler(NullPointerException.class)
@@ -50,7 +71,8 @@ public class CrowdExceptionResolver {
             HttpServletRequest request,
             HttpServletResponse response) throws IOException {
         logger.info("执行异常处理：NullPointerException");
-        return commonReslove("system-error", exception, request, response);
+        String viewname = "system-error";
+        return commonReslove(viewname, exception, request, response);
     }
 
     public ModelAndView commonReslove(

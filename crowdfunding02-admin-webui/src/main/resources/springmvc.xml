@@ -34,7 +34,25 @@
                     <!--key是异常类型名-->
                     <!--标签体中的值是写对应的视图（发生该异常要跳转到的页面）-->
                     <prop key="java.lang.Exception">system-error</prop>
+                    <prop key="cn.andylhl.crowd.exception.AccessForbiddenException">admin-login</prop>
                 </props>
             </property>
     </bean>
+
+    <!--配置拦截器-->
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <!--配置拦截器要拦截的接口地址-->
+            <mvc:mapping path="/**"/>
+            <!--配置拦截器不需要拦截的资源-->
+            <!--后台登录页面-->
+            <mvc:exclude-mapping path="/admin/to/login/page.html"/>
+            <!--后台登录验证接口-->
+            <mvc:exclude-mapping path="/admin/do/login.html"/>
+            <!--后台登录验证接口-->
+            <mvc:exclude-mapping path="/admin/do/logout.html"/>
+            <!--退出登录接口-->
+            <bean class="cn.andylhl.crowd.web.interceptor.LoginInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
 </beans>
