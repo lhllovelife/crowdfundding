@@ -30,6 +30,7 @@ public class TestSSMController {
     public @ResponseBody Object testSSM(HttpServletRequest request){
         logger.info("访问测试环境方法");
         System.out.println(CrowdUtil.judgeRequestType(request));
+        int a = 5 / 0;
         return "success : true";
     }
 

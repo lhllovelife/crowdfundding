@@ -1,6 +1,7 @@
 package cn.andylhl.crowd.service;
 
 import cn.andylhl.crowd.entity.Admin;
+import cn.andylhl.crowd.exception.LoginFailedException;
 
 /***
  * @Title: AdminService
@@ -16,4 +17,12 @@ public interface AdminService {
      * @return
      */
     int save(Admin admin);
+
+    /**
+     * 验证登录
+     * @param loginAcct
+     * @param userPswd
+     * @return
+     */
+    Admin getAdminByLoginAcct(String loginAcct, String userPswd) throws LoginFailedException;
 }

@@ -27,4 +27,7 @@ public interface AdminMapper {
     int updateByPrimaryKeySelective(Admin record);
 
     int updateByPrimaryKey(Admin record);
+
+    // 根据账号查询管理员信息
+    Admin getAdminByLoginAcct(String loginAcct);
 }

@@ -1,5 +1,7 @@
 package cn.andylhl.crowd.web.config;
 
+import cn.andylhl.crowd.constant.Constant;
+import cn.andylhl.crowd.exception.LoginFailedException;
 import cn.andylhl.crowd.utils.CrowdUtil;
 import cn.andylhl.crowd.utils.ResultEntity;
 import com.google.gson.Gson;
@@ -24,6 +26,23 @@ import java.io.IOException;
 public class CrowdExceptionResolver {
 
     private Logger logger = LoggerFactory.getLogger(CrowdExceptionResolver.class);
+
+    /**
+     * 针对出现登录失败的异常处理方法，出现登录失败异常，返回登录页面
+     * @param exception
+     * @param request
+     * @param response
+     * @return
+     * @throws IOException
+     */
+    @ExceptionHandler(LoginFailedException.class)
+    public ModelAndView resolveNullPointerException(
+            LoginFailedException exception,
+            HttpServletRequest request,
+            HttpServletResponse response) throws IOException {
+        logger.info("执行异常处理-登录失败异常：LoginFailedException");
+        return commonReslove("admin-login", exception, request, response);
+    }
 
     @ExceptionHandler(NullPointerException.class)
     public ModelAndView resolveNullPointerException(
@@ -62,7 +81,7 @@ public class CrowdExceptionResolver {
         //8. 执行到这里，说明请求不是ajax请求，创建ModleAndView对象进行跳转到目标视图
         ModelAndView mv = new ModelAndView();
         //9. 将Exception对象封装到模型中
-        mv.addObject("exception", exception);
+        mv.addObject(Constant.ATTR_NAME_EXCEPTION, exception);
         //10. 设置对象视图名称
         mv.setViewName(viewname);
         //11. 返回ModelAndView对象

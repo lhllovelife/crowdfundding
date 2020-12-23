@@ -3,7 +3,7 @@ package cn.andylhl.crowd;
 import cn.andylhl.crowd.entity.Admin;
 import cn.andylhl.crowd.mapper.AdminMapper;
 import cn.andylhl.crowd.service.AdminService;
-import cn.andylhl.crowd.utils.Const;
+import cn.andylhl.crowd.constant.Constant;
 import cn.andylhl.crowd.utils.DateUtil;
 import cn.andylhl.crowd.utils.UUIDUtil;
 import org.junit.Test;
@@ -40,13 +40,13 @@ public class TestCrowdFundding {
     @Test
     public void testTx(){
         int count = adminService.save(new Admin(UUIDUtil.getUUID(), "ls1", "123", "李四",
-                "ls@qq.com", DateUtil.format(new Date(), Const.DATE_Format_ALL)));
+                "ls@qq.com", DateUtil.format(new Date(), Constant.DATE_Format_ALL)));
         logger.info("插入结果：" + (count == 1 ? "true" : "false"));
     }
 
     @Test
     public void testConnect(){
-        Admin admin = new Admin(UUIDUtil.getUUID(), "zs", "123", "张三", "zs@qq.com", DateUtil.format(new Date(), Const.DATE_Format_ALL));
+        Admin admin = new Admin(UUIDUtil.getUUID(), "zs", "123", "张三", "zs@qq.com", DateUtil.format(new Date(), Constant.DATE_Format_ALL));
         int count = adminMapper.insert(admin);
         System.out.println(count == 1 ? "插入成功" : "插入失败");
     }

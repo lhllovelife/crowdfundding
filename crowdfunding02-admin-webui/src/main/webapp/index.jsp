@@ -6,7 +6,7 @@
 <head>
     <title>首页</title>
     <base href="<%=basePath%>">
-    <script type="text/javascript" src="jquery/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="static/jquery/jquery-2.1.1.min.js"></script>
 
     <script>
         $(function () {

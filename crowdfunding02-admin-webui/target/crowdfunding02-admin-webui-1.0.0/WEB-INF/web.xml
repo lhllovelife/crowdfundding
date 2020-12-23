@@ -3,6 +3,12 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
          version="4.0">
+
+    <!--后台系统首页-->
+    <welcome-file-list>
+        <welcome-file>/admin/to/login/page.html</welcome-file>
+    </welcome-file-list>
+
     <!--配置ContextLoaderListener, 当context创建好之后，创建spring容器-->
     <context-param>
         <param-name>contextConfigLocation</param-name>
@@ -48,10 +54,10 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>dispatcherServlet</servlet-name>
-        <url-pattern>*.do</url-pattern>
+        <url-pattern>*.html</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>dispatcherServlet</servlet-name>
-        <url-pattern>*.html</url-pattern>
+        <url-pattern>*.json</url-pattern>
     </servlet-mapping>
 </web-app>
