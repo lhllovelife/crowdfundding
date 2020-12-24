@@ -24,21 +24,19 @@
     <mvc:view-controller path="/admin/to/login/page.html" view-name="admin-login"/>
     <!--访问后台主页面地址-->
     <mv:view-controller path="/admin/to/main/page.html" view-name="admin-main"/>
-    <!--访问用户维护界面-->
-    <mvc:view-controller path="/admin/to/user.html" view-name="admin-user"/>
 
 
     <!--基于XML的异常映射-->
     <bean id="simpleMappingExceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
         <!--配置异常类型与具体视图页面的对应关系-->
-            <property name="exceptionMappings">
-                <props>
-                    <!--key是异常类型名-->
-                    <!--标签体中的值是写对应的视图（发生该异常要跳转到的页面）-->
-                    <prop key="java.lang.Exception">system-error</prop>
-                    <prop key="cn.andylhl.crowd.exception.AccessForbiddenException">admin-login</prop>
-                </props>
-            </property>
+        <property name="exceptionMappings">
+            <props>
+                <!--key是异常类型名-->
+                <!--标签体中的值是写对应的视图（发生该异常要跳转到的页面）-->
+                <prop key="java.lang.Exception">system-error</prop>
+                <prop key="cn.andylhl.crowd.exception.AccessForbiddenException">admin-login</prop>
+            </props>
+        </property>
     </bean>
 
     <!--配置拦截器-->

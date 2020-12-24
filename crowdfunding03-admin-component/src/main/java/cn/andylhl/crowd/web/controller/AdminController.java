@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -87,14 +88,17 @@ public class AdminController {
      * @param keyword 关键词
      * @return
      */
-    @RequestMapping("/admin/get/admin/pageinfo.json")
-    public @ResponseBody Object getAdminPageInfo(@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
-                                @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
-                                @RequestParam(value = "keyword", defaultValue = "") String keyword){
-        //获取装有分页信息的对象
+    @RequestMapping("/admin/get/page.html")
+    public String getAdminPageInfo(@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
+                                                 @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
+                                                 @RequestParam(value = "keyword", defaultValue = "") String keyword,
+                                                 Model model){
+        // 获取装有分页信息的对象
         PageInfo<Admin> pageInfo = adminService.getAdminPageInfo(pageNum, pageSize, keyword);
-
-        return ResultEntity.successWithData(pageInfo);
+        // 将分页信息对象放到模型中，跳转到页面
+        model.addAttribute(Constant.ATTR_NAME_PAGE_INFO, pageInfo);
+        //跳转到admin-page.jsp
+        return "admin-page";
     }
 
 }

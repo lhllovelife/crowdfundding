@@ -5,6 +5,7 @@ import cn.andylhl.crowd.mapper.AdminMapper;
 import cn.andylhl.crowd.service.AdminService;
 import cn.andylhl.crowd.constant.Constant;
 import cn.andylhl.crowd.utils.DateUtil;
+import cn.andylhl.crowd.utils.MD5Util;
 import cn.andylhl.crowd.utils.UUIDUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -38,10 +39,14 @@ public class TestCrowdFundding {
     private AdminService adminService;
 
     @Test
-    public void testTx(){
-        int count = adminService.save(new Admin(UUIDUtil.getUUID(), "ls1", "123", "李四",
-                "ls@qq.com", DateUtil.format(new Date(), Constant.DATE_Format_ALL)));
-        logger.info("插入结果：" + (count == 1 ? "true" : "false"));
+    public void testTx() throws InterruptedException {
+        for (int i = 1; i <= 38; i++){
+            int count = adminService.save(new Admin(UUIDUtil.getUUID(), "zs"+i, MD5Util.getMD5("123"), "张三"+i,
+                    "zs"+i+"@qq.com", DateUtil.format(new Date(), Constant.DATE_Format_ALL)));
+            Thread.sleep(1000);
+        }
+
+
     }
 
     @Test

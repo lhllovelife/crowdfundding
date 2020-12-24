@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
     String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath() + "/";
 %>
@@ -7,47 +8,15 @@
 <head>
     <%@include file="include-head.jsp" %>
 
+    <%--引入分页组件--%>
     <link rel="stylesheet" href="static/css/font-awesome.min.css">
     <script type="text/javascript" src="static/css/pagination.css"></script>
 
     <script type="text/javascript">
         //页面加载完毕后开始执行
         $(function () {
-            pageList(1, 5, "");
-        })
 
-        function pageList(pageNum, pageSize, keyword) {
-            // 访问分页用户信息接口
-            $.ajax({
-                url : "admin/get/admin/pageinfo.json",
-                data: {
-                    "page" : pageNum,
-                    "pageSize" : pageSize,
-                    "keyword" : keyword
-                },
-                type : "get",
-                dataType : "json",
-                success : function (resp) {
-                    //动态拼接数据
-                    var html = "";
-                    $.each(resp.data.list, function (i, n) {
-                        html  += '<tr>';
-                        html  += '<td>1</td>';
-                        html  += '<td><input type="checkbox"></td>';
-                        html  += '<td>'+n.loginAcct+'</td>';
-                        html  += '<td>'+n.userName+'</td>';
-                        html  += '<td>'+n.email+'</td>';
-                        html  += '<td>';
-                        html  += '<button type="button" class="btn btn-success btn-xs"><i class=" glyphicon glyphicon-check"></i></button>';
-                        html  += '<button type="button" class="btn btn-primary btn-xs"><i class=" glyphicon glyphicon-pencil"></i></button>';
-                        html  += '<button type="button" class="btn btn-danger btn-xs"><i class=" glyphicon glyphicon-remove"></i></button>';
-                        html  += '</td>';
-                        html  += '</tr>';
-                    })
-                    $("#userBody").html(html);
-                }
-            });
-        }
+        })
 
     </script>
 </head>
@@ -94,24 +63,30 @@
                             </tr>
                             </thead>
                             <tbody id="userBody">
-                            <tr>
-                                <td>1</td>
-                                <td><input type="checkbox"></td>
-                                <td>Lorem</td>
-                                <td>ipsum</td>
-                                <td>dolor</td>
-                                <td>
-                                    <button type="button" class="btn btn-success btn-xs"><i
-                                            class=" glyphicon glyphicon-check"></i></button>
-                                    <button type="button" class="btn btn-primary btn-xs"><i
-                                            class=" glyphicon glyphicon-pencil"></i></button>
-                                    <button type="button" class="btn btn-danger btn-xs"><i
-                                            class=" glyphicon glyphicon-remove"></i></button>
-                                </td>
-                            </tr>
+                                <c:if test="${empty requestScope.pageInfo.list}">
+                                    <tr>
+                                        <td colspan="6" align="center">抱歉！没有查询到您要的数据</td>
+                                    </tr>
+                                </c:if>
+
+                                <%--动态展示数据--%>
+                                <c:forEach items="${requestScope.pageInfo.list}" var="admin" varStatus="myStatus">
+                                    <tr>
+                                        <td>${myStatus.count}</td>
+                                        <td><input type="checkbox"></td>
+                                        <td>${admin.loginAcct}</td>
+                                        <td>${admin.userName}</td>
+                                        <td>${admin.email}</td>
+                                        <td>
+                                            <button type="button" class="btn btn-success btn-xs"><i class=" glyphicon glyphicon-check"></i></button>
+                                            <button type="button" class="btn btn-primary btn-xs"><i class=" glyphicon glyphicon-pencil"></i></button>
+                                            <button type="button" class="btn btn-danger btn-xs"><i class=" glyphicon glyphicon-remove"></i></button>
+                                        </td>
+                                    </tr>
+                                </c:forEach>
                             </tbody>
                             <tfoot>
-                            <tr>
+                            <tr id="Pagination">
                                 <td colspan="6" align="center">
                                     <ul class="pagination">
                                         <li class="disabled"><a href="#">上一页</a></li>

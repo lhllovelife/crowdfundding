@@ -42,7 +42,7 @@ public class CrowdExceptionResolver {
             HttpServletRequest request,
             HttpServletResponse response) throws IOException {
         logger.info("执行异常处理：AccessForbiddenException");
-        String viewname = "admin-main";
+        String viewname = "admin-login";
         return commonReslove(viewname, exception, request, response);
     }
 
