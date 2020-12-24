@@ -26,3 +26,16 @@ window.location.href = "admin/do/logout.html";
 </div>
 </body>
 </html>
+
+//ajax
+$.ajax({
+    url : "test/ajax1.do",
+    data: {
+
+    },
+    type : "get",
+    dataType : "json",
+    success : function (data) {
+
+    }
+});

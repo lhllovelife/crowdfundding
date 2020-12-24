@@ -24,6 +24,8 @@
     <mvc:view-controller path="/admin/to/login/page.html" view-name="admin-login"/>
     <!--访问后台主页面地址-->
     <mv:view-controller path="/admin/to/main/page.html" view-name="admin-main"/>
+    <!--访问用户维护界面-->
+    <mvc:view-controller path="/admin/to/user.html" view-name="admin-user"/>
 
 
     <!--基于XML的异常映射-->
@@ -55,4 +57,5 @@
             <bean class="cn.andylhl.crowd.web.interceptor.LoginInterceptor"/>
         </mvc:interceptor>
     </mvc:interceptors>
+
 </beans>

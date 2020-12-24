@@ -3,6 +3,34 @@
 <mapper namespace="cn.andylhl.crowd.mapper.AdminMapper" >
 
   <!--
+    根据关键字进行查询管理员对象信息
+    List<Admin> getAdminByKeyword(String keyword);
+    -->
+  <select id="getAdminByKeyword" parameterType="String" resultType="Admin">
+    select
+        id,
+        login_acct as loginAcct,
+        user_pswd as userPswd,
+        user_name as userName,
+        email,
+        create_time as createTime
+    from
+        t_admin
+    <where>
+      <if test="keyword != null and keyword !=''">
+        or login_acct like '%' #{keyword} '%'
+      </if>
+      <if test="keyword != null and keyword !=''">
+        or user_name like '%' #{keyword} '%'
+      </if>
+      <if test="keyword != null and keyword !=''">
+        or email like '%' #{keyword} '%'
+      </if>
+    </where>
+  </select>
+
+
+  <!--
     根据账号查询管理员信息
     Admin getAdminByLoginAcct(String loginAcct);
    -->

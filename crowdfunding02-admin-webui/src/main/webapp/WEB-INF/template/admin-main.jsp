@@ -4,7 +4,9 @@
 %>
 <html lang="zh-CN">
 <%--将include-head包含进来--%>
+<head>
 <%@include file="include-head.jsp" %>
+</head>
 <body>
 <%@include file="include-nav.jsp" %>
 <div class="container-fluid">

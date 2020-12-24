@@ -30,4 +30,7 @@ public interface AdminMapper {
 
     // 根据账号查询管理员信息
     Admin getAdminByLoginAcct(String loginAcct);
+
+    // 根据关键字进行查询管理员对象信息
+    List<Admin> getAdminByKeyword(@Param("keyword") String keyword);
 }

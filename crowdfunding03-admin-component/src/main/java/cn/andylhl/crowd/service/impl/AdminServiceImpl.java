@@ -6,11 +6,15 @@ import cn.andylhl.crowd.mapper.AdminMapper;
 import cn.andylhl.crowd.service.AdminService;
 import cn.andylhl.crowd.utils.MD5Util;
 import cn.andylhl.crowd.web.controller.AdminController;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Objects;
 
 /***
@@ -65,5 +69,24 @@ public class AdminServiceImpl implements AdminService {
         }
         //执行到这里，说明用户名和密码信息均一致，将管理员信息对象返回
         return admin;
+    }
+
+    /**
+     * 获取分页信息对象
+     * @param pageNum 页码
+     * @param pageSize 每页显示信息条数
+     * @param keyword 关键词
+     * @return
+     */
+    @Override
+    public PageInfo<Admin> getAdminPageInfo(Integer pageNum, Integer pageSize, String keyword) {
+        // 1. 开启分页功能
+        PageHelper.startPage(pageNum, pageSize);
+        // 2. 执行查询
+        List<Admin> adminList = adminMapper.getAdminByKeyword(keyword);
+        //3. adminList封装到PageInfo
+        PageInfo<Admin> adminPageInfo = new PageInfo<>(adminList);
+
+        return adminPageInfo;
     }
 }

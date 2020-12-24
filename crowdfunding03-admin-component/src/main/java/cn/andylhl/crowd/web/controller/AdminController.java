@@ -7,16 +7,19 @@ import cn.andylhl.crowd.constant.Constant;
 import cn.andylhl.crowd.utils.DateUtil;
 import cn.andylhl.crowd.utils.ResultEntity;
 import cn.andylhl.crowd.utils.UUIDUtil;
+import com.github.pagehelper.PageInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Date;
+import java.util.Objects;
 
 /***
  * @Title: AdminController
@@ -76,4 +79,22 @@ public class AdminController {
         //重定向到登录页面
         return "redirect:/admin/to/login/page.html";
     }
+
+    /**
+     * 处理分页查询管理员信息（带关键词或不带关键词）
+     * @param pageNum 页码
+     * @param pageSize 每页显示条数
+     * @param keyword 关键词
+     * @return
+     */
+    @RequestMapping("/admin/get/admin/pageinfo.json")
+    public @ResponseBody Object getAdminPageInfo(@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
+                                @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
+                                @RequestParam(value = "keyword", defaultValue = "") String keyword){
+        //获取装有分页信息的对象
+        PageInfo<Admin> pageInfo = adminService.getAdminPageInfo(pageNum, pageSize, keyword);
+
+        return ResultEntity.successWithData(pageInfo);
+    }
+
 }

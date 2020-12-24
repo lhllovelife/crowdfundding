@@ -2,6 +2,7 @@ package cn.andylhl.crowd.service;
 
 import cn.andylhl.crowd.entity.Admin;
 import cn.andylhl.crowd.exception.LoginFailedException;
+import com.github.pagehelper.PageInfo;
 
 /***
  * @Title: AdminService
@@ -25,4 +26,13 @@ public interface AdminService {
      * @return
      */
     Admin getAdminByLoginAcct(String loginAcct, String userPswd) throws LoginFailedException;
+
+    /**
+     * 获取装有用户分页信息的对象
+     * @return
+     * @param pageNum
+     * @param pageSize
+     * @param keyword
+     */
+    PageInfo<Admin> getAdminPageInfo(Integer pageNum, Integer pageSize, String keyword);
 }
