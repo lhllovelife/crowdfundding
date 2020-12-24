@@ -9,15 +9,43 @@
     <%@include file="include-head.jsp" %>
 
     <%--引入分页组件--%>
-    <link rel="stylesheet" href="static/css/font-awesome.min.css">
-    <script type="text/javascript" src="static/css/pagination.css"></script>
-
+    <link rel="stylesheet" href="static/css/pagination.css">
+    <script type="text/javascript" src="static/jquery/jquery.pagination.js"></script>
     <script type="text/javascript">
         //页面加载完毕后开始执行
         $(function () {
-
+            // 初始化导航栏
+            initPagination();
         })
 
+        // 初始化导航栏
+        function initPagination() {
+            // 1. 获取总记录条数, 在分页对象信息中
+            var totalRecord = ${requestScope.pageInfo.total};
+            // 声明一个json对象存储Pagination要设置的属性
+            var properties = {
+                num_edge_entries: 3,								// 边缘页数
+                num_display_entries: 5,								// 主体页数
+                callback: pageSelectCallback,						// 指定用户点击“翻页”的按钮时跳转页面的回调函数
+                items_per_page: ${requestScope.pageInfo.pageSize},	// 每页要显示的数据的数量
+                current_page: ${requestScope.pageInfo.pageNum - 1},	// Pagination内部使用pageIndex来管理页码，pageIndex从0开始，pageNum从1开始，所以要减一
+                prev_text: "上一页",									// 上一页按钮上显示的文本
+                next_text: "下一页"									// 下一页按钮上显示的文本
+            };
+            // 生成页码导航条
+            $("#Pagination").pagination(totalRecord, properties);
+        }
+        // 回调函数的含义：声明出来以后不是自己调用，而是交给系统或框架调用
+        // 用户点击“上一页、下一页、1、2、3……”这样的页码时调用这个函数实现页面跳转
+        // pageIndex是Pagination传给我们的那个“从0开始”的页码
+        function pageSelectCallback(pageIndex, jQueryObj) {
+            // 根据pageIndex计算pageNum
+            var pageNum = pageIndex + 1;
+            // 进行页面跳转
+            window.location.href = "admin/get/page.html?pageNum="+pageNum;
+            // 由于每一个页码按钮都是超链接，所以在这个函数最后取消超链接的默认行为
+            return false;
+        }
     </script>
 </head>
 <body>
@@ -86,17 +114,9 @@
                                 </c:forEach>
                             </tbody>
                             <tfoot>
-                            <tr id="Pagination">
+                            <tr >
                                 <td colspan="6" align="center">
-                                    <ul class="pagination">
-                                        <li class="disabled"><a href="#">上一页</a></li>
-                                        <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
-                                        <li><a href="#">2</a></li>
-                                        <li><a href="#">3</a></li>
-                                        <li><a href="#">4</a></li>
-                                        <li><a href="#">5</a></li>
-                                        <li><a href="#">下一页</a></li>
-                                    </ul>
+                                    <div id="Pagination" class="pagination"></div>
                                 </td>
                             </tr>
 
