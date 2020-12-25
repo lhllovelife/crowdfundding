@@ -3,6 +3,7 @@ package cn.andylhl.crowd.web.config;
 import cn.andylhl.crowd.constant.Constant;
 import cn.andylhl.crowd.exception.AccessForbiddenException;
 import cn.andylhl.crowd.exception.DeleteAdminException;
+import cn.andylhl.crowd.exception.LoginAcctAlreadyInUseException;
 import cn.andylhl.crowd.exception.LoginFailedException;
 import cn.andylhl.crowd.utils.CrowdUtil;
 import cn.andylhl.crowd.utils.ResultEntity;
@@ -28,6 +29,25 @@ import java.io.IOException;
 public class CrowdExceptionResolver {
 
     private Logger logger = LoggerFactory.getLogger(CrowdExceptionResolver.class);
+
+    /**
+     * 账号已经被使用异常, 跳转到用户添加界面
+     * @param exception
+     * @param request
+     * @param response
+     * @return
+     * @throws IOException
+     */
+    @ExceptionHandler(LoginAcctAlreadyInUseException.class)
+    public ModelAndView resolveAccessForbiddenException(
+            LoginAcctAlreadyInUseException exception,
+            HttpServletRequest request,
+            HttpServletResponse response) throws IOException {
+        logger.info("执行异常处理：LoginAcctAlreadyInUseException");
+        String viewname = "admin-add";
+        return commonReslove(viewname, exception, request, response);
+    }
+
 
     /**
      * 删除管理员信息异常，跳转到错误页面

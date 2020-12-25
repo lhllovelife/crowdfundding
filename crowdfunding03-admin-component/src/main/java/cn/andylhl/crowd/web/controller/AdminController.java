@@ -3,6 +3,7 @@ package cn.andylhl.crowd.web.controller;
 import cn.andylhl.crowd.constant.Constant;
 import cn.andylhl.crowd.entity.Admin;
 import cn.andylhl.crowd.exception.DeleteAdminException;
+import cn.andylhl.crowd.exception.LoginAcctAlreadyInUseException;
 import cn.andylhl.crowd.exception.LoginFailedException;
 import cn.andylhl.crowd.service.AdminService;
 import cn.andylhl.crowd.utils.DateUtil;
@@ -94,6 +95,7 @@ public class AdminController {
                                                  @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
                                                  @RequestParam(value = "keyword", defaultValue = "") String keyword,
                                                  Model model){
+        logger.info("进入AdminController, 执行获取分页信息对象");
         // 获取装有分页信息的对象
         PageInfo<Admin> pageInfo = adminService.getAdminPageInfo(pageNum, pageSize, keyword);
         // 将分页信息对象放到模型中，跳转到页面
@@ -102,15 +104,42 @@ public class AdminController {
         return "admin-page";
     }
 
+    /***
+     * 根据id删除单条
+     * @param adminId
+     * @param pageNum
+     * @param keyword
+     * @param request
+     * @return
+     * @throws DeleteAdminException
+     */
     @RequestMapping("/admin/remove.html")
     public String removeAdminById(String adminId,
                                   @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
                                   @RequestParam(value = "keyword", defaultValue = "") String keyword,
                                   HttpServletRequest request) throws DeleteAdminException {
+
+        logger.info("进入AdminController, 执行单条删除");
         //执行单条删除
         adminService.removeAdminById(adminId, request);
         // 执行到这里说明删除成功，未出现异常
         return "redirect:/admin/get/page.html?pageNum="+pageNum+"&keyword="+keyword;
+    }
+
+    /**
+     * 新增用户
+     * @param admin
+     * @return
+     */
+    @RequestMapping("/admin/save.html")
+    public String saveAdmin(Admin admin) throws LoginAcctAlreadyInUseException {
+        logger.info("进入AdminController, 执行新增用户");
+        //Admin{id='null', loginAcct='lisi1', userPswd='123456', userName='李四1', email='lisi1@qq.com', createTime='null'}
+        //执行方法进行保存
+        adminService.saveAdmin(admin);
+
+        // 执行到这里说明未出现异常，新增用户成功
+        return "redirect:/admin/get/page.html";
     }
 
 }

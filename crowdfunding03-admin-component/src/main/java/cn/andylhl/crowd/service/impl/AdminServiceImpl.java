@@ -3,21 +3,24 @@ package cn.andylhl.crowd.service.impl;
 import cn.andylhl.crowd.constant.Constant;
 import cn.andylhl.crowd.entity.Admin;
 import cn.andylhl.crowd.exception.DeleteAdminException;
+import cn.andylhl.crowd.exception.LoginAcctAlreadyInUseException;
 import cn.andylhl.crowd.exception.LoginFailedException;
 import cn.andylhl.crowd.mapper.AdminMapper;
 import cn.andylhl.crowd.service.AdminService;
+import cn.andylhl.crowd.utils.DateUtil;
 import cn.andylhl.crowd.utils.MD5Util;
-import cn.andylhl.crowd.web.controller.AdminController;
-import com.github.pagehelper.Page;
+import cn.andylhl.crowd.utils.UUIDUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -114,5 +117,31 @@ public class AdminServiceImpl implements AdminService {
             throw new DeleteAdminException("删除管理员信息异常");
         }
         return;
+    }
+
+    /**
+     * 新增用户
+     * @param admin
+     */
+    @Override
+    public void saveAdmin(Admin admin) throws LoginAcctAlreadyInUseException {
+        // 1. 获取用户设置的密码
+        String userPswd = admin.getUserPswd();
+        // 2. 将密码进行加密
+        userPswd = MD5Util.getMD5(userPswd);
+        // 3. 将加密后密码存储到对象中
+        admin.setUserPswd(userPswd);
+        admin.setId(UUIDUtil.getUUID());
+        admin.setCreateTime(DateUtil.format(new Date(), Constant.DATE_Format_ALL));
+        //4. 持久化到数据库中
+        try {
+            adminMapper.insert(admin);
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.info("异常类名：" + e.getClass().getName());
+            if (e instanceof DuplicateKeyException){
+                throw new LoginAcctAlreadyInUseException(Constant.MESSAGE_LOGIN_ACCT_ALREADY_IN_USE);
+            }
+        }
     }
 }

@@ -13,7 +13,9 @@ window.location.href = "admin/do/logout.html";
     String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath() + "/";
 %>
 <html lang="zh-CN">
-<%@include file="include-head.jsp" %>
+<head>
+    <%@include file="include-head.jsp" %>
+</head>
 <body>
 <%@include file="include-nav.jsp" %>
 <div class="container-fluid">
