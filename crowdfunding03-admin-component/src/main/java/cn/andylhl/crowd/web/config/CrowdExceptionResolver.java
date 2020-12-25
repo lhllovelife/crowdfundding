@@ -2,6 +2,7 @@ package cn.andylhl.crowd.web.config;
 
 import cn.andylhl.crowd.constant.Constant;
 import cn.andylhl.crowd.exception.AccessForbiddenException;
+import cn.andylhl.crowd.exception.DeleteAdminException;
 import cn.andylhl.crowd.exception.LoginFailedException;
 import cn.andylhl.crowd.utils.CrowdUtil;
 import cn.andylhl.crowd.utils.ResultEntity;
@@ -27,6 +28,24 @@ import java.io.IOException;
 public class CrowdExceptionResolver {
 
     private Logger logger = LoggerFactory.getLogger(CrowdExceptionResolver.class);
+
+    /**
+     * 删除管理员信息异常，跳转到错误页面
+     * @param exception
+     * @param request
+     * @param response
+     * @return
+     * @throws IOException
+     */
+    @ExceptionHandler(DeleteAdminException.class)
+    public ModelAndView resolveAccessForbiddenException(
+            DeleteAdminException exception,
+            HttpServletRequest request,
+            HttpServletResponse response) throws IOException {
+        logger.info("执行异常处理：DeleteAdminException");
+        String viewname = "system-error";
+        return commonReslove(viewname, exception, request, response);
+    }
 
     /**
      * 出现访问受保护资源异常，则跳转到登录页面

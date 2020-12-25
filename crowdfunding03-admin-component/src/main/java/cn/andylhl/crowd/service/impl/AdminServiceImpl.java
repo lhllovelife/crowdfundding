@@ -1,6 +1,8 @@
 package cn.andylhl.crowd.service.impl;
 
+import cn.andylhl.crowd.constant.Constant;
 import cn.andylhl.crowd.entity.Admin;
+import cn.andylhl.crowd.exception.DeleteAdminException;
 import cn.andylhl.crowd.exception.LoginFailedException;
 import cn.andylhl.crowd.mapper.AdminMapper;
 import cn.andylhl.crowd.service.AdminService;
@@ -14,6 +16,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Objects;
 
@@ -88,5 +92,27 @@ public class AdminServiceImpl implements AdminService {
         PageInfo<Admin> adminPageInfo = new PageInfo<>(adminList);
 
         return adminPageInfo;
+    }
+
+    /**
+     * 根据id删除管理员信息（该删除方法配置有事务，出现异常会回滚）
+     * @param adminId
+     */
+    @Override
+    public void removeAdminById(String adminId, HttpServletRequest request) throws DeleteAdminException {
+        // 1. 获取当前登录账户的id
+        HttpSession session = request.getSession();
+        Admin admin = (Admin) session.getAttribute(Constant.ATTR_NAME_LOGIN_ADMIN);
+        // 2. 判断要删除的账号与当前账号是否是同一个
+        if (Objects.equals(adminId, admin.getId())){
+            //相等则抛出异常
+            throw new DeleteAdminException("不允许自己删除自己的账号");
+        }
+
+        int count = adminMapper.deleteByPrimaryKey(adminId);
+        if (count == 0){
+            throw new DeleteAdminException("删除管理员信息异常");
+        }
+        return;
     }
 }

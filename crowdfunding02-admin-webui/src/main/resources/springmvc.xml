@@ -20,7 +20,7 @@
     <!--配置view-controller-->
     <!--测试-->
     <mvc:view-controller path="test/target.html" view-name="target"/>
-    <!--访问后台管理员登录界面（后台首页）-->
+    <!--访问后台管理员登录界面-->
     <mvc:view-controller path="/admin/to/login/page.html" view-name="admin-login"/>
     <!--访问后台主页面地址-->
     <mv:view-controller path="/admin/to/main/page.html" view-name="admin-main"/>

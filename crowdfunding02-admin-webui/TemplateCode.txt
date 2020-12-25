@@ -39,3 +39,14 @@ $.ajax({
 
     }
 });
+
+//询问是否需要删除
+layer.confirm("你确定要删除吗？",{
+    btn: ['取消', '确定']
+}, function (index) {
+    // 按钮1的事件(点击后，关闭弹窗)
+    layer.close(index)
+}, function(){
+    // 按钮2的事件
+
+});

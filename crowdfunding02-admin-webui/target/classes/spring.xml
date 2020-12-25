@@ -54,7 +54,7 @@
     </bean>
 
     <!--配置包扫描器。扫描加有@Serice注解的类-->
-    <context:component-scan base-package="cn.andylhl.crowd.service.impl"/>
+    <context:component-scan base-package="cn.andylhl.crowd.service"/>
 
     <!--声明式事务配置-->
     <!--1. 声明事务管理器-->

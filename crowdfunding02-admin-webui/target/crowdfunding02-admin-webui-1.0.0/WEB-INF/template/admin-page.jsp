@@ -16,6 +16,17 @@
         $(function () {
             // 初始化导航栏
             initPagination();
+
+            //页面加载完毕之后，将keyword值设置到参数框中
+            $("#search-keyword").val("${param.keyword}")
+
+            //给查询按钮绑定事件
+            $("#searchBtn").click(function () {
+                var keyword = $("#search-keyword").val();
+                //执行带参数分页查询查询
+                window.location.href = "admin/get/page.html?pageNum=1&pageSize=5&keyword="+keyword;
+            })
+
         })
 
         // 初始化导航栏
@@ -42,9 +53,32 @@
             // 根据pageIndex计算pageNum
             var pageNum = pageIndex + 1;
             // 进行页面跳转
-            window.location.href = "admin/get/page.html?pageNum="+pageNum;
+            // 从搜索框中取值
+            var keyword = $("#search-keyword").val();
+            window.location.href = "admin/get/page.html?pageNum="+pageNum+"&keyword="+keyword;
             // 由于每一个页码按钮都是超链接，所以在这个函数最后取消超链接的默认行为
             return false;
+        }
+
+        //删除单条函数
+        function removeAdminById(adminId) {
+            /* 询问是否需要删除
+            if (window.confirm("您确定要删除吗？")){
+                alert("删除");
+            }
+             */
+            layer.confirm("你确定要删除吗？",{
+                btn: ['取消', '确定']
+            }, function (index) {
+                // 按钮1的事件(点击后，关闭弹窗)
+                layer.close(index)
+            }, function(){
+                // 按钮2的事件
+                var pageNum = "${param.pageNum}";
+                var keyword = $.trim($("#search-keyword").val());
+                //访问删除接口地址
+                window.location.href = "admin/remove.html?adminId="+adminId+"&pageNum="+pageNum+"&keyword="+keyword;
+            });
         }
     </script>
 </head>
@@ -64,11 +98,10 @@
                         <div class="form-group has-feedback">
                             <div class="input-group">
                                 <div class="input-group-addon">查询条件</div>
-                                <input class="form-control has-success" type="text" placeholder="请输入查询条件">
+                                <input id="search-keyword" class="form-control has-success" type="text" placeholder="请输入查询条件">
                             </div>
                         </div>
-                        <button type="button" class="btn btn-warning"><i class="glyphicon glyphicon-search"></i> 查询
-                        </button>
+                        <button id="searchBtn" type="button" class="btn btn-warning"><i class="glyphicon glyphicon-search"></i> 查询</button>
                     </form>
                     <button type="button" class="btn btn-danger" style="float:right;margin-left:10px;"><i
                             class=" glyphicon glyphicon-remove"></i> 删除
@@ -108,7 +141,7 @@
                                         <td>
                                             <button type="button" class="btn btn-success btn-xs"><i class=" glyphicon glyphicon-check"></i></button>
                                             <button type="button" class="btn btn-primary btn-xs"><i class=" glyphicon glyphicon-pencil"></i></button>
-                                            <button type="button" class="btn btn-danger btn-xs"><i class=" glyphicon glyphicon-remove"></i></button>
+                                            <button type="button" onclick="removeAdminById('${admin.id}')" class="btn btn-danger btn-xs"><i class=" glyphicon glyphicon-remove"></i></button>
                                         </td>
                                     </tr>
                                 </c:forEach>

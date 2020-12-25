@@ -1,8 +1,11 @@
 package cn.andylhl.crowd.service;
 
 import cn.andylhl.crowd.entity.Admin;
+import cn.andylhl.crowd.exception.DeleteAdminException;
 import cn.andylhl.crowd.exception.LoginFailedException;
 import com.github.pagehelper.PageInfo;
+
+import javax.servlet.http.HttpServletRequest;
 
 /***
  * @Title: AdminService
@@ -35,4 +38,10 @@ public interface AdminService {
      * @param keyword
      */
     PageInfo<Admin> getAdminPageInfo(Integer pageNum, Integer pageSize, String keyword);
+
+    /**
+     * 根据id删除管理员信息
+     * @param adminId
+     */
+    void removeAdminById(String adminId, HttpServletRequest request) throws DeleteAdminException;
 }

@@ -1,9 +1,10 @@
 package cn.andylhl.crowd.web.controller;
 
+import cn.andylhl.crowd.constant.Constant;
 import cn.andylhl.crowd.entity.Admin;
+import cn.andylhl.crowd.exception.DeleteAdminException;
 import cn.andylhl.crowd.exception.LoginFailedException;
 import cn.andylhl.crowd.service.AdminService;
-import cn.andylhl.crowd.constant.Constant;
 import cn.andylhl.crowd.utils.DateUtil;
 import cn.andylhl.crowd.utils.ResultEntity;
 import cn.andylhl.crowd.utils.UUIDUtil;
@@ -17,10 +18,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Date;
-import java.util.Objects;
 
 /***
  * @Title: AdminController
@@ -34,7 +35,7 @@ public class AdminController {
 
     private Logger logger = LoggerFactory.getLogger(AdminController.class);
 
-    @Autowired
+    @Resource
     private AdminService adminService;
 
     @RequestMapping("/admin/save.json")
@@ -99,6 +100,17 @@ public class AdminController {
         model.addAttribute(Constant.ATTR_NAME_PAGE_INFO, pageInfo);
         //跳转到admin-page.jsp
         return "admin-page";
+    }
+
+    @RequestMapping("/admin/remove.html")
+    public String removeAdminById(String adminId,
+                                  @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
+                                  @RequestParam(value = "keyword", defaultValue = "") String keyword,
+                                  HttpServletRequest request) throws DeleteAdminException {
+        //执行单条删除
+        adminService.removeAdminById(adminId, request);
+        // 执行到这里说明删除成功，未出现异常
+        return "redirect:/admin/get/page.html?pageNum="+pageNum+"&keyword="+keyword;
     }
 
 }
