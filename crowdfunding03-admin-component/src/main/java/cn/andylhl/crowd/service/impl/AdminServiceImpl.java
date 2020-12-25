@@ -4,6 +4,7 @@ import cn.andylhl.crowd.constant.Constant;
 import cn.andylhl.crowd.entity.Admin;
 import cn.andylhl.crowd.exception.DeleteAdminException;
 import cn.andylhl.crowd.exception.LoginAcctAlreadyInUseException;
+import cn.andylhl.crowd.exception.LoginAcctAlreadyInUseForUpdateException;
 import cn.andylhl.crowd.exception.LoginFailedException;
 import cn.andylhl.crowd.mapper.AdminMapper;
 import cn.andylhl.crowd.service.AdminService;
@@ -143,5 +144,34 @@ public class AdminServiceImpl implements AdminService {
                 throw new LoginAcctAlreadyInUseException(Constant.MESSAGE_LOGIN_ACCT_ALREADY_IN_USE);
             }
         }
+    }
+
+    /**
+     * 根据adminId查询单条信息
+     * @param adminId
+     * @return
+     */
+    @Override
+    public Admin getAdminById(String adminId) {
+        return adminMapper.selectByPrimaryKey(adminId);
+    }
+
+    /**
+     * 更新管理员信息
+     * @param admin
+     */
+    @Override
+    public void updateAdminById(Admin admin) throws LoginAcctAlreadyInUseForUpdateException {
+
+        try {
+            int count = adminMapper.updateByPrimaryKeySelective(admin);
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.info("异常类名：" + e.getClass().getName());
+            if (e instanceof DuplicateKeyException){
+                throw new LoginAcctAlreadyInUseForUpdateException("抱歉！这个账号已经被使用了！");
+            }
+        }
+        return;
     }
 }

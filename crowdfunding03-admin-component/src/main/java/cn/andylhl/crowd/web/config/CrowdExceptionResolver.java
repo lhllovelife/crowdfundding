@@ -1,10 +1,7 @@
 package cn.andylhl.crowd.web.config;
 
 import cn.andylhl.crowd.constant.Constant;
-import cn.andylhl.crowd.exception.AccessForbiddenException;
-import cn.andylhl.crowd.exception.DeleteAdminException;
-import cn.andylhl.crowd.exception.LoginAcctAlreadyInUseException;
-import cn.andylhl.crowd.exception.LoginFailedException;
+import cn.andylhl.crowd.exception.*;
 import cn.andylhl.crowd.utils.CrowdUtil;
 import cn.andylhl.crowd.utils.ResultEntity;
 import com.google.gson.Gson;
@@ -30,6 +27,26 @@ public class CrowdExceptionResolver {
 
     private Logger logger = LoggerFactory.getLogger(CrowdExceptionResolver.class);
 
+
+    /**
+     * 更新用户信息时，账号已经被使用异常, 跳转到用户添加界面
+     * @param exception
+     * @param request
+     * @param response
+     * @return
+     * @throws IOException
+     */
+    @ExceptionHandler(LoginAcctAlreadyInUseForUpdateException.class)
+    public ModelAndView resolveLoginAcctAlreadyInUseForUpdateException(
+            LoginAcctAlreadyInUseForUpdateException exception,
+            HttpServletRequest request,
+            HttpServletResponse response) throws IOException {
+        logger.info("执行异常处理：LoginAcctAlreadyInUseForUpdateException");
+        String viewname = "system-error";
+        return commonReslove(viewname, exception, request, response);
+    }
+
+
     /**
      * 账号已经被使用异常, 跳转到用户添加界面
      * @param exception
@@ -39,7 +56,7 @@ public class CrowdExceptionResolver {
      * @throws IOException
      */
     @ExceptionHandler(LoginAcctAlreadyInUseException.class)
-    public ModelAndView resolveAccessForbiddenException(
+    public ModelAndView resolveLoginAcctAlreadyInUseException(
             LoginAcctAlreadyInUseException exception,
             HttpServletRequest request,
             HttpServletResponse response) throws IOException {
@@ -58,7 +75,7 @@ public class CrowdExceptionResolver {
      * @throws IOException
      */
     @ExceptionHandler(DeleteAdminException.class)
-    public ModelAndView resolveAccessForbiddenException(
+    public ModelAndView resolveDeleteAdminException(
             DeleteAdminException exception,
             HttpServletRequest request,
             HttpServletResponse response) throws IOException {

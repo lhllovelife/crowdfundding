@@ -80,6 +80,14 @@
                 window.location.href = "admin/remove.html?adminId="+adminId+"&pageNum="+pageNum+"&keyword="+keyword;
             });
         }
+
+        //修改单条
+        function editAdminById(adminId) {
+            // 查询Admin数据，跳转到修改数据页面
+            var pageNum = "${param.pageNum}";
+            var keyword = $.trim($("#search-keyword").val());
+            window.location.href = "admin/to/edit/page.html?adminId="+adminId+"&pageNum="+pageNum+"&keyword="+keyword;
+        }
     </script>
 </head>
 <body>
@@ -140,7 +148,7 @@
                                         <td>${admin.email}</td>
                                         <td>
                                             <button type="button" class="btn btn-success btn-xs"><i class=" glyphicon glyphicon-check"></i></button>
-                                            <button type="button" class="btn btn-primary btn-xs"><i class=" glyphicon glyphicon-pencil"></i></button>
+                                            <button type="button" onclick="editAdminById('${admin.id}')" class="btn btn-primary btn-xs"><i class=" glyphicon glyphicon-pencil"></i></button>
                                             <button type="button" onclick="removeAdminById('${admin.id}')" class="btn btn-danger btn-xs"><i class=" glyphicon glyphicon-remove"></i></button>
                                         </td>
                                     </tr>

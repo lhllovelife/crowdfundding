@@ -4,6 +4,7 @@ import cn.andylhl.crowd.constant.Constant;
 import cn.andylhl.crowd.entity.Admin;
 import cn.andylhl.crowd.exception.DeleteAdminException;
 import cn.andylhl.crowd.exception.LoginAcctAlreadyInUseException;
+import cn.andylhl.crowd.exception.LoginAcctAlreadyInUseForUpdateException;
 import cn.andylhl.crowd.exception.LoginFailedException;
 import cn.andylhl.crowd.service.AdminService;
 import cn.andylhl.crowd.utils.DateUtil;
@@ -142,4 +143,31 @@ public class AdminController {
         return "redirect:/admin/get/page.html";
     }
 
+
+    /**
+     * 根据adminId查询数据，转发到admin-edit.jsp
+     * @param adminId
+     * @return
+     */
+    @RequestMapping("/admin/to/edit/page.html")
+    public String getAdminById(String adminId, Model model){
+        logger.info("进入AdminController, 查询管理员信息，携带数据跳转到修改页面");
+        // 1. 查询Admin对象数据
+        Admin admin = adminService.getAdminById(adminId);
+        //2. 将对象放到模型中
+        model.addAttribute("admin", admin);
+        return "admin-edit";
+    }
+
+    @RequestMapping("/admin/update.html")
+    public String updateAdminById(Admin admin,
+                                  @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
+                                  @RequestParam(value = "keyword", defaultValue = "") String keyword
+                                  ) throws LoginAcctAlreadyInUseForUpdateException {
+        logger.info("进入AdminController, 更新管理员信息");
+
+        adminService.updateAdminById(admin);
+
+        return "redirect:/admin/get/page.html?pageNum="+pageNum+"&keyword="+keyword;
+    }
 }

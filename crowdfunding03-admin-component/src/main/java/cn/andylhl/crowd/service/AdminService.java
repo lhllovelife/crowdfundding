@@ -3,6 +3,7 @@ package cn.andylhl.crowd.service;
 import cn.andylhl.crowd.entity.Admin;
 import cn.andylhl.crowd.exception.DeleteAdminException;
 import cn.andylhl.crowd.exception.LoginAcctAlreadyInUseException;
+import cn.andylhl.crowd.exception.LoginAcctAlreadyInUseForUpdateException;
 import cn.andylhl.crowd.exception.LoginFailedException;
 import com.github.pagehelper.PageInfo;
 
@@ -51,4 +52,17 @@ public interface AdminService {
      * @param admin
      */
     void saveAdmin(Admin admin) throws LoginAcctAlreadyInUseException;
+
+    /**
+     * 根据adminId查询单条信息
+     * @param adminId
+     * @return
+     */
+    Admin getAdminById(String adminId);
+
+    /**
+     * 更新管理员信息
+     * @param admin
+     */
+    void updateAdminById(Admin admin) throws LoginAcctAlreadyInUseForUpdateException;
 }
