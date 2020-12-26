@@ -86,7 +86,7 @@
             // 查询Admin数据，跳转到修改数据页面
             var pageNum = "${param.pageNum}";
             var keyword = $.trim($("#search-keyword").val());
-            window.location.href = "admin/to/edit/page.html?adminId="+adminId+"&pageNum="+pageNum+"&keyword="+keyword;
+            window.location.href = "admin/remove.html?adminId="+adminId+"&pageNum="+pageNum+"&keyword="+keyword;
         }
     </script>
 </head>
