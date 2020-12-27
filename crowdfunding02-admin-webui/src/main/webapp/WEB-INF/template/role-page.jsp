@@ -33,6 +33,26 @@
                 // 执行查询
                 generatePage();
             })
+
+            // 为当前页面绑定键盘敲击事件
+            $(window).keydown(function (event) {
+                // layer.msg(event.keyCode)
+                //回车敲击键盘keyCode是13
+                if (event.keyCode == 13){
+                    //执行带参数查询
+                    // 取出查询参数
+                    var searchKeyword =  $.trim($("#searchKeyword").val());
+                    // 赋值给全局变量
+                    window.pageNum = 1;
+                    window.pageSize = 5;
+                    window.keyword = searchKeyword;
+                    // 执行查询
+                    generatePage();
+
+                    return false;
+                }
+            })
+
         })
 
         // 1. 执行分页，生成页面效果。一个总体函数。
@@ -84,7 +104,7 @@
             else {
                 $.each(pageInfo.list, function (i, n) {
                     html += '<tr>';
-                    html += '<td>'+i+'</td>';
+                    html += '<td>'+(i+1)+'</td>';
                     html += '<td><input type="checkbox"></td>';
                     html += '<td>'+n.name+'</td>';
                     html += '<td>';

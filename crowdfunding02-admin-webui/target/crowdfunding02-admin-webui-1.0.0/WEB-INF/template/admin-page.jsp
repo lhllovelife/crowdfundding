@@ -27,6 +27,20 @@
                 window.location.href = "admin/get/page.html?pageNum=1&pageSize=5&keyword="+keyword;
             })
 
+            // 键盘敲击事件
+            $(window).keydown(function (event) {
+                // layer.msg(event.keyCode)
+                //回车敲击键盘keyCode是13
+                if (event.keyCode == 13){
+                    // 执行关键词查询
+                    var keyword = $("#search-keyword").val();
+                    //执行带参数分页查询查询
+                    window.location.href = "admin/get/page.html?pageNum=1&pageSize=5&keyword="+keyword;
+                    //这样在搜索框中敲击回车就不会重新加载页面了
+                    return false;
+                }
+            })
+
         })
 
         // 初始化导航栏
@@ -53,9 +67,13 @@
             // 根据pageIndex计算pageNum
             var pageNum = pageIndex + 1;
             // 进行页面跳转
-            // 从搜索框中取值
-            var keyword = $("#search-keyword").val();
-            window.location.href = "admin/get/page.html?pageNum="+pageNum+"&keyword="+keyword;
+
+            // 从参数中取keyword，设置到搜索框
+            <%--alert('${param.keyword}');--%>
+            var paramKeyword = "${param.keyword}";
+            // 设置到搜索框搜索框中(显示到搜索框中)
+            $("#search-keyword").val(paramKeyword);
+            window.location.href = "admin/get/page.html?pageNum="+pageNum+"&keyword="+paramKeyword;
             // 由于每一个页码按钮都是超链接，所以在这个函数最后取消超链接的默认行为
             return false;
         }
@@ -86,7 +104,7 @@
             // 查询Admin数据，跳转到修改数据页面
             var pageNum = "${param.pageNum}";
             var keyword = $.trim($("#search-keyword").val());
-            window.location.href = "admin/remove.html?adminId="+adminId+"&pageNum="+pageNum+"&keyword="+keyword;
+            window.location.href = "admin/to/edit/page.html?adminId="+adminId+"&pageNum="+pageNum+"&keyword="+keyword;
         }
     </script>
 </head>
