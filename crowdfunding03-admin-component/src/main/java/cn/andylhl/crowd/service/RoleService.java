@@ -5,6 +5,8 @@ import cn.andylhl.crowd.exception.SaveRoleException;
 import cn.andylhl.crowd.exception.UpdateRoleException;
 import com.github.pagehelper.PageInfo;
 
+import java.util.List;
+
 /***
  * @Title: RoleService
  * @Description: 角色业务接口
@@ -33,4 +35,10 @@ public interface RoleService {
      * @param role
      */
     void updateRole(Role role) throws UpdateRoleException;
+
+    /**
+     * 根据id集合批量删除
+     * @param roleIdList
+     */
+    void removeByRoleIdArray(List<String> roleIdList);
 }

@@ -80,4 +80,16 @@ public class RoleServiceImpl implements RoleService {
             }
         }
     }
+
+    /**
+     * 根据id集合批量删除
+     * @param roleIdList
+     */
+    @Override
+    public void removeByRoleIdArray(List<String> roleIdList) {
+
+        // 持久层，执行删除
+        int count = roleMapper.removeByRoleIdArray(roleIdList);
+        logger.info("删除角色名称个数：" + count);
+    }
 }

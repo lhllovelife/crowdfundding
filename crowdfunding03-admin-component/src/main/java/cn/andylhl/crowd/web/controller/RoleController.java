@@ -12,12 +12,14 @@ import com.github.pagehelper.PageInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import java.util.Date;
+import java.util.List;
 
 /***
  * @Title: RoleController
@@ -74,6 +76,20 @@ public class RoleController {
         logger.info("进入RoleController,更新角色信息");
 
         roleService.updateRole(role);
+
+        return ResultEntity.successWithoutData();
+    }
+
+    /**
+     * 根据roleIdList集合中的id，批量删除角色
+     * @param roleIdList
+     * @return
+     */
+    @RequestMapping("/role/delete/by/role/id/array.json")
+    public @ResponseBody Object removeByRoleIdArray(@RequestBody List<String> roleIdList){
+        logger.info("进入RoleController,删除角色信息");
+        // 批量删除
+        roleService.removeByRoleIdArray(roleIdList);
 
         return ResultEntity.successWithoutData();
     }

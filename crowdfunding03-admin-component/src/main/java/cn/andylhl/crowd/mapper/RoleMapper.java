@@ -30,4 +30,7 @@ public interface RoleMapper {
 
     // 根据关键词查询角色信息
     List<Role> getRoleByKeyword(@Param("keyword") String keyword);
+
+    // 根据id集合批量删除
+    int removeByRoleIdArray(List<String> roleIdList);
 }
