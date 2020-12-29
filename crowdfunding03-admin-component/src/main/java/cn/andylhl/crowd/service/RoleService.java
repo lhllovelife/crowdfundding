@@ -2,6 +2,7 @@ package cn.andylhl.crowd.service;
 
 import cn.andylhl.crowd.entity.Role;
 import cn.andylhl.crowd.exception.SaveRoleException;
+import cn.andylhl.crowd.exception.UpdateRoleException;
 import com.github.pagehelper.PageInfo;
 
 /***
@@ -26,4 +27,10 @@ public interface RoleService {
      * @param role
      */
     void saveRole(Role role) throws SaveRoleException;
+
+    /**
+     * 更新角色信息
+     * @param role
+     */
+    void updateRole(Role role) throws UpdateRoleException;
 }

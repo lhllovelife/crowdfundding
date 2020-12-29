@@ -2,6 +2,7 @@ package cn.andylhl.crowd.service.impl;
 
 import cn.andylhl.crowd.entity.Role;
 import cn.andylhl.crowd.exception.SaveRoleException;
+import cn.andylhl.crowd.exception.UpdateRoleException;
 import cn.andylhl.crowd.mapper.RoleMapper;
 import cn.andylhl.crowd.service.RoleService;
 import com.github.pagehelper.PageHelper;
@@ -9,6 +10,7 @@ import com.github.pagehelper.PageInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -58,6 +60,24 @@ public class RoleServiceImpl implements RoleService {
         int count = roleMapper.insert(role);
         if (count == 0){
             throw new SaveRoleException("保存角色信息出现异常");
+        }
+    }
+
+    /**
+     * 更新角色对象名称
+     * @param role
+     */
+    @Override
+    public void updateRole(Role role) throws UpdateRoleException {
+
+        try {
+            roleMapper.updateByPrimaryKeySelective(role);
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.info("异常类名: " + e.getClass().getName());
+            if (e instanceof DuplicateKeyException){
+                throw new UpdateRoleException("抱歉！这个名称已经被使用了！");
+            }
         }
     }
 }

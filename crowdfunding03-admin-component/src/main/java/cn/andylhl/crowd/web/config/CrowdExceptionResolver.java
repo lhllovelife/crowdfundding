@@ -27,6 +27,23 @@ public class CrowdExceptionResolver {
 
     private Logger logger = LoggerFactory.getLogger(CrowdExceptionResolver.class);
 
+    /**
+     *   更新角色信息出现异常
+     * @param exception
+     * @param request
+     * @param response
+     * @return
+     * @throws IOException
+     */
+    @ExceptionHandler(UpdateRoleException.class)
+    public ModelAndView resolveUpdateRoleException(
+            UpdateRoleException exception,
+            HttpServletRequest request,
+            HttpServletResponse response) throws IOException {
+        logger.info("执行异常处理：UpdateRoleException");
+        String viewname = "system-error";
+        return commonReslove(viewname, exception, request, response);
+    }
 
     /**
      *   保存角色信息出现异常

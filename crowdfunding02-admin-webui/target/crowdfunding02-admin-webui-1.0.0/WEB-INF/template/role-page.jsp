@@ -25,7 +25,7 @@
             $("#serachBtn").click(function () {
                 // 取出查询参数
                 var searchKeyword =  $.trim($("#searchKeyword").val());
-                layer.msg(searchKeyword);
+                // layer.msg(searchKeyword);
                 // 赋值给全局变量
                 window.pageNum = 1;
                 window.pageSize = 5;
@@ -106,15 +106,47 @@
 
             })
 
+            // 为更新按钮板顶事件
+            $("#updateRoleBtn").click(function () {
+                var id = $("#edit-id").val();
+                var name = $.trim($("#edit-name").val());
+                // ajax提交执行请求
+                $.ajax({
+                    url : "role/update.json",
+                    data: {
+                        "id" : id,
+                        "name" : name
+                    },
+                    type : "post",
+                    dataType : "json",
+                    success : function (response) {
+                        if (response.result == "SUCCESS"){
+                            // 响应成功信息
+                            layer.msg("更新成功")
+                            // 关闭模态框
+                            $("#editModal").modal("hide");
+                            // 分页(到当前页 )
+                            generatePage();
+                        }
+
+                        if (response.result == "FAILED"){
+                            layer.msg(response.message)
+                        }
+
+                    },
+                    error : function (response) {
+                        layer.msg("失败！响应状态码：" + response.status + " 说明信息：" + response.statusText);
+                    }
+                });
+            })
+
         })
 
         // 1. 执行分页，生成页面效果。一个总体函数。
         // 任何时候调用该函数就会重新加载分页数据
         function generatePage() {
-            // 获取分页数据
+            // 获取分页数据并填充表格
             var pageInfo = getPageInfoRemote();
-            // 填充表格
-            fillTableBody(pageInfo);
 
         }
 
@@ -144,32 +176,32 @@
         }
         // 3. 填充表格
         function fillTableBody(pageInfo) {
-
+            // console.log("执行")
             // console.log(pageInfo.list.length);
             // 将数据铺到表格中
             var html = "";
             if(pageInfo == null || pageInfo == undefined || pageInfo.list == null || pageInfo.list.length == 0) {
+                console.log("没有数据：" + pageInfo)
                 html += '<tr><td colspan="6" align="center">抱歉！没有查询到您要的数据</td></tr>';
                 // 将roleBod清空
                 $("#roleBody").html(html);
                 // 将导航条清空
                 $("#Pagination").html("");
-                return;
+                return ;
             }
-            else {
-                $.each(pageInfo.list, function (i, n) {
-                    html += '<tr>';
-                    html += '<td>'+(i+1)+'</td>';
-                    html += '<td><input type="checkbox"></td>';
-                    html += '<td>'+n.name+'</td>';
-                    html += '<td>';
-                    html += '<button type="button" class="btn btn-success btn-xs"><i class=" glyphicon glyphicon-check"></i></button>';
-                    html += '<button type="button" class="btn btn-primary btn-xs"><i class=" glyphicon glyphicon-pencil"></i></button>';
-                    html += '<button type="button" class="btn btn-danger btn-xs"><i class=" glyphicon glyphicon-remove"></i></button>';
-                    html += '</td>';
-                    html += '</tr>';
-                })
-            }
+            // console.log("没有数据：" + pageInfo)
+            $.each(pageInfo.list, function (i, n) {
+                html += '<tr>';
+                html += '<td>'+(i+1)+'</td>';
+                html += '<td><input type="checkbox"></td>';
+                html += '<td>'+n.name+'</td>';
+                html += '<td>';
+                html += '<button type="button" class="btn btn-success btn-xs"><i class=" glyphicon glyphicon-check"></i></button>';
+                html += '<button type="button" onclick="UpdateRole(\'' + n.id + '\',\''  +  n.name + '\')" class="btn btn-primary btn-xs"><i class=" glyphicon glyphicon-pencil"></i></button>';
+                html += '<button type="button" class="btn btn-danger btn-xs"><i class=" glyphicon glyphicon-remove"></i></button>';
+                html += '</td>';
+                html += '</tr>';
+            })
 
             $("#roleBody").html(html);
             // 生成分页导航条
@@ -206,6 +238,18 @@
             // 由于每一个页码按钮都是超链接，所以在这个函数最后取消超链接的默认行为
             return false;
         }
+
+        // 为"铅笔"绑定函数
+        function UpdateRole(roleId, roleName) {
+            // layer.msg(roleId + " " + roleName);
+            // 1. 将roleId 设置到隐藏域中, rolename设置到边框中
+            $("#edit-id").val(roleId);
+            $("#edit-name").val(roleName);
+            // 2. 打开模态窗口
+            $("#editModal").modal("show");
+        }
+
+
 
     </script>
 </head>
@@ -245,16 +289,16 @@
                             </thead>
                             <tbody id="roleBody">
 
-                            <tr>
-                                <td>1</td>
-                                <td><input type="checkbox"></td>
-                                <td>PM - 项目经理</td>
-                                <td>
-                                    <button type="button" class="btn btn-success btn-xs"><i class=" glyphicon glyphicon-check"></i></button>
-                                    <button type="button" class="btn btn-primary btn-xs"><i class=" glyphicon glyphicon-pencil"></i></button>
-                                    <button type="button" class="btn btn-danger btn-xs"><i class=" glyphicon glyphicon-remove"></i></button>
-                                </td>
-                            </tr>
+<%--                            <tr>--%>
+<%--                                <td>1</td>--%>
+<%--                                <td><input type="checkbox"></td>--%>
+<%--                                <td>PM - 项目经理</td>--%>
+<%--                                <td>--%>
+<%--                                    <button type="button" class="btn btn-success btn-xs"><i class=" glyphicon glyphicon-check"></i></button>--%>
+<%--                                    <button type="button" class="btn btn-primary btn-xs"><i class=" glyphicon glyphicon-pencil"></i></button>--%>
+<%--                                    <button type="button" class="btn btn-danger btn-xs"><i class=" glyphicon glyphicon-remove"></i></button>--%>
+<%--                                </td>--%>
+<%--                            </tr>--%>
 
                             </tbody>
                             <tfoot>
@@ -305,6 +349,34 @@
             </div>
             <div class="modal-footer">
                 <button id="saveRoleBtn" type="button" class="btn btn-primary">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+<%--更新角色信息模态框--%>
+<div id="editModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">更新</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-signin" role="form">
+                    <div class="form-group has-success has-feedback">
+                        <input type="hidden" id="edit-id">
+                        <input
+                                type="text" id="edit-name"
+                                class="form-control" placeholder="请输入角色名称"
+                                autofocus>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button id="updateRoleBtn" type="button" class="btn btn-success">更新</button>
             </div>
         </div>
     </div>

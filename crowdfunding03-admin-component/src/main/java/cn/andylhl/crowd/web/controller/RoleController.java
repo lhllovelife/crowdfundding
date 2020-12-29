@@ -3,6 +3,7 @@ package cn.andylhl.crowd.web.controller;
 import cn.andylhl.crowd.constant.Constant;
 import cn.andylhl.crowd.entity.Role;
 import cn.andylhl.crowd.exception.SaveRoleException;
+import cn.andylhl.crowd.exception.UpdateRoleException;
 import cn.andylhl.crowd.service.RoleService;
 import cn.andylhl.crowd.utils.DateUtil;
 import cn.andylhl.crowd.utils.ResultEntity;
@@ -52,7 +53,7 @@ public class RoleController {
 
     @RequestMapping("/role/save.json")
     public @ResponseBody Object saveRole(Role role) throws SaveRoleException {
-        logger.info("进入RoleController,保存角色");
+        logger.info("进入RoleController,保存角色信息");
         // 封装信息
         role.setId(UUIDUtil.getUUID());
         role.setCreateTime(DateUtil.format(new Date(), Constant.DATE_Format_ALL));
@@ -60,6 +61,20 @@ public class RoleController {
         roleService.saveRole(role);
 
         //执行到这里说明未出现异常
+        return ResultEntity.successWithoutData();
+    }
+
+    /**
+     * 更新角色信息
+     * @param role
+     * @return
+     */
+    @RequestMapping("/role/update.json")
+    public @ResponseBody Object updateRole(Role role) throws UpdateRoleException {
+        logger.info("进入RoleController,更新角色信息");
+
+        roleService.updateRole(role);
+
         return ResultEntity.successWithoutData();
     }
 

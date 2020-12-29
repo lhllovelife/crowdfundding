@@ -29,16 +29,22 @@ window.location.href = "admin/do/logout.html";
 </body>
 </html>
 
-//ajax
+//ajax模板
 $.ajax({
     url : "test/ajax1.do",
     data: {
 
     },
-    type : "get",
+    type : "post",
     dataType : "json",
     success : function (response) {
+        if (response.result == "SUCCESS"){
 
+        }
+
+        if (response.result == "FAILED"){
+
+        }
     },
     error : function (response) {
         layer.msg("失败！响应状态码：" + response.status + " 说明信息：" + response.statusText);
