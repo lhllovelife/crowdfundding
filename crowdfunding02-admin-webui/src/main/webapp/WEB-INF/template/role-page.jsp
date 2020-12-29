@@ -140,6 +140,67 @@
                 });
             })
 
+            // 为全选按钮绑定事件
+            $("#qx").click(function () {
+                // 设置单选框的属性与全选框一致
+                $("input[name=xz]").prop("checked", this.checked);
+
+            })
+            // 为单选框绑定事件（单选框是随机生成的，为其绑定事件需要先绑定外层有效元素）
+            $("#roleBody").on("click", $("input[name=xz]"), function () {
+                $("#qx").prop("checked", $("input[name=xz]").size() == $("input[name=xz]:checked").size());
+            })
+
+            // 为删除按钮绑定事件
+            $("#deleteBtn").click(function () {
+                // 获取勾选上的id个数；
+                var selectNum = $("input[name=xz]:checked").size();
+                if (selectNum == 0){
+                    layer.msg("请至少选择一个执行删除");
+                    return;
+                }
+
+                layer.confirm("你确定要删除吗？",{
+                    btn: ['取消', '确定']
+                }, function (index) {
+                    // 按钮1的事件(点击后，关闭弹窗)
+                    layer.close(index)
+                }, function(){
+                    // 按钮2的事件
+                    // 获取要删除的id
+                    var jsonobj = [];
+                    $obj = $("input[name=xz]:checked");
+                    for (var i = 0; i < $obj.size(); i++){
+                        var obj = $obj.get(i);
+                        jsonobj.push(obj.value)
+                    }
+                    var jsonstr = JSON.stringify(jsonobj);
+                    $.ajax({
+                        url : "role/delete/by/role/id/array.json",
+                        data: jsonstr,
+                        type : "post",
+                        contentType : "application/json;charset=UTF-8",
+                        dataType : "json",
+                        success : function (response) {
+                            if (response.result == "SUCCESS"){
+                                layer.msg("删除成功！")
+                                // 删除成功后，将全选按钮设置为 false
+                                $("#qx").prop("checked", false);
+
+                                // 执行分页查询（还是当前页）
+                                generatePage();
+                            }
+
+                            if (response.result == "FAILED"){
+                                layer.msg(response.message);
+                            }
+                        },
+                        error : function (response) {
+                            layer.msg("失败！响应状态码：" + response.status + " 说明信息：" + response.statusText);
+                        }
+                    });
+                });
+            })
         })
 
         // 1. 执行分页，生成页面效果。一个总体函数。
@@ -181,7 +242,7 @@
             // 将数据铺到表格中
             var html = "";
             if(pageInfo == null || pageInfo == undefined || pageInfo.list == null || pageInfo.list.length == 0) {
-                console.log("没有数据：" + pageInfo)
+                // console.log("没有数据：" + pageInfo)
                 html += '<tr><td colspan="6" align="center">抱歉！没有查询到您要的数据</td></tr>';
                 // 将roleBod清空
                 $("#roleBody").html(html);
@@ -193,12 +254,12 @@
             $.each(pageInfo.list, function (i, n) {
                 html += '<tr>';
                 html += '<td>'+(i+1)+'</td>';
-                html += '<td><input type="checkbox"></td>';
+                html += '<td><input name="xz" value="'+n.id+'" type="checkbox"></td>';
                 html += '<td>'+n.name+'</td>';
                 html += '<td>';
                 html += '<button type="button" class="btn btn-success btn-xs"><i class=" glyphicon glyphicon-check"></i></button>';
                 html += '<button type="button" onclick="UpdateRole(\'' + n.id + '\',\''  +  n.name + '\')" class="btn btn-primary btn-xs"><i class=" glyphicon glyphicon-pencil"></i></button>';
-                html += '<button type="button" class="btn btn-danger btn-xs"><i class=" glyphicon glyphicon-remove"></i></button>';
+                html += '<button type="button" onclick="singleDeleteRole(\'' + n.id + '\',\''  +  n.name + '\')" class="btn btn-danger btn-xs"><i class=" glyphicon glyphicon-remove"></i></button>';
                 html += '</td>';
                 html += '</tr>';
             })
@@ -249,6 +310,45 @@
             $("#editModal").modal("show");
         }
 
+        // 为"x"绑定函数
+        function singleDeleteRole(roleId, roleName) {
+            layer.confirm("你确定要删除\""+ roleName +"\"吗？",{
+                btn: ['取消', '确定']
+            }, function (index) {
+                // 按钮1的事件(点击后，关闭弹窗)
+                layer.close(index)
+            }, function(){
+                // 按钮2的事件
+                // 发送ajax请求执行删除
+
+                var jsonObj = [roleId];
+                var jsonstr = JSON.stringify(jsonObj);
+                // console.log(jsonObj);
+                // console.log(jsonstr);
+
+                $.ajax({
+                    url : "role/delete/by/role/id/array.json",
+                    data: jsonstr,
+                    type : "post",
+                    contentType : "application/json;charset=UTF-8",
+                    dataType : "json",
+                    success : function (response) {
+                        if (response.result == "SUCCESS"){
+                            layer.msg("删除成功！")
+                            // 执行分页查询（还是当前页）
+                            generatePage();
+                        }
+
+                        if (response.result == "FAILED"){
+                            layer.msg(response.message);
+                        }
+                    },
+                    error : function (response) {
+                        layer.msg("失败！响应状态码：" + response.status + " 说明信息：" + response.statusText);
+                    }
+                });
+            });
+        }
 
 
     </script>
@@ -273,7 +373,7 @@
                         </div>
                         <button type="button" id="serachBtn" class="btn btn-warning"><i class="glyphicon glyphicon-search"></i> 查询</button>
                     </form>
-                    <button type="button" class="btn btn-danger" style="float:right;margin-left:10px;"><i class=" glyphicon glyphicon-remove"></i> 删除</button>
+                    <button type="button" id="deleteBtn"  class="btn btn-danger" style="float:right;margin-left:10px;"><i class=" glyphicon glyphicon-remove"></i> 删除</button>
                     <button type="button" id="creatBtn" class="btn btn-primary" style="float:right;"><i class="glyphicon glyphicon-plus"></i> 新增</button>
                     <br>
                     <hr style="clear:both;">
@@ -282,7 +382,7 @@
                             <thead>
                             <tr>
                                 <th width="30">#</th>
-                                <th width="30"><input type="checkbox"></th>
+                                <th width="30"><input id="qx" type="checkbox"></th>
                                 <th>名称</th>
                                 <th width="100">操作</th>
                             </tr>
