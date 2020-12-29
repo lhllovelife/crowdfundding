@@ -29,6 +29,27 @@ public class CrowdExceptionResolver {
 
 
     /**
+     *   保存角色信息出现异常
+     * @param exception
+     * @param request
+     * @param response
+     * @return
+     * @throws IOException
+     */
+    @ExceptionHandler(SaveRoleException.class)
+    public ModelAndView resolveSaveRoleException(
+            SaveRoleException exception,
+            HttpServletRequest request,
+            HttpServletResponse response) throws IOException {
+        logger.info("执行异常处理：SaveRoleException");
+        String viewname = "system-error";
+        return commonReslove(viewname, exception, request, response);
+    }
+
+
+
+
+    /**
      * 更新用户信息时，账号已经被使用异常, 跳转到用户添加界面
      * @param exception
      * @param request

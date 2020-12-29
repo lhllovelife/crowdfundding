@@ -1,6 +1,7 @@
 package cn.andylhl.crowd.service;
 
 import cn.andylhl.crowd.entity.Role;
+import cn.andylhl.crowd.exception.SaveRoleException;
 import com.github.pagehelper.PageInfo;
 
 /***
@@ -19,4 +20,10 @@ public interface RoleService {
      * @return
      */
     PageInfo<Role> getRolePageInfo(Integer pageNum, Integer pageSize, String keyword);
+
+    /**
+     * 保存角色信息
+     * @param role
+     */
+    void saveRole(Role role) throws SaveRoleException;
 }

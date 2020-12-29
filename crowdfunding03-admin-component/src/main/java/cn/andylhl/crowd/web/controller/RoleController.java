@@ -1,8 +1,12 @@
 package cn.andylhl.crowd.web.controller;
 
+import cn.andylhl.crowd.constant.Constant;
 import cn.andylhl.crowd.entity.Role;
+import cn.andylhl.crowd.exception.SaveRoleException;
 import cn.andylhl.crowd.service.RoleService;
+import cn.andylhl.crowd.utils.DateUtil;
 import cn.andylhl.crowd.utils.ResultEntity;
+import cn.andylhl.crowd.utils.UUIDUtil;
 import com.github.pagehelper.PageInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import java.util.Date;
 
 /***
  * @Title: RoleController
@@ -43,6 +48,19 @@ public class RoleController {
 
         // 将pageInfo封装到结果集合中
         return ResultEntity.successWithData(pageInfo);
+    }
+
+    @RequestMapping("/role/save.json")
+    public @ResponseBody Object saveRole(Role role) throws SaveRoleException {
+        logger.info("进入RoleController,保存角色");
+        // 封装信息
+        role.setId(UUIDUtil.getUUID());
+        role.setCreateTime(DateUtil.format(new Date(), Constant.DATE_Format_ALL));
+        // 保存角色对象
+        roleService.saveRole(role);
+
+        //执行到这里说明未出现异常
+        return ResultEntity.successWithoutData();
     }
 
 }

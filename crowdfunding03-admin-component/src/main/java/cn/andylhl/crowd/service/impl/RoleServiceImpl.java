@@ -1,6 +1,7 @@
 package cn.andylhl.crowd.service.impl;
 
 import cn.andylhl.crowd.entity.Role;
+import cn.andylhl.crowd.exception.SaveRoleException;
 import cn.andylhl.crowd.mapper.RoleMapper;
 import cn.andylhl.crowd.service.RoleService;
 import com.github.pagehelper.PageHelper;
@@ -46,5 +47,17 @@ public class RoleServiceImpl implements RoleService {
         PageInfo<Role> pageInfo = new PageInfo<>(roleList);
 
         return pageInfo;
+    }
+
+    /**
+     * 保存角色对象信息
+     * @param role
+     */
+    @Override
+    public void saveRole(Role role) throws SaveRoleException {
+        int count = roleMapper.insert(role);
+        if (count == 0){
+            throw new SaveRoleException("保存角色信息出现异常");
+        }
     }
 }

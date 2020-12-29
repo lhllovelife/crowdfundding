@@ -57,8 +57,10 @@
                 prev_text: "上一页",									// 上一页按钮上显示的文本
                 next_text: "下一页"									// 下一页按钮上显示的文本
             };
-            // 生成页码导航条
-            $("#Pagination").pagination(totalRecord, properties);
+            // 生成页码导航条（总记录数不为0）
+            if (totalRecord != 0) {
+                $("#Pagination").pagination(totalRecord, properties);
+            }
         }
         // 回调函数的含义：声明出来以后不是自己调用，而是交给系统或框架调用
         // 用户点击“上一页、下一页、1、2、3……”这样的页码时调用这个函数实现页面跳转

@@ -42,7 +42,6 @@
                     //执行带参数查询
                     // 取出查询参数
                     var searchKeyword =  $.trim($("#searchKeyword").val());
-                    layer.msg(searchKeyword);
                     // 赋值给全局变量
                     window.pageNum = 1;
                     window.pageSize = 5;
@@ -52,6 +51,59 @@
 
                     return false;
                 }
+            })
+
+            // 给新增按钮绑定事件，点击新增按钮，打开模态窗口
+            $("#creatBtn").click(function () {
+
+                //手动打开模态窗口
+                $("#addModal").modal("show");
+            })
+
+            // 为保存角色按钮绑定事件
+            $("#saveRoleBtn").click(function () {
+                var roleName = $.trim($("#roleName").val());
+                if (roleName == ""){
+
+                    layer.msg("角色名称不能为空");
+                    return false;
+                }
+
+                // 发送ajax请求执行保存
+                $.ajax({
+                    url : "role/save.json",
+                    data: {
+                        "name" : roleName
+                    },
+                    type : "post",
+                    dataType : "json",
+                    success : function (response) {
+                        if (response.result == "SUCCESS"){
+                            // 显示响应结果
+                            layer.msg("保存成功");
+
+                            // 将搜索框中内容设置为空
+                            $("#roleName").val("")
+
+                            // 执行分页查询（跳转到第一页，查询关键词为空串儿，搜索框也设置为空串儿）
+                            window.pageNum = 1;
+                            window.pageSize = 5;
+                            window.keyword = "";
+                            $("#searchKeyword").val("");
+                            generatePage();
+
+                            // 关闭模态框
+                            $("#addModal").modal("hide");
+                        }
+                        if (response.result == "FAILED"){
+                            layer.msg("保存失败！" + response.message)
+                        }
+                    },
+                    error : function (response) {
+                        layer.msg("失败！响应状态码：" + response.status + " 说明信息：" + response.statusText);
+                    }
+                });
+
             })
 
         })
@@ -86,7 +138,6 @@
                     }
                 },
                 error : function (data) {
-                    console.log("响应失败");
                     layer.msg("失败！响应状态码：" + data.status + " 说明信息：" + data.statusText);
                 }
             });
@@ -99,7 +150,10 @@
             var html = "";
             if(pageInfo == null || pageInfo == undefined || pageInfo.list == null || pageInfo.list.length == 0) {
                 html += '<tr><td colspan="6" align="center">抱歉！没有查询到您要的数据</td></tr>';
+                // 将roleBod清空
                 $("#roleBody").html(html);
+                // 将导航条清空
+                $("#Pagination").html("");
                 return;
             }
             else {
@@ -176,7 +230,7 @@
                         <button type="button" id="serachBtn" class="btn btn-warning"><i class="glyphicon glyphicon-search"></i> 查询</button>
                     </form>
                     <button type="button" class="btn btn-danger" style="float:right;margin-left:10px;"><i class=" glyphicon glyphicon-remove"></i> 删除</button>
-                    <button type="button" class="btn btn-primary" style="float:right;" onclick="window.location.href='form.html'"><i class="glyphicon glyphicon-plus"></i> 新增</button>
+                    <button type="button" id="creatBtn" class="btn btn-primary" style="float:right;"><i class="glyphicon glyphicon-plus"></i> 新增</button>
                     <br>
                     <hr style="clear:both;">
                     <div class="table-responsive">
@@ -223,6 +277,34 @@
                         </table>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%--新增用户模态框--%>
+<div id="addModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">新增</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-signin" role="form">
+                    <div class="form-group has-success has-feedback">
+                        <input
+                                type="text" id="roleName"
+                                class="form-control" placeholder="请输入角色名称"
+                                autofocus>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button id="saveRoleBtn" type="button" class="btn btn-primary">保存</button>
             </div>
         </div>
     </div>
