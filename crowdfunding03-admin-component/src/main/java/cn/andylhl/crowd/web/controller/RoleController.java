@@ -53,6 +53,12 @@ public class RoleController {
         return ResultEntity.successWithData(pageInfo);
     }
 
+    /**
+     * 保存角色对象信息
+     * @param role
+     * @return
+     * @throws SaveRoleException
+     */
     @RequestMapping("/role/save.json")
     public @ResponseBody Object saveRole(Role role) throws SaveRoleException {
         logger.info("进入RoleController,保存角色信息");

@@ -28,7 +28,9 @@
     <mvc:view-controller path="/admin/to/add/page.html" view-name="admin-add"/>
     <!--访问角色数据展示页面-->
     <mvc:view-controller path="/role/to/page.html" view-name="role-page"/>
-
+    <!--访问菜单维护界面-->
+    <mvc:view-controller path="/menu/to/page.html" view-name="menu-page"/>
+    
     <!--基于XML的异常映射-->
     <bean id="simpleMappingExceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
         <!--配置异常类型与具体视图页面的对应关系-->
