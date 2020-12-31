@@ -3,10 +3,12 @@ package cn.andylhl.crowd.web.controller;
 import cn.andylhl.crowd.entity.Menu;
 import cn.andylhl.crowd.service.MenuService;
 import cn.andylhl.crowd.utils.ResultEntity;
+import com.google.gson.internal.$Gson$Preconditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
@@ -35,6 +37,8 @@ public class MenuController {
      */
     @RequestMapping("/menu/get/whole/tree.json")
     public @ResponseBody Object getWholeTree(){
+
+        logger.info("MenuController，返回根节点，获取整个树结构。");
 
         // 1. 查询全部的Menu对象
         List<Menu> menuList = menuService.getAll();
@@ -66,6 +70,46 @@ public class MenuController {
         }
 
         return ResultEntity.successWithData(root);
+    }
+
+    /**
+     * 新增节点对象
+     * @param menu
+     * @return
+     */
+    @RequestMapping("/menu/save.json")
+    public @ResponseBody Object saveMenu(Menu menu){
+
+        logger.info("MenuController，新增节点");
+
+        menuService.saveMenu(menu);
+
+        return ResultEntity.successWithoutData();
+    }
+
+    /**
+     * 更细节点
+     * @param menu
+     * @return
+     */
+    @RequestMapping("/menu/update.json")
+    public @ResponseBody Object updateMenu(Menu menu) {
+
+        logger.info("MenuController，更新节点");
+
+        menuService.updateMenu(menu);
+
+        return ResultEntity.successWithoutData();
+    }
+
+    @RequestMapping("/menu/remove.json")
+    public @ResponseBody Object removeMenu(@RequestParam("id") Integer id) {
+
+        logger.info("MenuController，删除节点");
+
+        menuService.removeMenuById(id);
+
+        return ResultEntity.successWithoutData();
     }
 
 }

@@ -36,4 +36,31 @@ public class MenuServiceImpl implements MenuService {
 
         return menuMapper.selectByExample(new MenuExample());
     }
+
+    /**
+     * 新增节点对象
+     * @param menu
+     */
+    @Override
+    public void saveMenu(Menu menu) {
+        menuMapper.insertSelective(menu);
+    }
+
+    /**
+     * 更新节点
+     * @param menu
+     */
+    @Override
+    public void updateMenu(Menu menu) {
+        menuMapper.updateByPrimaryKeySelective(menu);
+    }
+
+    /**
+     * 根据id删除节点
+     * @param id
+     */
+    @Override
+    public void removeMenuById(Integer id) {
+        menuMapper.deleteByPrimaryKey(id);
+    }
 }

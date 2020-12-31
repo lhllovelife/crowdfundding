@@ -17,4 +17,22 @@ public interface MenuService {
      * @return
      */
     List<Menu> getAll();
+
+    /**
+     * 新增节点对象
+     * @param menu
+     */
+    void saveMenu(Menu menu);
+
+    /**
+     * 更新节点
+     * @param menu
+     */
+    void updateMenu(Menu menu);
+
+    /**
+     * 根据id删除节点
+     * @param id
+     */
+    void removeMenuById(Integer id);
 }

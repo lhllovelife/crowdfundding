@@ -70,9 +70,9 @@ function addHoverDom(treeId, treeNode) {
     }
 
     // 准备各个按钮的HTML标签
-    var addBtn = "<a id='"+treeNode.id+"' class='addBtn btn btn-info dropdown-toggle btn-xs' onclick='addNode(this.id)' style='margin-left:10px;padding-top:0px;' href='#' title='添加子节点'>&nbsp;&nbsp;<i class='fa fa-fw fa-plus rbg '></i></a>";
-    var removeBtn = "<a id='"+treeNode.id+"' class='removeBtn btn btn-info dropdown-toggle btn-xs' style='margin-left:10px;padding-top:0px;' href='#' title='删除节点'>&nbsp;&nbsp;<i class='fa fa-fw fa-times rbg '></i></a>";
-    var editBtn = "<a id='"+treeNode.id+"' class='editBtn btn btn-info dropdown-toggle btn-xs' style='margin-left:10px;padding-top:0px;' href='#' title='修改节点'>&nbsp;&nbsp;<i class='fa fa-fw fa-edit rbg '></i></a>";
+    var addBtn = "<a id='"+treeNode.id+"' href='javascript:void(0);' class='addBtn btn btn-info dropdown-toggle btn-xs' onclick='addNode(this.id)' style='margin-left:10px;padding-top:0px;' href='#' title='添加子节点'>&nbsp;&nbsp;<i class='fa fa-fw fa-plus rbg '></i></a>";
+    var removeBtn = "<a id='"+treeNode.id+"' href='javascript:void(0);'  class='removeBtn btn btn-info dropdown-toggle btn-xs' onclick='removeNode(this.id)' style='margin-left:10px;padding-top:0px;' href='#' title='删除节点'>&nbsp;&nbsp;<i class='fa fa-fw fa-times rbg '></i></a>";
+    var editBtn = "<a id='"+treeNode.id+"' href='javascript:void(0);' class='editBtn btn btn-info dropdown-toggle btn-xs' onclick='editNode(this.id)' style='margin-left:10px;padding-top:0px;' href='#' title='修改节点'>&nbsp;&nbsp;<i class='fa fa-fw fa-edit rbg '></i></a>";
 
     // 获取当前节点的级别
     var level = treeNode.level;
@@ -105,6 +105,56 @@ function addHoverDom(treeId, treeNode) {
     $("#"+aId).after("<span id='" + btnGroupId  + "'>"+btnHtml+"</span>");
 }
 
+// 为当前节点添加子节点
 function addNode(id) {
-    alert("添加节点" + id);
+    // alert("添加节点" + id);
+    // 将当前节点的id设置到隐藏域中
+    $("#currentNodeId").val(id);
+
+    // 打开添加的模态窗口
+    $("#menuAddModal").modal("show");
+
+
+    return false;
+}
+// 修改当前节点
+function editNode(id) {
+    // 获取 zTreeObj 对象
+    var zTreeObj = $.fn.zTree.getZTreeObj("treeDemo");
+
+    var key = "id";
+    var value = id;
+    var currentNode = zTreeObj.getNodeByParam(key, value);
+
+    // 将当前节点id设置到隐藏域
+    $("#edit-currentNodeId").val(id);
+    // 回显数据
+    $("#edit-name").val(currentNode.name);
+    $("#edit-url").val(currentNode.url);
+    // 回显 radio 可以这样理解：被选中的 radio 的 value 属性可以组成一个数组，
+    // 然后再用这个数组设置回 radio，就能够把对应的值选中
+    $("#menuEditModal [name=icon]").val([currentNode.icon]);
+
+    // 打开更新菜单模态窗口
+    $("#menuEditModal").modal("show");
+
+    return false;
+}
+// 删除当前节点
+function removeNode(id) {
+
+    // 将当前节点id设置到隐藏域中
+    $("#remove-id").val(id);
+
+    // 获取当前节点名字
+    // 获取 zTreeObj 对象
+    var zTreeObj = $.fn.zTree.getZTreeObj("treeDemo");
+    var currentNode = zTreeObj.getNodeByParam("id", id);
+    var name = currentNode.name;
+    // 将要删除信息显示在模态框上
+    $("#removeNodeSpan").html("【 <i class='"+currentNode.icon+"'></i> &nbsp;&nbsp;"+currentNode.name+"】");
+    // 打开删除确认模态窗口
+    $("#menuConfirmModal").modal("show");
+
+    return false;
 }

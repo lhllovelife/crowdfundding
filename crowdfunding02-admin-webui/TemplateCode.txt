@@ -43,7 +43,7 @@ $.ajax({
         }
 
         if (response.result == "FAILED"){
-
+            layer.msg(response.message);
         }
     },
     error : function (response) {
