@@ -33,4 +33,10 @@ public interface RoleMapper {
 
     // 根据id集合批量删除
     int removeByRoleIdArray(List<String> roleIdList);
+
+    // 查询已经分配的角色
+    List<Role> getAssignedRole(String adminId);
+
+    // 查询未分配的角色
+    List<Role> getUnAssignedRole(String adminId);
 }

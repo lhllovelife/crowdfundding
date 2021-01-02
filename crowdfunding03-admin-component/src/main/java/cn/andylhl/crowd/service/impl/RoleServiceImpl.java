@@ -92,4 +92,22 @@ public class RoleServiceImpl implements RoleService {
         int count = roleMapper.removeByRoleIdArray(roleIdList);
         logger.info("删除角色名称个数：" + count);
     }
+
+    /**
+     * 查询已经分配的角色
+     * @return
+     */
+    @Override
+    public List<Role> getAssignedRole(String adminId) {
+        return roleMapper.getAssignedRole(adminId);
+    }
+
+    /**
+     * 查询未分配的角色
+     * @return
+     */
+    @Override
+    public List<Role> getUnAssignedRole(String adminId) {
+        return roleMapper.getUnAssignedRole(adminId);
+    }
 }

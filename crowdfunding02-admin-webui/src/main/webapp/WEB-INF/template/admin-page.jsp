@@ -108,6 +108,15 @@
             var keyword = $.trim($("#search-keyword").val());
             window.location.href = "admin/to/edit/page.html?adminId="+adminId+"&pageNum="+pageNum+"&keyword="+keyword;
         }
+
+        // 给管理员分配角色
+        function assignRoleByAdminId(adminId) {
+            // layer.msg(adminId);
+            var pageNum = "${param.pageNum}";
+            var keyword = $.trim($("#search-keyword").val());
+            window.location.href = "assign/to/assign/role/page.html?adminId="+adminId+"&pageNum="+pageNum+"&keyword="+keyword;
+        }
+
     </script>
 </head>
 <body>
@@ -167,7 +176,7 @@
                                         <td>${admin.userName}</td>
                                         <td>${admin.email}</td>
                                         <td>
-                                            <button type="button" class="btn btn-success btn-xs"><i class=" glyphicon glyphicon-check"></i></button>
+                                            <button type="button" onclick="assignRoleByAdminId('${admin.id}')" class="btn btn-success btn-xs"><i class=" glyphicon glyphicon-check"></i></button>
                                             <button type="button" onclick="editAdminById('${admin.id}')" class="btn btn-primary btn-xs"><i class=" glyphicon glyphicon-pencil"></i></button>
                                             <button type="button" onclick="removeAdminById('${admin.id}')" class="btn btn-danger btn-xs"><i class=" glyphicon glyphicon-remove"></i></button>
                                         </td>

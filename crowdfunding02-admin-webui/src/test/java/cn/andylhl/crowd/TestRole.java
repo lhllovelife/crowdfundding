@@ -26,7 +26,7 @@ public class TestRole {
     public void addRole() throws InterruptedException {
         ApplicationContext ac = new ClassPathXmlApplicationContext("spring.xml");
         RoleMapper roleMapper = (RoleMapper) ac.getBean("roleMapper");
-        for (int i = 1; i <= 38; i++){
+        for (int i = 1; i <= 8; i++){
             Thread.sleep(1000);
             roleMapper.insert(new Role(UUIDUtil.getUUID(), "role"+i , DateUtil.format(new Date(), Constant.DATE_Format_ALL)));
         }

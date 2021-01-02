@@ -2,6 +2,46 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="cn.andylhl.crowd.mapper.RoleMapper" >
 
+  <!--查询已经分配的角色
+    List<Role> getAssignedRole(String adminId);-->
+  <select id="getAssignedRole" parameterType="String" resultType="Role">
+      select
+          r.id as id,
+          r.name as name,
+          r.create_time as createTime
+      from
+          t_admin a
+      join
+          inner_admin_role i
+      on
+          a.id = i.admin_id
+      join
+          t_role r
+      on
+          i.role_id = r.id
+      where
+          a.id = #{adminId}
+      order by r.create_time
+  </select>
+
+
+  <!-- 查询未分配的角色
+    List<Role> getUnAssignedRole(String adminId);-->
+  <select id="getUnAssignedRole" parameterType="String" resultType="Role">
+      select
+          id,
+          name,
+          create_time
+      from
+          t_role
+      where
+          id not in (select role_id from inner_admin_role where admin_id = #{adminId})
+      order by create_time
+  </select>
+
+
+
+
   <!-- 根据id集合批量删除
     void removeByRoleIdArray(List<Integer> roleIdList);
   -->

@@ -3,6 +3,8 @@ package cn.andylhl.crowd.mapper;
 import cn.andylhl.crowd.entity.Admin;
 import cn.andylhl.crowd.entity.AdminExample;
 import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Param;
 
 public interface AdminMapper {
@@ -33,4 +35,14 @@ public interface AdminMapper {
 
     // 根据关键字进行查询管理员对象信息
     List<Admin> getAdminByKeyword(@Param("keyword") String keyword);
+
+    // 根据id删除旧的角色关联
+    int removeOldRelationship(String adminId);
+
+    // 保存新的角色关系
+    void saveNewRelationship(@Param("adminId") String adminId, @Param("idRoleIdMap") Map<String, String> idRoleIdMap);
+
+
+
+
 }

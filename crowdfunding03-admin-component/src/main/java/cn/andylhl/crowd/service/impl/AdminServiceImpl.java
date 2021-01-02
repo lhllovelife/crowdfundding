@@ -21,9 +21,7 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 /***
  * @Title: AdminServiceImpl
@@ -173,5 +171,29 @@ public class AdminServiceImpl implements AdminService {
             }
         }
         return;
+    }
+
+    /**
+     * 保存用户所关联的角色
+     * @param adminId
+     * @param roleIdList
+     */
+    @Override
+    public void saveAdminRoleRelationship(String adminId, List<String> roleIdList) {
+
+        // 1. 根据id删除旧的角色关联
+        adminMapper.removeOldRelationship(adminId);
+
+        // 2. 保存新的角色关系
+        if (roleIdList != null && roleIdList.size() > 0) {
+
+            // 生成uuiid与每条角色关系对应
+            Map<String, String> idRoleIdMap = new HashMap<>();
+            for (String roleId : roleIdList) {
+                idRoleIdMap.put(UUIDUtil.getUUID(), roleId);
+            }
+            adminMapper.saveNewRelationship(adminId, idRoleIdMap);
+        }
+
     }
 }

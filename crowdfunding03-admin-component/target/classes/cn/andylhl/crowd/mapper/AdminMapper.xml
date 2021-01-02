@@ -2,6 +2,29 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="cn.andylhl.crowd.mapper.AdminMapper" >
 
+  <!-- 根据id删除旧的角色关联
+    void removeOldRelationship(String adminId);-->
+  <delete id="removeOldRelationship" parameterType="String">
+    delete from inner_admin_role where admin_id = #{admin_id}
+  </delete>
+
+
+  <!-- 保存新的角色关系(一次插入多个)
+    int saveNewRelationship(List<String> uuidList, String adminId, List<String> roleIdList);-->
+  <insert id="saveNewRelationship" parameterType="String">
+    insert into inner_admin_role
+      (
+        id,
+        admin_id,
+        role_id
+      )
+    values
+    <foreach collection="idRoleIdMap.entrySet()"  separator=","  index="key" item="val">
+        (#{key}, #{adminId}, #{val})
+    </foreach>
+
+  </insert>
+
   <!--
     根据关键字进行查询管理员对象信息
     List<Admin> getAdminByKeyword(String keyword);

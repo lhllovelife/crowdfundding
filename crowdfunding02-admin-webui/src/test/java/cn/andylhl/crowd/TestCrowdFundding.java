@@ -40,7 +40,7 @@ public class TestCrowdFundding {
 
     @Test
     public void testTx() throws InterruptedException {
-        for (int i = 1; i <= 38; i++){
+        for (int i = 1; i <= 12; i++){
             int count = adminService.save(new Admin(UUIDUtil.getUUID(), "zs"+i, MD5Util.getMD5("123"), "张三"+i,
                     "zs"+i+"@qq.com", DateUtil.format(new Date(), Constant.DATE_Format_ALL)));
             Thread.sleep(1000);

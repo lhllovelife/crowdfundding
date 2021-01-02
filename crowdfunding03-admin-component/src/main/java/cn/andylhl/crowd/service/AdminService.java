@@ -8,6 +8,7 @@ import cn.andylhl.crowd.exception.LoginFailedException;
 import com.github.pagehelper.PageInfo;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /***
  * @Title: AdminService
@@ -65,4 +66,11 @@ public interface AdminService {
      * @param admin
      */
     void updateAdminById(Admin admin) throws LoginAcctAlreadyInUseForUpdateException;
+
+    /**
+     * 保存用户所关联的角色
+     * @param adminId
+     * @param roleIdList
+     */
+    void saveAdminRoleRelationship(String adminId, List<String> roleIdList);
 }
