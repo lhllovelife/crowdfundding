@@ -88,7 +88,7 @@ public class MenuController {
     }
 
     /**
-     * 更细节点
+     * 更新节点
      * @param menu
      * @return
      */
@@ -102,6 +102,11 @@ public class MenuController {
         return ResultEntity.successWithoutData();
     }
 
+    /**
+     * 根据id删除菜单对象
+     * @param id
+     * @return
+     */
     @RequestMapping("/menu/remove.json")
     public @ResponseBody Object removeMenu(@RequestParam("id") Integer id) {
 

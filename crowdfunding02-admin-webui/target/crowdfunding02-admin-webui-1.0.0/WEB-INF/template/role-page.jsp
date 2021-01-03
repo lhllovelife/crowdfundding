@@ -7,8 +7,15 @@
     <%@include file="include-head.jsp" %>
 
     <%--引入分页组件--%>
+    <%--分页插件--%>
     <link rel="stylesheet" href="static/css/pagination.css">
     <script type="text/javascript" src="static/jquery/jquery.pagination.js"></script>
+    <%--zTree--%>
+    <link rel="stylesheet" href="static/ztree/zTreeStyle.css">
+    <script type="text/javascript" src="static/ztree/jquery.ztree.all-3.5.min.js"></script>
+
+    <script type="text/javascript" src="static/crowd/my-role.js"></script>
+
     <script type="text/javascript">
 
         $(function () {
@@ -201,6 +208,57 @@
                     });
                 });
             })
+
+            // 为分配许可按钮绑定事件
+            $("#assignBtn").click(function () {
+                // 获取隐藏域中的roleId
+                var roleId = $("#assign-roleId").val();
+
+                // 声明一个专门的数组存放勾选上的id
+                var authArray = [];
+
+                // 获取zTreeObj对象，该对象代表整棵树
+                var zTreeObj = $.fn.zTree.getZTreeObj("authTreeDemo");
+                // 获取全部被勾选的节点
+                var checkedNodes = zTreeObj.getCheckedNodes();
+                // 遍历checkedNodes，将勾选的authId放入数组中
+                for (var i = 0; i < checkedNodes.length; i++) {
+                    var id = checkedNodes[i].id;
+                    authArray.push(id);
+                }
+
+                // 准备发送参数
+
+                var jsonObj = {
+                  "authArray" : authArray,
+                    "roleId" : [roleId]
+                };
+                var jsonString = JSON.stringify(jsonObj);
+
+                // ajax发送请求保存角色id与权限id的关系
+                $.ajax({
+                    url : "assign/do/role/assign/auth.json",
+                    data: jsonString,
+                    type : "post",
+                    contentType : "application/json;charset=UTF-8",
+                    dataType : "json",
+                    success : function (response) {
+                        if (response.result == "SUCCESS"){
+                            layer.msg("分配成功！")
+                            // 关闭模态框
+                            $("#assignModal").modal("hide");
+                        }
+
+                        if (response.result == "FAILED"){
+                            layer.msg(response.message);
+                        }
+                    },
+                    error : function (response) {
+                        layer.msg("失败！响应状态码：" + response.status + " 说明信息：" + response.statusText);
+                    }
+                });
+
+            })
         })
 
         // 1. 执行分页，生成页面效果。一个总体函数。
@@ -257,7 +315,7 @@
                 html += '<td><input name="xz" value="'+n.id+'" type="checkbox"></td>';
                 html += '<td>'+n.name+'</td>';
                 html += '<td>';
-                html += '<button type="button" class="btn btn-success btn-xs"><i class=" glyphicon glyphicon-check"></i></button>';
+                html += '<button type="button" onclick="assignAuth(\'' + n.id +'\')" class="btn btn-success btn-xs"><i class=" glyphicon glyphicon-check"></i></button>';
                 html += '<button type="button" onclick="UpdateRole(\'' + n.id + '\',\''  +  n.name + '\')" class="btn btn-primary btn-xs"><i class=" glyphicon glyphicon-pencil"></i></button>';
                 html += '<button type="button" onclick="singleDeleteRole(\'' + n.id + '\',\''  +  n.name + '\')" class="btn btn-danger btn-xs"><i class=" glyphicon glyphicon-remove"></i></button>';
                 html += '</td>';
@@ -348,6 +406,20 @@
                     }
                 });
             });
+        }
+
+        // 为分配权限按钮绑定函数
+        function assignAuth(roleId) {
+
+            //将roleId设置到隐藏域
+            $("#assign-roleId").val(roleId);
+
+            // 在模态框中装载Auth的属性结构数据
+            fillAuthTree();
+
+            // 打开分配权限模态框
+            $("#assignModal").modal("show");
+
         }
 
 
@@ -477,6 +549,28 @@
             </div>
             <div class="modal-footer">
                 <button id="updateRoleBtn" type="button" class="btn btn-success">更新</button>
+            </div>
+        </div>
+    </div>
+</div>
+<%--给role分配auth--%>
+<div id="assignModal" class="modal fade" tabindex="-1" role="dialog">
+    <%--隐藏域--%>
+    <input type="hidden" id="assign-roleId">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">权限分配</h4>
+            </div>
+            <div class="modal-body">
+                <ul id="authTreeDemo" class="ztree"></ul>
+            </div>
+            <div class="modal-footer">
+                <button id="assignBtn" type="button" class="btn btn-primary">分配许可</button>
             </div>
         </div>
     </div>

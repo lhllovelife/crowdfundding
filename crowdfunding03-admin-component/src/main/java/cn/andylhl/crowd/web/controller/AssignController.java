@@ -1,17 +1,23 @@
 package cn.andylhl.crowd.web.controller;
 
+import cn.andylhl.crowd.entity.Auth;
 import cn.andylhl.crowd.entity.Role;
 import cn.andylhl.crowd.service.AdminService;
+import cn.andylhl.crowd.service.AuthService;
 import cn.andylhl.crowd.service.RoleService;
+import cn.andylhl.crowd.utils.ResultEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 
 /***
  * @Title: AssignController
@@ -31,7 +37,10 @@ public class AssignController {
     @Resource
     private RoleService roleService;
 
-    @RequestMapping("assign/to/assign/role/page.html")
+    @Resource
+    private AuthService authService;
+
+    @RequestMapping("/assign/to/assign/role/page.html")
     public String toAssignRolePage(@RequestParam("adminId") String adminId, Model model) {
 
         logger.info("进入AssignController，跳转到角色信息分配页面");
@@ -59,7 +68,7 @@ public class AssignController {
      * @param roleIdList
      * @return
      */
-    @RequestMapping("assign/do/role/assign.html")
+    @RequestMapping("/assign/do/role/assign.html")
     public String saveAdminRoleRelationship(@RequestParam("adminId") String adminId,
                                             @RequestParam("pageNum") Integer pageNum,
                                             @RequestParam("keyword") String keyword,
@@ -71,5 +80,41 @@ public class AssignController {
         adminService.saveAdminRoleRelationship(adminId, roleIdList);
 
         return "redirect:/admin/get/page.html?pageNum="+pageNum+"&keyword="+keyword;
+    }
+
+    /**
+     * 查询所有Auth数据
+     * @return 返回一个装有一组Auth对象的集合
+     */
+    @RequestMapping("/assign/get/all/auth.json")
+    public @ResponseBody Object getAllAuth() {
+
+        logger.info("进入AssignController，查询所有Auth数据");
+
+        List<Auth> authList = authService.getAllAuth();
+
+        return ResultEntity.successWithData(authList);
+    }
+
+    @RequestMapping("/assign/get/assigned/auth/id/by/role/id.json")
+    public @ResponseBody Object getAssignedAuthIdListByRoleId(@RequestParam("roleId") String roleId) {
+        logger.info("进入AssignController，查询已经分配的权限");
+
+        List<Integer> authList = authService.getAssignedAuthIdListByRoleId(roleId);
+
+        return ResultEntity.successWithData(authList);
+    }
+
+    /**
+     * 保存角色与权限之间的关系
+     * @return
+     */
+    @RequestMapping("assign/do/role/assign/auth.json")
+    public @ResponseBody Object saveRoleAuthRelationship(@RequestBody Map<String, List<String>> map) {
+        logger.info("进入AssignController，保存角色与权限之间的关系");
+
+        authService.saveRoleAuthRelationship(map);
+
+        return ResultEntity.successWithoutData();
     }
 }
