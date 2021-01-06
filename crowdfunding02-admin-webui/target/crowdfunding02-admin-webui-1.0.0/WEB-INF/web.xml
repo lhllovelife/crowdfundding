@@ -6,7 +6,7 @@
 
     <!--后台系统首页-->
     <welcome-file-list>
-        <welcome-file>/admin/to/login/page.html</welcome-file>
+        <welcome-file>admin/to/login/page.html</welcome-file>
     </welcome-file-list>
 
     <!--配置ContextLoaderListener, 当context创建好之后，创建spring容器-->
@@ -39,6 +39,21 @@
         <filter-name>characterEncodingFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
+
+    <!--SpringSecurity控制权限的Filter-->
+    <!--filter-name>springSecurityFilterChain</filter-name> 标 签 中 必 须 是
+    springSecurityFilterChain。因为 springSecurityFilterChain 在 IOC 容器中对应真正执行权限
+    控制的二十几个 Filter，只有叫这个名字才能够加载到这些 Filter。-->
+    <filter>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+
 
     <!--配置中央调度器(前端控制器)-->
     <servlet>
