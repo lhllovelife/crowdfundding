@@ -78,7 +78,8 @@
 
 <div class="container">
 
-    <form class="form-signin" role="form" id="AdminLoginForm" method="post" action="admin/do/login.html">
+    <%--更改登录接口地址： "/security/do/login.html"，使用spring security提供的登录检查功能--%>
+    <form class="form-signin" role="form" id="AdminLoginForm" method="post" action="security/do/login.html">
         <h2 class="form-signin-heading"><i class="glyphicon glyphicon-log-in"></i> 用户登录</h2>
         <div class="form-group has-success has-feedback">
             <input type="text" class="form-control" id="loginAcct" name="loginAcct" placeholder="请输入登录账号" autofocus>
@@ -88,6 +89,7 @@
             <input type="text" class="form-control" id="userPswd" name="userPswd" placeholder="请输入登录密码" style="margin-top:10px;">
             <span class="glyphicon glyphicon-lock form-control-feedback"></span>
         </div>
+        <p style="margin-left: auto; color: #e4393c;">${SPRING_SECURITY_LAST_EXCEPTION.message}</p>
         <p style="margin-left: auto; color: #e4393c;">${requestScope.exception.message}</p>
         <div class="checkbox" style="text-align:right;"><a href="reg.html">我要注册</a></div>
         <div id="loginBtn" class="btn btn-lg btn-success btn-block" >登录</div>

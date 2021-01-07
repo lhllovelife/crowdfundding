@@ -88,6 +88,7 @@
             com.bjpowernode.service
             com.crm.service
             com.service
+            指定所有包下的 serivce 子包下所有类（接口）中所有方法为切入点
         -->
         <aop:pointcut id="txPointCut" expression="execution(* *..service..*.*(..))"/>
 
@@ -97,5 +98,8 @@
         -->
         <aop:advisor advice-ref="txAdvice" pointcut-ref="txPointCut" />
     </aop:config>
+
+    <!--密码加密-->
+    <bean id="bCryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"></bean>
 
 </beans>

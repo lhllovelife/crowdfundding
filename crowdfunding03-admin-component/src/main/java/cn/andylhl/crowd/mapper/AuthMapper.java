@@ -38,4 +38,7 @@ public interface AuthMapper {
 
     // 根据roleId删除其所有权限相关数据
     Integer removeAllByRoleId(String roleId);
+
+    // 根据adminId查询已分配权限名称
+    List<String> getAssignedAuthNameListByAdminId(String adminId);
 }

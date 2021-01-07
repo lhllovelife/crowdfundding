@@ -17,6 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
@@ -38,6 +39,9 @@ public class AdminServiceImpl implements AdminService {
     //注入dao
     @Autowired
     private AdminMapper adminMapper;
+
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
     /**
      * 保存管理员信息
@@ -127,7 +131,10 @@ public class AdminServiceImpl implements AdminService {
         // 1. 获取用户设置的密码
         String userPswd = admin.getUserPswd();
         // 2. 将密码进行加密
-        userPswd = MD5Util.getMD5(userPswd);
+        // userPswd = MD5Util.getMD5(userPswd);
+        // 使用SpringSecurity的颜值加密
+        userPswd = passwordEncoder.encode(userPswd);
+
         // 3. 将加密后密码存储到对象中
         admin.setUserPswd(userPswd);
         admin.setId(UUIDUtil.getUUID());
@@ -195,5 +202,15 @@ public class AdminServiceImpl implements AdminService {
             adminMapper.saveNewRelationship(adminId, idRoleIdMap);
         }
 
+    }
+
+    /**
+     * 根据账号查询用户信息
+     * @param loginAcct
+     * @return
+     */
+    @Override
+    public Admin getAdminByLoginAcct(String loginAcct) {
+        return adminMapper.getAdminByLoginAcct(loginAcct);
     }
 }

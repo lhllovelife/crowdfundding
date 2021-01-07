@@ -44,7 +44,7 @@
         //为退出系统按钮绑定事件
         $("#logoutBtn").click(function () {
             //执行退出系统函数
-            window.location.href = "admin/do/logout.html";
+            window.location.href = "security/do/logout.html";
 
         })
     });

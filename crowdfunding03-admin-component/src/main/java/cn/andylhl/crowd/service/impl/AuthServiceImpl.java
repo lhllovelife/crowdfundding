@@ -80,4 +80,10 @@ public class AuthServiceImpl implements AuthService {
         }
 
     }
+
+
+    @Override
+    public List<String> getAssignedAuthNameListByAdminId(String adminId) {
+        return authMapper.getAssignedAuthNameListByAdminId(adminId);
+    }
 }

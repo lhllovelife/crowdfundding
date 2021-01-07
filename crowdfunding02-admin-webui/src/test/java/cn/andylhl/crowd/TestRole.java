@@ -3,6 +3,7 @@ package cn.andylhl.crowd;
 import cn.andylhl.crowd.constant.Constant;
 import cn.andylhl.crowd.entity.Role;
 import cn.andylhl.crowd.mapper.RoleMapper;
+import cn.andylhl.crowd.service.AuthService;
 import cn.andylhl.crowd.service.RoleService;
 import cn.andylhl.crowd.utils.DateUtil;
 import cn.andylhl.crowd.utils.UUIDUtil;
@@ -41,4 +42,30 @@ public class TestRole {
         roleService.removeByRoleIdArray(list);
 
     }
+
+    @Test
+    public void testAssignRole(){
+        ApplicationContext ac = new ClassPathXmlApplicationContext("spring.xml");
+        RoleService roleService = (RoleService) ac.getBean("roleServiceImpl");
+        List<Role> roleList = roleService.getAssignedRole("aea74de482b14adca0f0d27d8b401724");
+        System.out.println("查询已经分配的角色");
+        for (Role role : roleList) {
+            System.out.println(role);
+        }
+
+    }
+
+    @Test
+    public void testAssignAuthName(){
+        ApplicationContext ac = new ClassPathXmlApplicationContext("spring.xml");
+        AuthService authService = (AuthService) ac.getBean("authServiceImpl");
+        List<String> authNameList = authService.getAssignedAuthNameListByAdminId("c4d2dfb9e2bb469990188e0648a1d5eb");
+
+        for (String s : authNameList) {
+            System.out.println(s);
+        }
+
+    }
+
+
 }
