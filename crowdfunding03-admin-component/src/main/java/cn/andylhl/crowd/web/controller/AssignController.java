@@ -70,8 +70,8 @@ public class AssignController {
      */
     @RequestMapping("/assign/do/role/assign.html")
     public String saveAdminRoleRelationship(@RequestParam("adminId") String adminId,
-                                            @RequestParam("pageNum") Integer pageNum,
-                                            @RequestParam("keyword") String keyword,
+                                            @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
+                                            @RequestParam(value = "keyword", defaultValue = "") String keyword,
                                             @RequestParam(value = "roleIdList", required = false) List<String> roleIdList) {
 
         logger.info("进入AssignController，保存管理员与角色的关联关系");

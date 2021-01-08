@@ -46,7 +46,7 @@ public interface AdminService {
      * 根据id删除管理员信息
      * @param adminId
      */
-    void removeAdminById(String adminId, HttpServletRequest request) throws DeleteAdminException;
+    void removeAdminById(String adminId, String principalId) throws DeleteAdminException;
 
     /**
      * 新增用户

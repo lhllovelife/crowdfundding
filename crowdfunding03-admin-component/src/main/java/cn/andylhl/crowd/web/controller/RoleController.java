@@ -11,6 +11,7 @@ import cn.andylhl.crowd.utils.UUIDUtil;
 import com.github.pagehelper.PageInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,6 +41,7 @@ public class RoleController {
      * 获取角色分页信息
      * @return
      */
+    @PreAuthorize("hasAuthority('role:get')")
     @RequestMapping("/role/get/page/info.json")
     public @ResponseBody ResultEntity<PageInfo<Role>> getRolePageInfo(
             @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
@@ -59,6 +61,7 @@ public class RoleController {
      * @return
      * @throws SaveRoleException
      */
+    @PreAuthorize("hasAuthority('role:save')")
     @RequestMapping("/role/save.json")
     public @ResponseBody Object saveRole(Role role) throws SaveRoleException {
         logger.info("进入RoleController,保存角色信息");
@@ -77,6 +80,7 @@ public class RoleController {
      * @param role
      * @return
      */
+    @PreAuthorize("hasAuthority('role:update')")
     @RequestMapping("/role/update.json")
     public @ResponseBody Object updateRole(Role role) throws UpdateRoleException {
         logger.info("进入RoleController,更新角色信息");
@@ -91,6 +95,7 @@ public class RoleController {
      * @param roleIdList
      * @return
      */
+    @PreAuthorize("hasAuthority('role:remove')")
     @RequestMapping("/role/delete/by/role/id/array.json")
     public @ResponseBody Object removeByRoleIdArray(@RequestBody List<String> roleIdList){
         logger.info("进入RoleController,删除角色信息");

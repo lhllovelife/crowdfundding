@@ -7,6 +7,7 @@ import cn.andylhl.crowd.utils.ResultEntity;
 import com.google.gson.Gson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
@@ -26,6 +27,24 @@ import java.io.IOException;
 public class CrowdExceptionResolver {
 
     private Logger logger = LoggerFactory.getLogger(CrowdExceptionResolver.class);
+
+    /**
+     *   SpringSecurity拒绝访问异常
+     * @param exception
+     * @param request
+     * @param response
+     * @return
+     * @throws IOException
+     */
+    @ExceptionHandler(AccessDeniedException.class)
+    public ModelAndView resolveAccessDeniedException(
+            AccessDeniedException exception,
+            HttpServletRequest request,
+            HttpServletResponse response) throws IOException {
+        logger.info("执行异常处理：AccessDeniedException(SpringSecurity拒绝访问)");
+        String viewname = "system-error";
+        return commonReslove(viewname, exception, request, response);
+    }
 
     /**
      *   更新角色信息出现异常

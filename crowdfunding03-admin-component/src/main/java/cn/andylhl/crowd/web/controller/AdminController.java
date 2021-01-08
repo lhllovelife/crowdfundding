@@ -13,6 +13,7 @@ import cn.andylhl.crowd.utils.UUIDUtil;
 import com.github.pagehelper.PageInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -90,6 +91,7 @@ public class AdminController {
      * @param keyword 关键词
      * @return
      */
+    @PreAuthorize("hasAuthority('user:get')")
     @RequestMapping("/admin/get/page.html")
     public String getAdminPageInfo(@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
                                                  @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
@@ -113,15 +115,17 @@ public class AdminController {
      * @return
      * @throws DeleteAdminException
      */
+    @PreAuthorize("hasAuthority('user:remove')")
     @RequestMapping("/admin/remove.html")
     public String removeAdminById(String adminId,
+                                  String principalId,
                                   @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
                                   @RequestParam(value = "keyword", defaultValue = "") String keyword,
                                   HttpServletRequest request) throws DeleteAdminException {
 
         logger.info("进入AdminController, 执行单条删除");
         //执行单条删除
-        adminService.removeAdminById(adminId, request);
+        adminService.removeAdminById(adminId, principalId);
         // 执行到这里说明删除成功，未出现异常
         return "redirect:/admin/get/page.html?pageNum="+pageNum+"&keyword="+keyword;
     }
@@ -131,6 +135,7 @@ public class AdminController {
      * @param admin
      * @return
      */
+    @PreAuthorize("hasAuthority('user:save')")
     @RequestMapping("/admin/save.html")
     public String saveAdmin(Admin admin) throws LoginAcctAlreadyInUseException {
         logger.info("进入AdminController, 执行新增用户");
@@ -148,6 +153,7 @@ public class AdminController {
      * @param adminId
      * @return
      */
+    @PreAuthorize("hasAuthority('user:update')")
     @RequestMapping("/admin/to/edit/page.html")
     public String getAdminById(String adminId, Model model){
         logger.info("进入AdminController, 查询管理员信息，携带数据跳转到修改页面");
@@ -158,6 +164,7 @@ public class AdminController {
         return "admin-edit";
     }
 
+    @PreAuthorize("hasAuthority('user:update')")
     @RequestMapping("/admin/update.html")
     public String updateAdminById(Admin admin,
                                   @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,

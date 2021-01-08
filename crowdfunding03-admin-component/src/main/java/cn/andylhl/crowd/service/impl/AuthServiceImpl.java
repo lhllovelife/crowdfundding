@@ -59,13 +59,12 @@ public class AuthServiceImpl implements AuthService {
         String roleId = map.get("roleId").get(0);
         List<String> authArray = map.get("authArray");
 
-        // 当authArray有被勾选时候
+        // 根据roleId删除其所有权限相关数据
+        Integer removeNum = authMapper.removeAllByRoleId(roleId);
+        logger.info("删除关系数目：" + removeNum);
+
+        // 当authArray有被勾选时候,authArray有数据，则进行保存
         if (authArray != null && authArray.size() > 0) {
-
-            // 根据roleId删除其所有权限相关数据
-            Integer removeNum = authMapper.removeAllByRoleId(roleId);
-            logger.info("删除关系数目：" + removeNum);
-
 
             // 生成uuid与每条authId对应
             Map<String, String> uuidAuthIdMap = new HashMap<>();

@@ -96,8 +96,10 @@
                 // 按钮2的事件
                 var pageNum = "${param.pageNum}";
                 var keyword = $.trim($("#search-keyword").val());
+                // 获取当前登录者的id
+                var principalId = $("#principalId").val();
                 //访问删除接口地址
-                window.location.href = "admin/remove.html?adminId="+adminId+"&pageNum="+pageNum+"&keyword="+keyword;
+                window.location.href = "admin/remove.html?adminId="+adminId+ "&principalId="+ principalId + "&pageNum="+pageNum+"&keyword="+keyword;
             });
         }
 

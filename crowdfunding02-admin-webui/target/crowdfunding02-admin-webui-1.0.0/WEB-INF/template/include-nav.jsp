@@ -12,6 +12,7 @@
                     <div class="btn-group">
                         <button type="button" class="btn btn-default btn-success dropdown-toggle" data-toggle="dropdown">
                             <i class="glyphicon glyphicon-user"></i> <security:authentication property="principal.originalAdmin.userName"/> <span class="caret"></span>
+                            <input type="hidden" id="principalId" value="<security:authentication property="principal.originalAdmin.id"/>">
                         </button>
                         <ul class="dropdown-menu" role="menu">
                             <li><a href="#"><i class="glyphicon glyphicon-cog"></i> 个人设置</a></li>

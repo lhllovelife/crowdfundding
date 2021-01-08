@@ -105,12 +105,12 @@ public class AdminServiceImpl implements AdminService {
      * @param adminId
      */
     @Override
-    public void removeAdminById(String adminId, HttpServletRequest request) throws DeleteAdminException {
+    public void removeAdminById(String adminId, String principalId) throws DeleteAdminException {
         // 1. 获取当前登录账户的id
-        HttpSession session = request.getSession();
-        Admin admin = (Admin) session.getAttribute(Constant.ATTR_NAME_LOGIN_ADMIN);
+//        HttpSession session = request.getSession();
+//        Admin admin = (Admin) session.getAttribute(Constant.ATTR_NAME_LOGIN_ADMIN);
         // 2. 判断要删除的账号与当前账号是否是同一个
-        if (Objects.equals(adminId, admin.getId())){
+        if (Objects.equals(adminId, principalId)){
             //相等则抛出异常
             throw new DeleteAdminException("不允许自己删除自己的账号");
         }

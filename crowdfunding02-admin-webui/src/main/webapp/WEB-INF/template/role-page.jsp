@@ -287,6 +287,9 @@
                         // ajax响应成功后填充表格
                         fillTableBody(pageInfo);
                     }
+                    if (data.result == "FAILED"){
+                        layer.msg(data.message);
+                    }
                 },
                 error : function (data) {
                     layer.msg("失败！响应状态码：" + data.status + " 说明信息：" + data.statusText);

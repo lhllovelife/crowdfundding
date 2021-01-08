@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -22,6 +23,7 @@ import javax.annotation.Resource;
 
 @Configuration // 声明该类为一个配置类
 @EnableWebSecurity // 启用spring secuirty配置
+@EnableGlobalMethodSecurity(prePostEnabled = true) // 启用全局方法权限控制功能
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Resource

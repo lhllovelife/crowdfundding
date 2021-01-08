@@ -28,10 +28,6 @@
             username : <security:authentication property="principal.username"/><br/>
             password : <security:authentication property="principal.password"/><br/>
 
-
-
-
-
             <div class="row placeholders">
                 <div class="col-xs-6 col-sm-3 placeholder">
                     <img data-src="holder.js/200x200/auto/sky" class="img-responsive" alt="Generic placeholder thumbnail">
