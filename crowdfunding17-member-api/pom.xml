@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <parent>
+    <artifactId>crowdfunding07-member-parent</artifactId>
+    <groupId>cn.andylhl.crowd</groupId>
+    <version>1.0.0</version>
+    <relativePath>../crowdfunding07-member-parent/pom.xml</relativePath>
+  </parent>
+  <modelVersion>4.0.0</modelVersion>
+
+  <artifactId>crowdfunding17-member-api</artifactId>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+  </properties>
+
+  <dependencies>
+    <!--feign-->
+    <dependency>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-starter-openfeign</artifactId>
+    </dependency>
+    <!--引入common-util-->
+    <dependency>
+      <groupId>cn.andylhl.crowd</groupId>
+      <artifactId>crowdfunding05-common-util</artifactId>
+      <version>1.0.0</version>
+    </dependency>
+    <!--引入member-entity-->
+    <dependency>
+      <groupId>cn.andylhl.crowd</groupId>
+      <artifactId>crowdfunding09-member-entity</artifactId>
+      <version>1.0.0</version>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.11</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+</project>
