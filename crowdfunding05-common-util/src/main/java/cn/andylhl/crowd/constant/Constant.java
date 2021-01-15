@@ -26,4 +26,6 @@ public class Constant {
     public static final String ATTR_NAME_EXCEPTION = "exception";
     public static final String ATTR_NAME_LOGIN_ADMIN = "loginAdmin";
     public static final String ATTR_NAME_PAGE_INFO = "pageInfo";
+
+    public static final String REDIS_CODE_PREFIX = "crowd-register-";
 }

@@ -207,6 +207,17 @@
         }
 
     </style>
+    <script src="jquery/jquery-2.1.1.min.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="script/docs.min.js"></script>
+    <script src="script/back-to-top.js"></script>
+    <script>
+        $(".thumbnail img").css("cursor", "pointer");
+        $(".thumbnail img").click(function () {
+            window.location.href = "project.html";
+        });
+    </script>
+
 </head>
 
 
@@ -223,7 +234,7 @@
                 <div id="navbar" class="navbar-collapse collapse" style="float:right;">
                     <ul class="nav navbar-nav navbar-right">
                         <li><a href="login.html">登录</a></li>
-                        <li><a href="reg.html">注册</a></li>
+                        <li><a href="reg.html" th:href="@{auth/member/to/reg/page.html}">注册</a></li>
                         <li><a>|</a></li>
                         <li><a href="admin-login.html">管理员入口</a></li>
                     </ul>
@@ -905,16 +916,6 @@
 </div><!-- /.container -->
 
 
-<script src="jquery/jquery-2.1.1.min.js"></script>
-<script src="bootstrap/js/bootstrap.min.js"></script>
-<script src="script/docs.min.js"></script>
-<script src="script/back-to-top.js"></script>
-<script>
-    $(".thumbnail img").css("cursor", "pointer");
-    $(".thumbnail img").click(function () {
-        window.location.href = "project.html";
-    });
-</script>
 
 <div id="topcontrol" title="" style="position: fixed; bottom: 5px; right: 5px; opacity: 1; cursor: pointer;"></div>
 </body>

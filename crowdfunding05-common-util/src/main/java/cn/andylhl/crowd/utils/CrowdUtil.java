@@ -26,4 +26,25 @@ public class CrowdUtil {
         String xRequestedHeader = request.getHeader("X-Requested-With");
         return (acceptHeader != null && acceptHeader.contains("application/json")) || (xRequestedHeader != null && xRequestedHeader.equals("XMLHttpRequest"));
     }
+
+
+    /**
+     * 随机生成一个四位数字的验证码，以短信形式发送给用户（模拟）
+     * @return
+     *  如果发送成功则返回的结果是，发送的验证码
+     *  发送失败，则返回错误消息
+     */
+    public static ResultEntity<String> sendMessage() {
+
+        StringBuilder verifyCode = new StringBuilder();
+
+        for (int i = 0; i < 4 ; i++) {
+            int num = (int) Math.floor(Math.random() * 10);
+            verifyCode.append(num);
+        }
+        if (verifyCode.toString().length() != 4) {
+            return ResultEntity.failed("验证码发送失败");
+        }
+        return ResultEntity.successWithData(verifyCode.toString());
+    }
 }

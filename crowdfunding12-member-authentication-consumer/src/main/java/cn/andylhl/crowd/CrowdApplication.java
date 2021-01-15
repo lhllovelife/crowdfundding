@@ -3,6 +3,7 @@ package cn.andylhl.crowd;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 
 import javax.swing.*;
 
@@ -13,6 +14,7 @@ import javax.swing.*;
  * @date: 2021/1/14 16:47
  */
 
+@EnableFeignClients // 启用Feign客户端
 @EnableDiscoveryClient // 启用eureka客户端，当前版本可以不写
 @SpringBootApplication
 public class CrowdApplication {
