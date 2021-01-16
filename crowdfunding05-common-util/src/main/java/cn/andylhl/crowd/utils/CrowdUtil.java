@@ -1,6 +1,13 @@
 package cn.andylhl.crowd.utils;
 
+import com.sun.mail.util.MailSSLSocketFactory;
+
+import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
+import java.security.GeneralSecurityException;
+import java.util.Properties;
 
 /***
  * @Title: CrowdUtil
@@ -47,4 +54,73 @@ public class CrowdUtil {
         }
         return ResultEntity.successWithData(verifyCode.toString());
     }
+
+    /**
+     *
+     * @param sendMailAddress 发送方邮箱地址
+     * @param receiveMailAddress 接受方邮箱地址
+     * @param user 发送邮件方的QQ号 ("2432707158")
+     * @param password POP3/SMTP协议授权码 ("ajlzgiopwcnheaie")
+     * @return
+     * @throws Exception
+     */
+    public static ResultEntity<String> sendVerifyCodeByEmail(String sendMailAddress, String receiveMailAddress, String user, String password) throws Exception {
+
+        Properties prop = new Properties();
+        // 开启debug调试，以便在控制台查看
+        prop.setProperty("mail.debug", "false");
+        // 设置邮件服务器主机名
+        prop.setProperty("mail.host", "smtp.qq.com");
+        // 发送服务器需要身份验证
+        prop.setProperty("mail.smtp.auth", "true");
+        // 发送邮件协议名称
+        prop.setProperty("mail.transport.protocol", "smtp");
+        // 开启SSL加密，否则会失败
+        MailSSLSocketFactory sf = new MailSSLSocketFactory();
+        sf.setTrustAllHosts(true);
+        prop.put("mail.smtp.ssl.enable", "true");
+        prop.put("mail.smtp.ssl.socketFactory", sf);
+        // 创建session
+        Session session = Session.getInstance(prop);
+        // 通过session得到transport对象
+        Transport ts = session.getTransport();
+        // 连接邮件服务器：邮箱类型，帐号，POP3/SMTP协议授权码 163使用：smtp.163.com
+        ts.connect("smtp.qq.com", user, password);
+        // 创建邮件
+
+        StringBuilder verifyCode = new StringBuilder();
+
+        for (int i = 0; i < 4 ; i++) {
+            int num = (int) Math.floor(Math.random() * 10);
+            verifyCode.append(num);
+        }
+        Message message = createSimpleMail(session, sendMailAddress, receiveMailAddress, verifyCode.toString());
+        // 发送邮件
+        ts.sendMessage(message, message.getAllRecipients());
+        ts.close();
+
+        return ResultEntity.successWithData(verifyCode.toString());
+    }
+
+    /**
+     * @Method: createSimpleMail
+     * @Description: 创建一封只包含文本的邮件
+     */
+    public static MimeMessage createSimpleMail(Session session, String sendMailAddress, String receiveMailAddress, String verifyCode) throws Exception {
+
+        // 创建邮件对象
+        MimeMessage message = new MimeMessage(session);
+        // 指明邮件的发件人
+        message.setFrom(new InternetAddress(sendMailAddress));
+        // 指明邮件的收件人，发件人和收件人如果是一样的，那就是自己给自己发
+        message.setRecipient(Message.RecipientType.TO, new InternetAddress(receiveMailAddress));
+        // 邮件的标题
+        message.setSubject("LHL众筹");
+        // 邮件的文本内容
+        message.setContent("欢迎您注册【LHL众筹平台】,账号注册验证码为(一分钟有效):"+verifyCode+",请勿回复此邮箱", "text/html;charset=UTF-8");
+
+        // 返回创建好的邮件对象
+        return message;
+    }
+
 }

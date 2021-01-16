@@ -32,4 +32,11 @@ public class TestSendMessageUtil {
             System.out.println(resultEntity);
         }
     }
+
+    @Test
+    public void testSendCodeByEmail() throws Exception {
+
+        ResultEntity resultEntity = CrowdUtil.sendVerifyCodeByEmail("2432707158@qq.com", "3417339690@qq.com", "2432707158", "ajlzgiopwcnheaie");
+        System.out.println(resultEntity);
+    }
 }

@@ -94,7 +94,7 @@ public class MemberController {
         String codeFromForm = memberVO.getVerifyCode();
         String codeFromRedis = redisResultEntity.getData();
         if (codeFromRedis == null) {
-            model.addAttribute(Constant.ATTR_ERROR_MESSAGE, "验证码已失效，请获取新的验证码");
+            model.addAttribute(Constant.ATTR_ERROR_MESSAGE, "验证码已失效！请检查手机号是否正确或重新发送");
             return "member-reg";
         }
 
