@@ -22,10 +22,47 @@
     <script type="text/javascript">
         $(function () {
 
+            // 注册成功后跳转到该页面，根据参数判断是否注册成功
             var regisStatus = $("#registerStatus").val();
             if (regisStatus == "ok") {
                 layer.msg("注册成功")
             }
+
+            // 为登录按钮绑定事件
+            $("#loginBtn").click(function () {
+                var loginacct = $.trim($("#login-loginacct").val());
+                if (loginacct == "") {
+                    layer.msg("请输入登录账号")
+                    return;
+                }
+                var userpswd = $.trim($("#login-userpswd").val());
+                if (userpswd == "") {
+                    layer.msg("请输入登录密码");
+                    return;
+                }
+                // ajax提交表单
+                $.ajax({
+                    url : "auth/member/do/login",
+                    data: {
+                        "loginacct" : loginacct,
+                        "userpswd" : userpswd
+                    },
+                    type : "post",
+                    dataType : "json",
+                    success : function (response) {
+                        if (response.result == "SUCCESS"){
+                            window.location.href="atuh/member/to/center/page";
+                        }
+
+                        if (response.result == "FAILED"){
+                            layer.msg(response.message);
+                        }
+                    },
+                    error : function (response) {
+                        layer.msg("失败！响应状态码：" + response.status + " 说明信息：" + response.statusText);
+                    }
+                });
+            })
 
         })
     </script>
@@ -36,7 +73,7 @@
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="container">
         <div class="navbar-header">
-            <div><a class="navbar-brand" href="index.html" style="font-size:32px;">尚筹网-创意产品众筹平台</a></div>
+            <div><a class="navbar-brand" href="" style="font-size:32px;">尚筹网-创意产品众筹平台</a></div>
         </div>
     </div>
 </nav>
@@ -46,15 +83,15 @@
     <form class="form-signin" role="form">
         <h2 class="form-signin-heading"><i class="glyphicon glyphicon-log-in"></i> 用户登录</h2>
         <div class="form-group has-success has-feedback">
-            <input type="text" class="form-control" id="inputSuccess4" placeholder="请输入登录账号" autofocus="">
+            <input type="text" class="form-control" id="login-loginacct" placeholder="请输入登录账号" autofocus="">
             <span class="glyphicon glyphicon-user form-control-feedback"></span>
         </div>
         <div class="form-group has-success has-feedback">
-            <input type="text" class="form-control" id="inputSuccess4" placeholder="请输入登录密码" style="margin-top:10px;">
+            <input type="text" class="form-control" id="login-userpswd" placeholder="请输入登录密码" style="margin-top:10px;">
             <span class="glyphicon glyphicon-lock form-control-feedback"></span>
         </div>
-        <div class="checkbox" style="text-align:right;"><a href="reg.html">我要注册</a></div>
-        <a class="btn btn-lg btn-success btn-block" href="member.html"> 登录</a>
+        <div class="checkbox" style="text-align:right;"><a href="reg.html" th:href="@{auth/member/to/reg/page}">我要注册</a></div>
+        <div class="btn btn-lg btn-success btn-block"  id="loginBtn"> 登录</div>
     </form>
 </div>
 <input id="registerStatus" type="hidden" th:value="${param.register}">

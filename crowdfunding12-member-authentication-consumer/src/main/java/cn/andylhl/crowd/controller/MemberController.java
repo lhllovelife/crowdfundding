@@ -7,6 +7,7 @@ import cn.andylhl.crowd.po.MemberPO;
 import cn.andylhl.crowd.utils.CrowdUtil;
 import cn.andylhl.crowd.utils.ResultEntity;
 import cn.andylhl.crowd.utils.UUIDUtil;
+import cn.andylhl.crowd.vo.MemberLoginVO;
 import cn.andylhl.crowd.vo.MemberVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 import java.beans.Beans;
 import java.util.Objects;
 
@@ -144,6 +146,56 @@ public class MemberController {
         }
         // 6. 保存成功则重定向到登录页
         return "redirect:/auth/member/to/login/page?register=ok";
+    }
+
+
+    @RequestMapping("/auth/member/do/login")
+    public @ResponseBody ResultEntity<String> memberLogin(
+            @RequestParam("loginacct") String loginacct,
+            @RequestParam("userpswd") String userpswd,
+            HttpSession session) {
+        logger.info("crowd-auth服务, 用户登录");
+        logger.info("session: " + session);
+        logger.info("账号: " + loginacct + " 密码: " + userpswd);
+
+        // 1. 从数据库中根据账号进行查询
+        ResultEntity<MemberPO> memberPOByResultEntity = mySQLRemoteService.getMemberPOByLoginAcctRemote(loginacct);
+        // 若查询不到
+        if (ResultEntity.FAILED.equals(memberPOByResultEntity.getResult())) {
+            return ResultEntity.failed(memberPOByResultEntity.getMessage());
+        }
+
+        // 查询到，则检验是否为空
+        MemberPO memberPO = memberPOByResultEntity.getData();
+        if (memberPO == null) {
+            return ResultEntity.failed("该账号不存在");
+        }
+
+        logger.info("从数据库总查询出来的：" + memberPO);
+
+        // 存在该账号，则检验密码是否一致
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String passwordFromDB = memberPO.getUserpswd();
+        Boolean tag = passwordEncoder.matches(userpswd, passwordFromDB);
+
+        if (!tag) {
+            return ResultEntity.failed("密码不正确，请重新输入");
+        }
+
+        // 封装登录用户的信息
+        MemberLoginVO memberLoginVO = new MemberLoginVO(memberPO.getId(), memberPO.getUsername(), memberPO.getEmail());
+        session.setAttribute(Constant.ATTR_NAME_LOGIN_MEMBER, memberLoginVO);
+        // 执行到这里说明登录成功
+        return ResultEntity.successWithoutData();
+    }
+
+    @RequestMapping("/auth/member/do/logout")
+    public String memnerLogout(HttpSession session) {
+        logger.info("crowd-auth服务, 退出系统");
+        logger.info("session: " + session);
+        // 销毁session
+        session.invalidate();
+        return "redirect:/";
     }
 
 }
