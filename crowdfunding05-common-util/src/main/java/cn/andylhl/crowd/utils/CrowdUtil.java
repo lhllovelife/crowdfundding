@@ -2,11 +2,12 @@ package cn.andylhl.crowd.utils;
 
 import com.sun.mail.util.MailSSLSocketFactory;
 
-import javax.mail.*;
+import javax.mail.Message;
+import javax.mail.Session;
+import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
-import java.security.GeneralSecurityException;
 import java.util.Properties;
 
 /***
@@ -117,7 +118,7 @@ public class CrowdUtil {
         // 邮件的标题
         message.setSubject("LHL众筹");
         // 邮件的文本内容
-        message.setContent("欢迎您注册【LHL众筹平台】,账号注册验证码为(一分钟有效):"+verifyCode+",请勿回复此邮箱", "text/html;charset=UTF-8");
+        message.setContent("欢迎您注册【LHL众筹平台】,账号注册验证码为(两分钟有效):"+verifyCode+",请勿回复此邮箱", "text/html;charset=UTF-8");
 
         // 返回创建好的邮件对象
         return message;

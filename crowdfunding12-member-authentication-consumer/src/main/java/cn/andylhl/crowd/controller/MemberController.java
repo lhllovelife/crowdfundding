@@ -42,24 +42,26 @@ public class MemberController {
 
     /**
      * 发送验证码到用户手机
-     * @param phoneNum
+     * @param email
      * @return
      */
     @RequestMapping("/auth/member/send/short/message")
-    public @ResponseBody ResultEntity<String> sendShortMessage(@RequestParam("phoneNum") String phoneNum) {
-        logger.info("crowd-auth服务, 发送验证码到用户手机");
-        logger.info(phoneNum);
+    public @ResponseBody ResultEntity<String> sendShortMessage(@RequestParam("email") String email) {
+        logger.info("crowd-auth服务, 发送验证码到用户邮箱");
+        logger.info(email);
 
-        // 1. 调用工具类，生成验证码并发送到用户手机（模拟），将生成的验证码返回
-        ResultEntity<String> messageResultEntity = CrowdUtil.sendMessage();
-
-        // 如果验证码发送失败，返回错误消息
-        if (ResultEntity.FAILED.equals(messageResultEntity.getResult())) {
+        // 1. 调用工具类，生成验证码并发送到用户邮箱，将生成的验证码返回
+        ResultEntity<String> messageResultEntity = null;
+        try {
+            messageResultEntity = CrowdUtil.sendVerifyCodeByEmail("2432707158@qq.com", email, "2432707158", "ajlzgiopwcnheaie");
+        } catch (Exception e) {
+            e.printStackTrace();
+            // 如果验证码发送失败，则返回错误消息到页面
             return ResultEntity.failed(messageResultEntity.getMessage());
         }
 
         // 2. 将验证码存储到redis中
-        String key = Constant.REDIS_CODE_PREFIX + phoneNum;
+        String key = Constant.REDIS_CODE_PREFIX + email;
         String verifyCode = messageResultEntity.getData();
         ResultEntity<String> redisResultEntity = redisRemoteService.setRedisKeyValueWithTimeoutRemote(key, verifyCode, 120L);
 
@@ -78,9 +80,9 @@ public class MemberController {
         logger.info("crowd-auth服务, 进行新用户的注册");
         logger.info(memberVO.toString());
 
-        // 1. 到redis中查询该手机号对应的验证码
-        String phoneNum = memberVO.getPhoneNum();
-        String key = Constant.REDIS_CODE_PREFIX + phoneNum;
+        // 1. 到redis中查询该邮箱地址对应的验证码
+        String email = memberVO.getEmail();
+        String key = Constant.REDIS_CODE_PREFIX + email;
         ResultEntity<String> redisResultEntity = redisRemoteService.getRedisStringValueByKeyRemote(key);
         // 判断是否查询到
         if (ResultEntity.FAILED.equals(redisResultEntity.getResult())) {
@@ -94,7 +96,7 @@ public class MemberController {
         String codeFromForm = memberVO.getVerifyCode();
         String codeFromRedis = redisResultEntity.getData();
         if (codeFromRedis == null) {
-            model.addAttribute(Constant.ATTR_ERROR_MESSAGE, "验证码已失效！请检查手机号是否正确或重新发送");
+            model.addAttribute(Constant.ATTR_ERROR_MESSAGE, "验证码已失效！请检查邮箱地址是否正确或重新发送");
             return "member-reg";
         }
 

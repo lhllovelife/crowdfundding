@@ -25,31 +25,30 @@
             // 为"获取验证码"按钮绑定事件
             $("#sendMessageBtn").click(
                 function () {
-                    // 获取手机号
-                    var phoneNum = $.trim($("#reg-phoneNum").val());
-                    if (phoneNum == "") {
-                        layer.msg("请输入手机号");
+                    // 获取邮箱地址
+                    var email = $.trim($("#reg-email").val());
+                    if (email == "") {
+                        layer.msg("请输入邮箱地址");
                         return;
                     }
-                    // 校验手机号格式
-                    var tag = phoneFun(phoneNum);
+                    // 校验邮箱格式
+                    var tag = emailFun(email);
                     if (tag == false) {
                         // 格式不正确
                         return;
                     }
-                    // 执行到则这里，说明手机号输入正确
+                    // 执行到则这里，说明邮箱输入正确
                     // 使用ajax发送请求，发送验证码
                     $.ajax({
                         url : "auth/member/send/short/message",
                         data: {
-                            "phoneNum" : phoneNum
+                            "email" : email
                         },
                         type : "post",
                         dataType : "json",
                         success : function (response) {
                             if (response.result == "SUCCESS"){
-                                // layer.msg(response.data);
-                                $("#reg-verifyCode").val(response.data);
+                                layer.msg("验证码已发送至邮箱");
                             }
 
                             if (response.result == "FAILED"){
@@ -96,13 +95,6 @@
                 }
 
 
-                var phoneNum = $.trim($("#reg-phoneNum").val());
-                $("#reg-phoneNum").val(phoneNum);
-                if (phoneNum == "") {
-                    layer.msg("手机号不能为空");
-                    return;
-                }
-
                 var verifyCode = $.trim($("#reg-verifyCode").val());
                 $("#reg-verifyCode").val(verifyCode);
                 if (verifyCode == "") {
@@ -117,10 +109,10 @@
 
         })
 
-        function phoneFun(phones){
-            var myreg = /^[1][3,4,5,7,8,9][0-9]{9}$/;
-            if (!myreg.test(phones)) {
-                layer.msg('手机号格式不正确')
+        function emailFun(email){
+            var myreg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
+            if (!myreg.test(email)) {
+                layer.msg('邮箱格式不正确')
                 return false;
             } else {
                 return true;
@@ -158,10 +150,6 @@
         <div class="form-group has-success has-feedback">
             <input type="text" class="form-control" id="reg-email" name="email" placeholder="请输入邮箱地址" style="margin-top:10px;">
             <span class="glyphicon glyphicon glyphicon-envelope form-control-feedback"></span>
-        </div>
-        <div class="form-group has-success has-feedback">
-            <input type="text" class="form-control" id="reg-phoneNum" name="phoneNum" placeholder="请输入手机号" style="margin-top:10px;">
-            <span class="glyphicon glyphicon glyphicon-earphone form-control-feedback"></span>
         </div>
         <div class="form-group has-success has-feedback">
             <input type="text" class="form-control" id="reg-verifyCode" name="verifyCode" placeholder="请输入验证码" style="margin-top:10px;">

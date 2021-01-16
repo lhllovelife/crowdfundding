@@ -18,19 +18,16 @@ public class MemberVO {
 
     private String email;
 
-    private String phoneNum;
-
     private String verifyCode;
 
     public MemberVO() {
     }
 
-    public MemberVO(String loginacct, String userpswd, String username, String email, String phoneNum, String verifyCode) {
+    public MemberVO(String loginacct, String userpswd, String username, String email, String verifyCode) {
         this.loginacct = loginacct;
         this.userpswd = userpswd;
         this.username = username;
         this.email = email;
-        this.phoneNum = phoneNum;
         this.verifyCode = verifyCode;
     }
 
@@ -66,14 +63,6 @@ public class MemberVO {
         this.email = email;
     }
 
-    public String getPhoneNum() {
-        return phoneNum;
-    }
-
-    public void setPhoneNum(String phoneNum) {
-        this.phoneNum = phoneNum;
-    }
-
     public String getVerifyCode() {
         return verifyCode;
     }
@@ -89,7 +78,6 @@ public class MemberVO {
                 ", userpswd='" + userpswd + '\'' +
                 ", username='" + username + '\'' +
                 ", email='" + email + '\'' +
-                ", phoneNum='" + phoneNum + '\'' +
                 ", verifyCode='" + verifyCode + '\'' +
                 '}';
     }
