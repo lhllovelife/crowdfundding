@@ -17,4 +17,10 @@ public interface MemberService {
      * @return
      */
     MemberPO getMemberPOByLoginAcct(String loginacct);
+
+    /**
+     * 保存账号信息
+     * @param memberPO
+     */
+    void save(MemberPO memberPO);
 }

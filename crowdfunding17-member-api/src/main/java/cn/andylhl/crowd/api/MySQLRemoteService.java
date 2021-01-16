@@ -3,8 +3,10 @@ package cn.andylhl.crowd.api;
 import cn.andylhl.crowd.po.MemberPO;
 import cn.andylhl.crowd.utils.ResultEntity;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /***
  * @Title: MySQLRemoteService
@@ -23,5 +25,14 @@ public interface MySQLRemoteService {
      */
     @RequestMapping("/get/memberpo/by/login/acct/remote")
     ResultEntity<MemberPO> getMemberPOByLoginAcctRemote(@RequestParam("loginacct") String loginacct);
+
+
+    /**
+     * 保存账号信息
+     * @param memberPO
+     * @return
+     */
+    @RequestMapping("/save/memberpo/remote")
+    ResultEntity<String> saveMemberPORemote(@RequestBody MemberPO memberPO);
 
 }

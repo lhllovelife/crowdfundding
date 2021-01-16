@@ -18,9 +18,13 @@ public class CrowdWebMvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        String urlPath = "/auth/member/to/reg/page.html";
+        String urlPath = "/auth/member/to/reg/page";
         String viewName = "member-reg";
         // 添加ViewController
         registry.addViewController(urlPath).setViewName(viewName);
+
+        String loginUrlPath = "/auth/member/to/login/page";
+        String loginViewName = "member-login";
+        registry.addViewController(loginUrlPath).setViewName(loginViewName);
     }
 }

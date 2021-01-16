@@ -7,6 +7,7 @@ import com.netflix.discovery.converters.Auto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -46,8 +47,26 @@ public class MemberProviderController {
             // 执行查询失败
             return ResultEntity.failed(e.getMessage());
         }
+    }
 
+    /**
+     * 保存账号信息
+     * @param memberPO
+     * @return
+     */
+    @RequestMapping("/save/memberpo/remote")
+    public ResultEntity<String> saveMemberPORemote(@RequestBody MemberPO memberPO) {
+        logger.info("mysql-provider服务，保存账号信息");
+        logger.info(memberPO.toString());
 
+        try {
+            memberService.save(memberPO);
+            return ResultEntity.successWithoutData();
+        } catch (Exception e) {
+            e.printStackTrace();
+            // 保存失败，返回错误消息
+            return ResultEntity.failed(e.getMessage());
+        }
     }
 
 }
