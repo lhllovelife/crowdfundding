@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <base th:href="${#httpServletRequest.getScheme() + '://' + #httpServletRequest.getServerName() + ':' + #httpServletRequest.getServerPort() + #httpServletRequest.getContextPath() + '/'}">
+<!--    <base th:href="${#httpServletRequest.getScheme() + '://' + #httpServletRequest.getServerName() + ':' + #httpServletRequest.getServerPort() + #httpServletRequest.getContextPath() + '/'}">-->
+    <base th:href="@{/}"/>
     <meta charset="UTF-8">
     <title>登录</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -82,6 +83,7 @@
 
     <form class="form-signin" role="form">
         <h2 class="form-signin-heading"><i class="glyphicon glyphicon-log-in"></i> 用户登录</h2>
+        <p style="margin-left: auto; color: #e4393c;" th:text="${session.message}">从session中获取信息</p>
         <div class="form-group has-success has-feedback">
             <input type="text" class="form-control" id="login-loginacct" placeholder="请输入登录账号" autofocus="">
             <span class="glyphicon glyphicon-user form-control-feedback"></span>

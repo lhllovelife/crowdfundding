@@ -30,6 +30,30 @@
             <artifactId>spring-cloud-starter-netflix-zuul</artifactId>
         </dependency>
 
+        <!-- 引入 springboot&redis 整合场景 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+        <!-- 引入 springboot&springsession 整合场景 -->
+        <dependency>
+            <groupId>org.springframework.session</groupId>
+            <artifactId>spring-session-data-redis</artifactId>
+        </dependency>
+
+        <!--引入工具类-->
+        <dependency>
+            <groupId>cn.andylhl.crowd</groupId>
+            <artifactId>crowdfunding05-common-util</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <!--引入member-entity工程-->
+        <dependency>
+            <groupId>cn.andylhl.crowd</groupId>
+            <artifactId>crowdfunding09-member-entity</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>

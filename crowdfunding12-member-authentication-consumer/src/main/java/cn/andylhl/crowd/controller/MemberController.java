@@ -77,6 +77,12 @@ public class MemberController {
     }
 
 
+    /**
+     * 进行新用户的注册
+     * @param memberVO
+     * @param model
+     * @return
+     */
     @RequestMapping("/auth/do/member/register")
     public String memberRegister(MemberVO memberVO, Model model) {
         logger.info("crowd-auth服务, 进行新用户的注册");
@@ -145,10 +151,17 @@ public class MemberController {
             return "member-reg";
         }
         // 6. 保存成功则重定向到登录页
-        return "redirect:/auth/member/to/login/page?register=ok";
+        return "redirect:http://127.0.0.1:80/auth/member/to/login/page?register=ok";
     }
 
 
+    /**
+     * 用户登录
+     * @param loginacct
+     * @param userpswd
+     * @param session
+     * @return
+     */
     @RequestMapping("/auth/member/do/login")
     public @ResponseBody ResultEntity<String> memberLogin(
             @RequestParam("loginacct") String loginacct,
@@ -189,13 +202,18 @@ public class MemberController {
         return ResultEntity.successWithoutData();
     }
 
+    /**
+     * 退出系统
+     * @param session
+     * @return
+     */
     @RequestMapping("/auth/member/do/logout")
     public String memnerLogout(HttpSession session) {
         logger.info("crowd-auth服务, 退出系统");
         logger.info("session: " + session);
         // 销毁session
         session.invalidate();
-        return "redirect:/";
+        return "redirect:http://127.0.0.1:80/";
     }
 
 }

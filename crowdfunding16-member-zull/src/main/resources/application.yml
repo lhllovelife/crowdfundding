@@ -3,15 +3,21 @@ server:
 spring:
   application:
     name: crowd-zull
+  redis:
+    host: 192.168.1.37
+  session:
+    store-type: redis
 eureka:
   client:
     service-url:
       defaultZone: http://127.0.0.1:1000/eureka/
 zuul:
-  ignored-services: "*"
+  ignored-services: "*"   # 忽略所有微服务名称，让用户不能通过微服务名称访问
   sensitive-headers: "*"  # 在Zuul向其他微服务重定向时保持原本头信息（请求头、响应头）
   routes:
-    crowd-portal:
-      service-id: crowd-auth
+    crowd-portal:   # 自定义路由规则的名称，在底层的数据结构中是 Map 的键
+      service-id: crowd-auth # 目标微服务名称，ZuulRoute 类型的一个属性
       path: /** # 这里一定要使用两个“*”号，不然“/”路径后面的多层路径将无法访问
-
+ribbon:
+  ReadTimeout: 10000
+  ConnectTimeout: 10000
