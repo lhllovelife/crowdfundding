@@ -18,6 +18,9 @@ zuul:
     crowd-portal:   # 自定义路由规则的名称，在底层的数据结构中是 Map 的键
       service-id: crowd-auth # 目标微服务名称，ZuulRoute 类型的一个属性
       path: /** # 这里一定要使用两个“*”号，不然“/”路径后面的多层路径将无法访问
+    crowd-project:
+      service-id: crowd-project
+      path: /project/**
 ribbon:
   ReadTimeout: 10000
   ConnectTimeout: 10000

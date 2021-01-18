@@ -15,6 +15,9 @@
       <module>../crowdfunding11-member-redis-provider</module>
       <module>../crowdfunding12-member-authentication-consumer</module>
     <module>../crowdfunding16-member-zull</module>
+      <module>../crowdfunding14-member-order-consumer</module>
+    <module>../crowdfunding15-member-pay-consumer</module>
+    <module>../crowdfunding13-member-project-consumer</module>
   </modules>
 
   <properties>
