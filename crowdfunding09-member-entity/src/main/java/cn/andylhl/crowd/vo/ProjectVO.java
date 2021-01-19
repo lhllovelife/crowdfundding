@@ -15,7 +15,7 @@ public class ProjectVO implements Serializable {
     private List<String> typeIdList;
 
     // 标签id集合 (32位uuid)
-    private List<Integer> tagIdList;
+    private List<String> tagIdList;
 
     // 项目名称
     private String projectName;
@@ -24,7 +24,7 @@ public class ProjectVO implements Serializable {
     private String projectDescription;
 
     // 计划筹集的金额
-    private Integer money;
+    private Long money;
 
     // 筹集资金的天数
     private Integer day;
@@ -50,7 +50,7 @@ public class ProjectVO implements Serializable {
     public ProjectVO() {
     }
 
-    public ProjectVO(List<String> typeIdList, List<Integer> tagIdList, String projectName, String projectDescription, Integer money, Integer day, String createdate, String headerPicturePath, List<String> detailPicturePathList, MemberLauchInfoVO memberLauchInfoVO, List<ReturnVO> returnVOList, MemberConfirmInfoVO memberConfirmInfoVO) {
+    public ProjectVO(List<String> typeIdList, List<String> tagIdList, String projectName, String projectDescription, Long money, Integer day, String createdate, String headerPicturePath, List<String> detailPicturePathList, MemberLauchInfoVO memberLauchInfoVO, List<ReturnVO> returnVOList, MemberConfirmInfoVO memberConfirmInfoVO) {
         this.typeIdList = typeIdList;
         this.tagIdList = tagIdList;
         this.projectName = projectName;
@@ -73,11 +73,11 @@ public class ProjectVO implements Serializable {
         this.typeIdList = typeIdList;
     }
 
-    public List<Integer> getTagIdList() {
+    public List<String> getTagIdList() {
         return tagIdList;
     }
 
-    public void setTagIdList(List<Integer> tagIdList) {
+    public void setTagIdList(List<String> tagIdList) {
         this.tagIdList = tagIdList;
     }
 
@@ -97,11 +97,11 @@ public class ProjectVO implements Serializable {
         this.projectDescription = projectDescription;
     }
 
-    public Integer getMoney() {
+    public Long getMoney() {
         return money;
     }
 
-    public void setMoney(Integer money) {
+    public void setMoney(Long money) {
         this.money = money;
     }
 

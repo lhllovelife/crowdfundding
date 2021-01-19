@@ -10,6 +10,11 @@ public class Constant {
 
     private Constant(){}
 
+
+
+
+
+
     // 日期全格式
     public static final String DATE_Format_ALL = "yyyy-MM-dd HH:mm:ss";
 
@@ -22,12 +27,17 @@ public class Constant {
     public static final String MESSAGE_ACCESS_FORBIDDEN = "请登录以后再访问！";
     public static final String MESSAGE_STRING_INVALIDATE = "字符串不合法！请不要传入空字符串！";
     public static final String MESSAGE_SYSTEM_ERROR_LOGIN_NOT_UNIQUE = "系统错误：登录账号不唯一！";
+    public static final String MESSAGE_HEADPIC_UPLOAD_FAILE = "头图上传失败！请重新填写项目信息后提交";
+    public static final String MESSAGE_HEADPIC_IS_EMPTY = "头图不存在！请重新填写项目信息后提交";
+    public static final String MESSAGE_DETAILPIC_IS_EMPTY = "详情图片不存在！请重新填写项目信息后提交";
+    public static final String MESSAGE_DETAILPIC_UPLOAD_FAILE = "详情图片上传失败！请重新填写项目信息后提交";
 
     public static final String ATTR_NAME_EXCEPTION = "exception";
     public static final String ATTR_NAME_LOGIN_ADMIN = "loginAdmin";
     public static final String ATTR_NAME_PAGE_INFO = "pageInfo";
     public static final String ATTR_ERROR_MESSAGE = "message";
     public static final String ATTR_NAME_LOGIN_MEMBER = "loginMember";
+    public static final String ATTR_NAME_TEMPLE_PROJECT = "templeProjectVO";
 
     public static final String REDIS_CODE_PREFIX = "crowd-register-";
 }

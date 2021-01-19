@@ -60,7 +60,7 @@
             border: 1px #f60 solid;
         }
 
-        #typeList  :not (:first-child ) {
+        #typeList :not (:first-child ) {
             margin-top: 20px;
         }
 
@@ -101,11 +101,11 @@
                                 class="glyphicon glyphicon-user"></i>
                             [[${session.loginMember.username}]]<span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
-                                <li><a href="member.html"><i class="glyphicon glyphicon-scale"></i> 会员中心</a></li>
-                                <li><a href="#"><i class="glyphicon glyphicon-comment"></i>
+                                <li><a href="atuh/member/to/center/page"><i class="glyphicon glyphicon-scale"></i> 会员中心</a></li>
+                                <li><a href="javascript:void(0)"><i class="glyphicon glyphicon-comment"></i>
                                     消息</a></li>
                                 <li class="divider"></li>
-                                <li><a href="http://www.crowd.com/auth/member/logout"><i
+                                <li><a href="auth/member/do/logout"><i
                                         class="glyphicon glyphicon-off"></i> 退出系统</a></li>
                             </ul>
                         </li>
@@ -124,7 +124,7 @@
                 <nav class="navbar navbar-default" role="navigation">
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul class="nav navbar-nav">
-                            <li><a rel="nofollow" href="index.html"><i class="glyphicon glyphicon-home"></i> 众筹首页</a>
+                            <li><a rel="nofollow" href=""><i class="glyphicon glyphicon-home"></i> 众筹首页</a>
                             </li>
                             <li><a rel="nofollow" href="projects.html"><i class="glyphicon glyphicon-th-large"></i> 项目总览</a>
                             </li>
@@ -143,9 +143,9 @@
     <div class="container">
         <div class="row clearfix">
             <div class="col-md-12 column">
-                <form id="projectForm" th:action="@{/project/create/project/information}" method="post"
-                      enctype="multipart/form-data" class="form-horizontal">
-                    <p th:text="${message}"></p>
+
+                <!--表单-->
+                <form id="projectForm" action="project/create/project/information" method="post" enctype="multipart/form-data" class="form-horizontal">
                     <div class="panel panel-default">
                         <div class="panel-heading" style="text-align: center;">
                             <div class="container-fluid">
@@ -213,6 +213,7 @@
                                             <b> 项目及发起人信息 </b>
                                         </blockquote>
                                     </div>
+                                    <p style="margin-left: auto; color: #e4393c;" th:text="${message}"></p>
                                     <div class="col-md-12 column">
                                         <div class="page-header" style="border-bottom-style: dashed;">
                                             <h3>项目信息</h3>
@@ -221,20 +222,16 @@
                                             <label for="inputEmail3" class="col-sm-2 control-label">分类信息</label>
                                             <div class="col-sm-10">
                                                 <label class="radio-inline">
-                                                    <input type="checkbox" name="typeIdList" id="inlineRadio1"
-                                                           value="1"> 科技
+                                                    <input type="checkbox" name="typeIdList" id="inlineRadio1" value="type1111"> 科技
                                                 </label>
                                                 <label class="radio-inline">
-                                                    <input type="checkbox" name="typeIdList" id="inlineRadio2" value="2"
-                                                           checked="checked"> 设计
+                                                    <input type="checkbox" name="typeIdList" id="inlineRadio2" value="type2222"> 设计
                                                 </label>
                                                 <label class="radio-inline">
-                                                    <input type="checkbox" name="typeIdList" id="inlineRadio3"
-                                                           value="3"> 公益
+                                                    <input type="checkbox" name="typeIdList" id="inlineRadio3" value="type3333"> 公益
                                                 </label>
                                                 <label class="radio-inline">
-                                                    <input type="checkbox" name="typeIdList" id="inlineRadio3" value="4"
-                                                           checked="checked"> 农业
+                                                    <input type="checkbox" name="typeIdList" id="inlineRadio3" value="type4444"> 农业
                                                 </label>
                                             </div>
                                         </div>
@@ -243,17 +240,17 @@
                                             <div class="col-sm-10">
                                                 <ul style="list-style: none; padding-left: 0;">
                                                     <li style="margin: 10px 0">[手机] <span class="tagLable label-txt"
-                                                                                          id="4">大屏</span> <span
-                                                            class="tagLable label-txt" id="5">美颜</span> <span
-                                                            class="tagLable label-txt" id="6">续航</span>
+                                                                                          id="tag001">大屏</span> <span
+                                                            class="tagLable label-txt" id="tag002">美颜</span> <span
+                                                            class="tagLable label-txt" id="tag003">续航</span>
                                                     </li>
                                                     <li style="margin: 10px 0">[数码] <span class="tagLable label-txt"
-                                                                                          id="7">高解析度</span> <span
-                                                            class="tagLable label-txt" id="8">高清</span>
+                                                                                          id="tag004">高解析度</span> <span
+                                                            class="tagLable label-txt" id="tag005">高清</span>
                                                     </li>
                                                     <li style="margin: 10px 0">[电脑] <span class="tagLable label-txt"
-                                                                                          id="9">大内存</span> <span
-                                                            class="tagLable label-txt" id="10">固态</span>
+                                                                                          id="tag006">大内存</span> <span
+                                                            class="tagLable label-txt" id="tag007">固态</span>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -261,7 +258,7 @@
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label">项目名称</label>
                                             <div class="col-sm-10">
-                                                <input type="text" name="projectName" value="brotherMao"
+                                                <input type="text" name="projectName" value=""
                                                        class="form-control">
                                             </div>
                                         </div>
@@ -269,20 +266,20 @@
                                             <label class="col-sm-2 control-label">一句话简介</label>
                                             <div class="col-sm-10">
                                                 <textarea name="projectDescription" class="form-control"
-                                                          rows="5">就是帅！</textarea>
+                                                          rows="5" placeholder="请用一句介绍该项目"></textarea>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label">筹资金额（元）</label>
                                             <div class="col-sm-10">
-                                                <input type="text" name="money" value="100000" class="form-control"
+                                                <input type="text" name="money" value="" class="form-control"
                                                        style="width: 100px;"> <label class="control-label">筹资金额不能低于100元,不能高于1000000000元</label>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label">筹资天数（天）</label>
                                             <div class="col-sm-10">
-                                                <input type="text" name="day" value="30" class="form-control"
+                                                <input type="text" name="day" value="" class="form-control"
                                                        style="width: 100px;"> <label class="control-label">一般10-90天，建议30天</label>
                                             </div>
                                         </div>
@@ -320,7 +317,7 @@
                                             <label class="col-sm-2 control-label">自我介绍</label>
                                             <div class="col-sm-10">
                                                 <input type="text" name="memberLauchInfoVO.descriptionSimple"
-                                                       value="i am mao" class="form-control"
+                                                       value="" class="form-control"
                                                        placeholder="一句话自我介绍，不超过40字">
                                             </div>
                                         </div>
@@ -329,20 +326,20 @@
                                             <div class="col-sm-10">
                                                 <textarea name="memberLauchInfoVO.descriptionDetail"
                                                           class="form-control" rows="5"
-                                                          placeholder="向支持者详细介绍你自己或你的团队及项目背景，让支持者在最短时间内了解你，不超过160字">我是猫哥</textarea>
+                                                          placeholder="向支持者详细介绍你自己或你的团队及项目背景，让支持者在最短时间内了解你，不超过160字"></textarea>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label">联系电话</label>
                                             <div class="col-sm-10">
-                                                <input type="text" name="memberLauchInfoVO.phoneNum" value="123456"
+                                                <input type="text" name="memberLauchInfoVO.phoneNum" value=""
                                                        class="form-control" placeholder="此信息不会显示在项目页面">
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label">客服电话</label>
                                             <div class="col-sm-10">
-                                                <input type="text" name="memberLauchInfoVO.serviceNum" value="654321"
+                                                <input type="text" name="memberLauchInfoVO.serviceNum" value=""
                                                        class="form-control" placeholder="此信息显示在项目页面">
                                             </div>
                                         </div>
@@ -425,6 +422,7 @@
         arr.push(id);
     }
 
+    // 为上传头图按钮按钮绑定事件
     $("#uploadHeadBtn").click(function () {
 
         // 调用click()函数，相当于被点击了一下
@@ -450,6 +448,7 @@
 
     });
 
+    // 为上传详情按钮按钮绑定事件
     $("#uploadDetailBtn").click(function () {
 
         $("[name=detailPictureList]").click();
