@@ -3,7 +3,7 @@ package cn.andylhl.crowd.po;
 public class ProjectItemPicPO {
     private String id;
 
-    private Integer projectid;
+    private String projectid;
 
     private String itemPicPath;
 
@@ -15,12 +15,12 @@ public class ProjectItemPicPO {
         this.id = id == null ? null : id.trim();
     }
 
-    public Integer getProjectid() {
+    public String getProjectid() {
         return projectid;
     }
 
-    public void setProjectid(Integer projectid) {
-        this.projectid = projectid;
+    public void setProjectid(String projectid) {
+        this.projectid = projectid == null ? null : projectid.trim();
     }
 
     public String getItemPicPath() {

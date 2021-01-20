@@ -1,6 +1,25 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="cn.andylhl.crowd.mapper.TypePOMapper" >
+
+  <!--
+    保存项目id与分类id之间的关系
+    void saveTypeList(Map<String, String> typeMap, String projectid);
+  -->
+  <insert id="saveTypeList" parameterType="String">
+    insert into t_project_type
+    (
+     id,
+     projectid,
+     typeid
+    )
+    values
+    <foreach collection="typeMap.entrySet()"  separator=","  index="key" item="val">
+      (#{key}, #{projectid}, #{val})
+    </foreach>
+  </insert>
+
+
   <resultMap id="BaseResultMap" type="cn.andylhl.crowd.po.TypePO" >
     <id column="id" property="id" jdbcType="CHAR" />
     <result column="name" property="name" jdbcType="VARCHAR" />

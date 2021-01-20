@@ -4,9 +4,11 @@ package cn.andylhl.crowd.mapper;
 import cn.andylhl.crowd.po.ReturnPO;
 import cn.andylhl.crowd.po.ReturnPOExample;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public interface ReturnPOMapper {
     int countByExample(ReturnPOExample example);
 
@@ -29,4 +31,7 @@ public interface ReturnPOMapper {
     int updateByPrimaryKeySelective(ReturnPO record);
 
     int updateByPrimaryKey(ReturnPO record);
+
+    // 执行保存回报信息
+    void saveReturnPOList(@Param("returnPOList") List<ReturnPO> returnPOList);
 }

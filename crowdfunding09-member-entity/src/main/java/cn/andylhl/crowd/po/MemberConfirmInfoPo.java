@@ -1,6 +1,6 @@
 package cn.andylhl.crowd.po;
 
-public class MemberConfirmInPo {
+public class MemberConfirmInfoPo {
     private String id;
 
     private String memberid;

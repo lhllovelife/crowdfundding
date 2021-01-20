@@ -96,11 +96,9 @@
                             [[${session.loginMember.username}]]<span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
                                 <li><a href="atuh/member/to/center/page"><i class="glyphicon glyphicon-scale"></i> 会员中心</a></li>
-                                <li><a href="javascript:void(0)"><i class="glyphicon glyphicon-comment"></i>
-                                    消息</a></li>
+                                <li><a href="javascript:void(0)"><i class="glyphicon glyphicon-comment"></i>消息</a></li>
                                 <li class="divider"></li>
-                                <li><a href="auth/member/do/logout"><i
-                                        class="glyphicon glyphicon-off"></i> 退出系统</a></li>
+                                <li><a href="auth/member/do/logout"><i class="glyphicon glyphicon-off"></i> 退出系统</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -118,14 +116,13 @@
                 <nav class="navbar navbar-default" role="navigation">
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul class="nav navbar-nav">
-                            <li><a rel="nofollow" href="index.html"><i class="glyphicon glyphicon-home"></i> 众筹首页</a>
+                            <li><a rel="nofollow" href=""><i class="glyphicon glyphicon-home"></i> 众筹首页</a>
                             </li>
                             <li><a rel="nofollow" href="projects.html"><i class="glyphicon glyphicon-th-large"></i> 项目总览</a>
                             </li>
                             <li class="active"><a rel="nofollow" href="javascript:;"><i
                                     class="glyphicon glyphicon-edit"></i> 发起项目</a></li>
-                            <li><a rel="nofollow" href="minecrowdfunding.html"><i class="glyphicon glyphicon-user"></i>
-                                我的众筹</a></li>
+                            <li><a rel="nofollow" href="minecrowdfunding.html"><i class="glyphicon glyphicon-user"></i>我的众筹</a></li>
                         </ul>
                     </div>
                 </nav>
@@ -253,21 +250,15 @@
                                                         <label for="inputEmail3"
                                                                class="col-sm-2 control-label">回报类型</label>
                                                         <div class="col-sm-10">
-                                                            <label class="radio-inline"> <input type="radio" name="type"
-                                                                                                id="inlineRadio1"
-                                                                                                value="0"> 实物回报
-                                                            </label> <label class="radio-inline"> <input type="radio"
-                                                                                                         name="type"
-                                                                                                         id="inlineRadio2"
-                                                                                                         value="1">
-                                                            虚拟物品回报
+                                                            <label class="radio-inline"> <input type="radio" name="type" id="inlineRadio1" value="0"> 实物回报</label>
+                                                            <label class="radio-inline"> <input type="radio" name="type" id="inlineRadio2" value="1">虚拟物品回报
                                                         </label>
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
                                                         <label class="col-sm-2 control-label">支持金额（元）</label>
                                                         <div class="col-sm-10">
-                                                            <input type="text" name="supportmoney" value="10"
+                                                            <input type="text" name="supportmoney" value=""
                                                                    class="form-control" style="width: 100px;">
                                                         </div>
                                                     </div>
@@ -275,7 +266,7 @@
                                                         <label class="col-sm-2 control-label">回报内容</label>
                                                         <div class="col-sm-10">
                                                             <textarea class="form-control" name="content" rows="5"
-                                                                      placeholder="简单描述回报内容，不超过200字">以身相许</textarea>
+                                                                      placeholder="简单描述回报内容，不超过200字"></textarea>
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
@@ -283,6 +274,7 @@
                                                         <div class="col-sm-10">
                                                             <input type="file" name="returnPicture"
                                                                    style="display: none;">
+                                                            <!--上传图片的按钮-->
                                                             <button type="button" id="uploadBtn"
                                                                     class="btn btn-primary btn-lg active">上传图片
                                                             </button>
@@ -294,7 +286,7 @@
                                                     <div class="form-group">
                                                         <label class="col-sm-2 control-label">回报数量（名）</label>
                                                         <div class="col-sm-10">
-                                                            <input type="text" name="count" value="5"
+                                                            <input type="text" name="count" value=""
                                                                    class="form-control"
                                                                    style="width: 100px; display: inline"> <label
                                                                 class="control-label">“0”为不限回报数量</label>
@@ -312,7 +304,7 @@
                                                                                                          name="signalpurchase"
                                                                                                          id="inlineRadio2"
                                                                                                          value="1"> 限购
-                                                        </label> <input type="text" name="purchase" value="8"
+                                                        </label> <input type="text" name="purchase" value="1"
                                                                         class="form-control"
                                                                         style="width: 100px; display: inline"> <label
                                                                 class="radio-inline">默认数量为1，且不超过上方已设置的回报数量</label>
@@ -348,7 +340,7 @@
                                                                class="col-sm-2 control-label">回报时间</label>
                                                         <div class="col-sm-10">
                                                             <label class="radio-inline"> 项目结束后 </label> <input
-                                                                type="text" name="returndate" value="15"
+                                                                type="text" name="returndate" value=""
                                                                 class="form-control"
                                                                 style="width: 100px; display: inline"> <label
                                                                 class="radio-inline">天，向支持者发送回报</label>
@@ -357,9 +349,7 @@
                                                     <div class="form-group">
                                                         <label for="inputEmail3" class="col-sm-2 control-label"></label>
                                                         <div class="col-sm-10">
-                                                            <button type="button" class="btn btn-primary" id="okBtn">
-                                                                确定
-                                                            </button>
+                                                            <button type="button" class="btn btn-primary" id="okBtn">确定</button>
                                                             <button type="button" class="btn btn-default">取消</button>
                                                         </div>
                                                     </div>
@@ -380,8 +370,7 @@
                                                     <i class="glyphicon glyphicon-info-sign"
                                                        style="color: #2a6496;"></i> 提示
                                                 </p>
-                                                <small>3个以上的回报：多些选择能提高项目的支持率。几十、几百、上千元的支持：3个不同档次的回报，能让你的项目更快成功。回报最好是项目的衍生品：<br>与项目内容有关的回报更能吸引到大家的支持。
-                                                </small>
+                                                <small>3个以上的回报：多些选择能提高项目的支持率。几十、几百、上千元的支持：3个不同档次的回报，能让你的项目更快成功。回报最好是项目的衍生品：<br>与项目内容有关的回报更能吸引到大家的支持。</small>
                                             </blockquote>
                                         </div>
                                     </div>
@@ -395,7 +384,7 @@
                         <button type="button" class="btn  btn-default btn-lg">上一步</button>
                         <!-- <button type="button" class="btn  btn-warning btn-lg"
                             onclick="window.location.href='start-step-3.html'">下一步</button> -->
-                        <a th:href="@{/project/create/confirm/page.html}" class="btn btn-warning btn-lg">下一步</a>
+                        <a href="project/create/confirm/page" class="btn btn-warning btn-lg">下一步</a>
                         <a class="btn"> 预览 </a>
                     </div>
                 </div>
@@ -473,9 +462,9 @@
 
         formData.append("returnPicture", file);
 
-        // 发送Ajax请求上传文件
+        // 发送Ajax请求上传文件（上传回报图片）
         $.ajax({
-            "url": "[[@{/project/create/upload/return/picture.json}]]",
+            "url": "project/create/upload/return/picture",
             "type": "post",
             "data": formData,
             "contentType": false,
@@ -486,19 +475,21 @@
                 var result = response.result;
 
                 if (result == "SUCCESS") {
-                    alert("上传成功！");
-
+                    // alert("上传成功！");
+                    layer.msg("上传成功");
                     // 如果上传成功，则从响应体数据中获取图片的访问路径
                     returnObj.describPicPath = response.data;
                 }
 
                 if (result == "FAILED") {
-                    alert(response.message);
+                    // alert(response.message);
+                    layer.msg(response.message);
                 }
 
             },
             "error": function (response) {
-                alert(response.status + " " + response.statusText);
+                // layer.msg(response.status + " " + response.statusText);
+                layer.msg("失败！响应状态码：" + response.status + " 说明信息：" + response.statusText);
             }
         });
 
@@ -523,14 +514,15 @@
 
         // 2.发送Ajax请求
         $.ajax({
-            "url": "[[@{/project/create/save/return.json}]]",
+            "url": "project/create/save/return",
             "type": "post",
             "dataType": "json",
             "data": returnObj,
             "success": function (response) {
                 var result = response.result;
                 if (result == "SUCCESS") {
-                    alert("这一条保存成功！");
+                    // alert("这一条保存成功！");
+                    layer.msg("这一条保存成功！")
 
                     // 使用returnObj填充表格
                     var orderTd = "<td>" + (++order) + "</td>";
@@ -549,7 +541,8 @@
                 }
 
                 if (result == "FAILED") {
-                    alert("这一条保存失败！");
+                    // alert("这一条保存失败！");
+                    layer.msg("这一条保存失败！")
                 }
 
                 // 后续操作

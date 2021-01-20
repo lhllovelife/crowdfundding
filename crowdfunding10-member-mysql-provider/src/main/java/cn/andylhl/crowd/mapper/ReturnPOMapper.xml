@@ -1,6 +1,49 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="cn.andylhl.crowd.mapper.ReturnPOMapper" >
+
+  <!-- 执行保存回报信息
+    void saveReturnPOList(@Param("returnPOList") List<ReturnPO> returnPOList);
+    -->
+  <insert id="saveReturnPOList" parameterType="cn.andylhl.crowd.po.ReturnPO">
+    insert into t_return
+    (
+      id,
+      projectid,
+      type,
+      supportmoney,
+      content,
+      count,
+      signalpurchase,
+      purchase,
+      freight,
+      invoice,
+      returndate,
+      describ_pic_path
+    )
+    values
+    <foreach collection="returnPOList" separator="," item="returnPO">
+      (
+        #{returnPO.id},
+        #{returnPO.projectid},
+        #{returnPO.type},
+        #{returnPO.supportmoney},
+        #{returnPO.content},
+        #{returnPO.count},
+        #{returnPO.signalpurchase},
+        #{returnPO.purchase},
+        #{returnPO.freight},
+        #{returnPO.invoice},
+        #{returnPO.returndate},
+        #{returnPO.describPicPath}
+
+      )
+    </foreach>
+  </insert>
+
+
+
+
   <resultMap id="BaseResultMap" type="cn.andylhl.crowd.po.ReturnPO" >
     <id column="id" property="id" jdbcType="CHAR" />
     <result column="projectid" property="projectid" jdbcType="CHAR" />

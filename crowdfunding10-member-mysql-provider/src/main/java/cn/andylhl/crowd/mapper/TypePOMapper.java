@@ -4,9 +4,12 @@ package cn.andylhl.crowd.mapper;
 import cn.andylhl.crowd.po.TypePO;
 import cn.andylhl.crowd.po.TypePOExample;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
+@Repository
 public interface TypePOMapper {
     int countByExample(TypePOExample example);
 
@@ -29,4 +32,7 @@ public interface TypePOMapper {
     int updateByPrimaryKeySelective(TypePO record);
 
     int updateByPrimaryKey(TypePO record);
+
+    // 保存项目id与分类id之间的关系
+    void saveTypeList(@Param("typeMap") Map<String, String> typeMap, @Param("projectid") String projectid);
 }

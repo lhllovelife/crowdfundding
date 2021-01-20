@@ -3,14 +3,14 @@ package cn.andylhl.crowd.po;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MemberConfirmInPoExample {
+public class MemberConfirmInfoPoExample {
     protected String orderByClause;
 
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
 
-    public MemberConfirmInPoExample() {
+    public MemberConfirmInfoPoExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 

@@ -6,7 +6,9 @@ import java.util.List;
 import cn.andylhl.crowd.po.MemberLaunchInfoPO;
 import cn.andylhl.crowd.po.MemberLaunchInfoPOExample;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface MemberLaunchInfoPOMapper {
     int countByExample(MemberLaunchInfoPOExample example);
 

@@ -1,16 +1,22 @@
 package cn.andylhl.crowd.controller;
 
+import cn.andylhl.crowd.api.MySQLRemoteService;
 import cn.andylhl.crowd.config.OSSProperties;
 import cn.andylhl.crowd.constant.Constant;
 import cn.andylhl.crowd.utils.CrowdUtil;
 import cn.andylhl.crowd.utils.ResultEntity;
+import cn.andylhl.crowd.vo.MemberConfirmInfoVO;
+import cn.andylhl.crowd.vo.MemberLoginVO;
 import cn.andylhl.crowd.vo.ProjectVO;
+import cn.andylhl.crowd.vo.ReturnVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
@@ -32,6 +38,9 @@ public class ProjectController {
 
     @Autowired
     private OSSProperties ossProperties;
+
+    @Autowired
+    private MySQLRemoteService mySQLRemoteService;
 
     /**
      * 保存项目及发起人信息
@@ -116,4 +125,117 @@ public class ProjectController {
         return "redirect:http://127.0.0.1:80/project/return/info/page";
     }
 
+
+    /**
+     * 将回报信息图片上传到OSS，将上传后的地址返回给前端
+     * MultipartFile 接收文件类型
+     * @return
+     */
+    @RequestMapping("/create/upload/return/picture")
+    public @ResponseBody ResultEntity<String> uploadReturnPicture(MultipartFile returnPicture) throws IOException {
+        logger.info("crowd-project服务, 将回报信息图片上传到OSS");
+        // 判断文件是否为null或为空
+        if (returnPicture == null || returnPicture.isEmpty()) {
+            return ResultEntity.failed(Constant.MESSAGE_RETURNPIC_IS_EMPTY);
+        }
+        // 上传到OSS
+        ResultEntity<String> returnPictureResultEntity = CrowdUtil.uploadFileToOss(ossProperties.getEndPoint(),
+                ossProperties.getAccessKeyId(),
+                ossProperties.getAccessKeySecret(),
+                returnPicture.getInputStream(),
+                ossProperties.getBucketName(),
+                ossProperties.getBucketDomain(),
+                returnPicture.getOriginalFilename());
+        logger.info("上传返回结果: " + returnPictureResultEntity);
+        return returnPictureResultEntity;
+    }
+
+
+    /**
+     * 保存一条回报信息
+     * @return
+     */
+    @RequestMapping("/create/save/return")
+    public @ResponseBody ResultEntity<String> saveReturn(ReturnVO returnVO, HttpSession session) {
+        logger.info("crowd-project服务, 保存一条回报信息");
+        logger.info("回报信息数据：" + returnVO.toString());
+        //1.  从session中取出之前缓存的ProjectVO对象
+        try {
+            ProjectVO projectVO = (ProjectVO) session.getAttribute(Constant.ATTR_NAME_TEMPLE_PROJECT);
+            // 判断缓存的projectVO是否还存在
+            if (projectVO == null) {
+                return ResultEntity.failed(Constant.MESSAGE_TEMPLE_PROJECTVO_MISS);
+            }
+            // 取出projectVO中的list
+            List<ReturnVO> returnVOList = projectVO.getReturnVOList();
+            // 判断集合是否有效
+            if (returnVOList == null) {
+                returnVOList = new ArrayList<>();
+                // 将初始化后的集合设置到projectVO中
+                projectVO.setReturnVOList(returnVOList);
+            }
+            // 将收集过后的表单数据添加到集合中
+            returnVOList.add(returnVO);
+
+            // 将有数据变化的returnVOList重新存入session(持久化到redis)
+            session.setAttribute(Constant.ATTR_NAME_TEMPLE_PROJECT, projectVO);
+            logger.info("加有回报信息的projectVo: " + projectVO);
+            // 执行到这里未出现异常，说明执行成功
+            return ResultEntity.successWithoutData();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResultEntity.failed(e.getMessage());
+        }
+
+    }
+
+
+    @RequestMapping("/create/save/confirm")
+    public String saveConfirmInfo(MemberConfirmInfoVO memberConfirmInfoVO, HttpSession session, Model model) {
+        logger.info("crowd-project服务, 保存确认信息");
+        // 1. 从session域对象中取出之前缓存的ProjectVO对象
+        ProjectVO projectVO = (ProjectVO) session.getAttribute(Constant.ATTR_NAME_TEMPLE_PROJECT);
+
+        // 若projectVO不存在
+        if (projectVO == null) {
+            model.addAttribute(Constant.ATTR_ERROR_MESSAGE, Constant.MESSAGE_TEMPLE_PROJECTVO_MISS);
+            return "project-confirm";
+        }
+
+        // 将确认信息对象设置到projectVO中
+        projectVO.setMemberConfirmInfoVO(memberConfirmInfoVO);
+
+        // 从session中取出当前登录的用户对象
+        MemberLoginVO memberLoginVO = (MemberLoginVO) session.getAttribute(Constant.ATTR_NAME_LOGIN_MEMBER);
+        // 取出当前登录对象的id
+        String memberid = memberLoginVO.getId();
+        // 调用provider-mysql提供的方法，将提交的所有项目相关信息持久化到mysql数据库中
+        ResultEntity<String> saveResultEntity = mySQLRemoteService.saveProjectVORemote(projectVO, memberid);
+        if (ResultEntity.FAILED.equals(saveResultEntity.getResult())) {
+            model.addAttribute(Constant.ATTR_ERROR_MESSAGE, saveResultEntity.getMessage());
+            return "project-confirm";
+        }
+
+        // 保存成功则将临时projectVO对象从session中移除
+        session.removeAttribute(Constant.ATTR_NAME_TEMPLE_PROJECT);
+
+        // 重定向到最终完成的页面
+        return "redirect:http://127.0.0.1:80/project/create/sucess";
+
+    }
+
 }
+/*
+回报信息数据：ReturnVO{type=0, supportmoney=2, content='回报内容1', count=0, signalpurchase=0, purchase=1, freight=0, invoice=0, returndate=10, describPicPath='http://andylhlcrowd.oss-cn-beijing.aliyuncs.com/20210119/d376c92667c6499896d60601c1f12bbe.gif'}
+加有回报信息的projectVo:
+ProjectVO{
+typeIdList=[type1111, type2222],
+tagIdList=[tag001, tag002, tag003],
+projectName='化妆镜', projectDescription='化妆镜一句话简介',
+money=16, day=36, createdate='null',
+headerPicturePath='http://andylhlcrowd.oss-cn-beijing.aliyuncs.com/20210119/e84d4e18ec4d47ca926e286a1889b21f.jpg',
+detailPicturePathList=[http://andylhlcrowd.oss-cn-beijing.aliyuncs.com/20210119/7072e545df2249f98a976493775f91ea.gif, http://andylhlcrowd.oss-cn-beijing.aliyuncs.com/20210119/2c7389bba7c34f81b37797e96dc273a4.jpg],
+memberLauchInfoVO=MemberLauchInfoVO{descriptionSimple='李红亮', descriptionDetail='李红亮详细自我介绍', phoneNum='15565615212', serviceNum='4000800123'},
+returnVOList=[ReturnVO{type=0, supportmoney=2, content='回报内容1', count=0, signalpurchase=0, purchase=1, freight=0, invoice=0, returndate=10, describPicPath='http://andylhlcrowd.oss-cn-beijing.aliyuncs.com/20210119/d376c92667c6499896d60601c1f12bbe.gif'}],
+memberConfirmInfoVO=null}
+ */

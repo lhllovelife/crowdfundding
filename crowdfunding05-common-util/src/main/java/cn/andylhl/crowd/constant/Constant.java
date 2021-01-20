@@ -10,11 +10,6 @@ public class Constant {
 
     private Constant(){}
 
-
-
-
-
-
     // 日期全格式
     public static final String DATE_Format_ALL = "yyyy-MM-dd HH:mm:ss";
 
@@ -31,6 +26,8 @@ public class Constant {
     public static final String MESSAGE_HEADPIC_IS_EMPTY = "头图不存在！请重新填写项目信息后提交";
     public static final String MESSAGE_DETAILPIC_IS_EMPTY = "详情图片不存在！请重新填写项目信息后提交";
     public static final String MESSAGE_DETAILPIC_UPLOAD_FAILE = "详情图片上传失败！请重新填写项目信息后提交";
+    public static final String MESSAGE_RETURNPIC_IS_EMPTY = "图片为空，请重新上传";
+    public static final String MESSAGE_TEMPLE_PROJECTVO_MISS = "临时存储的ProjectVO对象丢失";
 
     public static final String ATTR_NAME_EXCEPTION = "exception";
     public static final String ATTR_NAME_LOGIN_ADMIN = "loginAdmin";

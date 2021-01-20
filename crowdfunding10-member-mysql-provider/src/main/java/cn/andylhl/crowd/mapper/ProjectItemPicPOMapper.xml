@@ -1,9 +1,29 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="cn.andylhl.crowd.mapper.ProjectItemPicPOMapper" >
+
+  <!-- 保存项目id与详情图片id之间的关系
+  void saveDetailPicturePathList(@Param("detailPicturePathMap") Map<String, String> detailPicturePathMap, @Param("projectid") String projectid);
+  -->
+  <insert id="saveDetailPicturePathList" parameterType="String">
+    insert into t_project_item_pic
+    (
+    id,
+    projectid,
+    item_pic_path
+    )
+    values
+    <foreach collection="detailPicturePathMap.entrySet()"  separator=","  index="key" item="val">
+      (#{key}, #{projectid}, #{val})
+    </foreach>
+  </insert>
+
+
+
+
   <resultMap id="BaseResultMap" type="cn.andylhl.crowd.po.ProjectItemPicPO" >
     <id column="id" property="id" jdbcType="CHAR" />
-    <result column="projectid" property="projectid" jdbcType="INTEGER" />
+    <result column="projectid" property="projectid" jdbcType="CHAR" />
     <result column="item_pic_path" property="itemPicPath" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
@@ -100,7 +120,7 @@
   <insert id="insert" parameterType="cn.andylhl.crowd.po.ProjectItemPicPO" >
     insert into t_project_item_pic (id, projectid, item_pic_path
       )
-    values (#{id,jdbcType=CHAR}, #{projectid,jdbcType=INTEGER}, #{itemPicPath,jdbcType=VARCHAR}
+    values (#{id,jdbcType=CHAR}, #{projectid,jdbcType=CHAR}, #{itemPicPath,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="cn.andylhl.crowd.po.ProjectItemPicPO" >
@@ -121,7 +141,7 @@
         #{id,jdbcType=CHAR},
       </if>
       <if test="projectid != null" >
-        #{projectid,jdbcType=INTEGER},
+        #{projectid,jdbcType=CHAR},
       </if>
       <if test="itemPicPath != null" >
         #{itemPicPath,jdbcType=VARCHAR},
@@ -141,7 +161,7 @@
         id = #{record.id,jdbcType=CHAR},
       </if>
       <if test="record.projectid != null" >
-        projectid = #{record.projectid,jdbcType=INTEGER},
+        projectid = #{record.projectid,jdbcType=CHAR},
       </if>
       <if test="record.itemPicPath != null" >
         item_pic_path = #{record.itemPicPath,jdbcType=VARCHAR},
@@ -154,7 +174,7 @@
   <update id="updateByExample" parameterType="map" >
     update t_project_item_pic
     set id = #{record.id,jdbcType=CHAR},
-      projectid = #{record.projectid,jdbcType=INTEGER},
+      projectid = #{record.projectid,jdbcType=CHAR},
       item_pic_path = #{record.itemPicPath,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -164,7 +184,7 @@
     update t_project_item_pic
     <set >
       <if test="projectid != null" >
-        projectid = #{projectid,jdbcType=INTEGER},
+        projectid = #{projectid,jdbcType=CHAR},
       </if>
       <if test="itemPicPath != null" >
         item_pic_path = #{itemPicPath,jdbcType=VARCHAR},
@@ -174,7 +194,7 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="cn.andylhl.crowd.po.ProjectItemPicPO" >
     update t_project_item_pic
-    set projectid = #{projectid,jdbcType=INTEGER},
+    set projectid = #{projectid,jdbcType=CHAR},
       item_pic_path = #{itemPicPath,jdbcType=VARCHAR}
     where id = #{id,jdbcType=CHAR}
   </update>

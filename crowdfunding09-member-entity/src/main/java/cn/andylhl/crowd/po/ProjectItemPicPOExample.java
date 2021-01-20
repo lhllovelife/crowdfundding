@@ -184,52 +184,62 @@ public class ProjectItemPicPOExample {
             return (Criteria) this;
         }
 
-        public Criteria andProjectidEqualTo(Integer value) {
+        public Criteria andProjectidEqualTo(String value) {
             addCriterion("projectid =", value, "projectid");
             return (Criteria) this;
         }
 
-        public Criteria andProjectidNotEqualTo(Integer value) {
+        public Criteria andProjectidNotEqualTo(String value) {
             addCriterion("projectid <>", value, "projectid");
             return (Criteria) this;
         }
 
-        public Criteria andProjectidGreaterThan(Integer value) {
+        public Criteria andProjectidGreaterThan(String value) {
             addCriterion("projectid >", value, "projectid");
             return (Criteria) this;
         }
 
-        public Criteria andProjectidGreaterThanOrEqualTo(Integer value) {
+        public Criteria andProjectidGreaterThanOrEqualTo(String value) {
             addCriterion("projectid >=", value, "projectid");
             return (Criteria) this;
         }
 
-        public Criteria andProjectidLessThan(Integer value) {
+        public Criteria andProjectidLessThan(String value) {
             addCriterion("projectid <", value, "projectid");
             return (Criteria) this;
         }
 
-        public Criteria andProjectidLessThanOrEqualTo(Integer value) {
+        public Criteria andProjectidLessThanOrEqualTo(String value) {
             addCriterion("projectid <=", value, "projectid");
             return (Criteria) this;
         }
 
-        public Criteria andProjectidIn(List<Integer> values) {
+        public Criteria andProjectidLike(String value) {
+            addCriterion("projectid like", value, "projectid");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectidNotLike(String value) {
+            addCriterion("projectid not like", value, "projectid");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectidIn(List<String> values) {
             addCriterion("projectid in", values, "projectid");
             return (Criteria) this;
         }
 
-        public Criteria andProjectidNotIn(List<Integer> values) {
+        public Criteria andProjectidNotIn(List<String> values) {
             addCriterion("projectid not in", values, "projectid");
             return (Criteria) this;
         }
 
-        public Criteria andProjectidBetween(Integer value1, Integer value2) {
+        public Criteria andProjectidBetween(String value1, String value2) {
             addCriterion("projectid between", value1, value2, "projectid");
             return (Criteria) this;
         }
 
-        public Criteria andProjectidNotBetween(Integer value1, Integer value2) {
+        public Criteria andProjectidNotBetween(String value1, String value2) {
             addCriterion("projectid not between", value1, value2, "projectid");
             return (Criteria) this;
         }

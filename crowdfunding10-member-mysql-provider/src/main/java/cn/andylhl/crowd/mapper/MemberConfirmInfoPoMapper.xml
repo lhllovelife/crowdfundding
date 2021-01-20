@@ -1,7 +1,31 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="cn.andylhl.crowd.mapper.MemberConfirmInPoMapper" >
-  <resultMap id="BaseResultMap" type="cn.andylhl.crowd.po.MemberConfirmInPo" >
+<mapper namespace="cn.andylhl.crowd.mapper.MemberConfirmInfoPoMapper" >
+
+  <!-- 保存发起人确认信息
+    void saveMemberConfirmInfoPo(MemberConfirmInfoPo memberConfirmInfoPo);
+  -->
+  <insert id="saveMemberConfirmInfoPo" parameterType="cn.andylhl.crowd.po.MemberConfirmInfoPo">
+    insert into t_member_confirm_info
+    (
+      id,
+      memberid,
+      paynum,
+      cardnum
+    )
+    values
+    (
+     #{id},
+     #{memberid},
+     #{paynum},
+     #{cardnum}
+    )
+
+  </insert>
+
+
+
+  <resultMap id="BaseResultMap" type="cn.andylhl.crowd.po.MemberConfirmInfoPo" >
     <id column="id" property="id" jdbcType="CHAR" />
     <result column="memberid" property="memberid" jdbcType="CHAR" />
     <result column="paynum" property="paynum" jdbcType="VARCHAR" />
@@ -68,7 +92,7 @@
   <sql id="Base_Column_List" >
     id, memberid, paynum, cardnum
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.andylhl.crowd.po.MemberConfirmInPoExample" >
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.andylhl.crowd.po.MemberConfirmInfoPoExample" >
     select
     <if test="distinct" >
       distinct
@@ -92,19 +116,19 @@
     delete from t_member_confirm_info
     where id = #{id,jdbcType=CHAR}
   </delete>
-  <delete id="deleteByExample" parameterType="cn.andylhl.crowd.po.MemberConfirmInPoExample" >
+  <delete id="deleteByExample" parameterType="cn.andylhl.crowd.po.MemberConfirmInfoPoExample" >
     delete from t_member_confirm_info
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="cn.andylhl.crowd.po.MemberConfirmInPo" >
+  <insert id="insert" parameterType="cn.andylhl.crowd.po.MemberConfirmInfoPo" >
     insert into t_member_confirm_info (id, memberid, paynum, 
       cardnum)
     values (#{id,jdbcType=CHAR}, #{memberid,jdbcType=CHAR}, #{paynum,jdbcType=VARCHAR}, 
       #{cardnum,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="cn.andylhl.crowd.po.MemberConfirmInPo" >
+  <insert id="insertSelective" parameterType="cn.andylhl.crowd.po.MemberConfirmInfoPo" >
     insert into t_member_confirm_info
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -135,7 +159,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="cn.andylhl.crowd.po.MemberConfirmInPoExample" resultType="java.lang.Integer" >
+  <select id="countByExample" parameterType="cn.andylhl.crowd.po.MemberConfirmInfoPoExample" resultType="java.lang.Integer" >
     select count(*) from t_member_confirm_info
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
@@ -171,7 +195,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="cn.andylhl.crowd.po.MemberConfirmInPo" >
+  <update id="updateByPrimaryKeySelective" parameterType="cn.andylhl.crowd.po.MemberConfirmInfoPo" >
     update t_member_confirm_info
     <set >
       <if test="memberid != null" >
@@ -186,7 +210,7 @@
     </set>
     where id = #{id,jdbcType=CHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="cn.andylhl.crowd.po.MemberConfirmInPo" >
+  <update id="updateByPrimaryKey" parameterType="cn.andylhl.crowd.po.MemberConfirmInfoPo" >
     update t_member_confirm_info
     set memberid = #{memberid,jdbcType=CHAR},
       paynum = #{paynum,jdbcType=VARCHAR},
