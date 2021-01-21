@@ -1,7 +1,10 @@
 package cn.andylhl.crowd.service;
 
 import cn.andylhl.crowd.utils.ResultEntity;
+import cn.andylhl.crowd.vo.PortalTypeVO;
 import cn.andylhl.crowd.vo.ProjectVO;
+
+import java.util.List;
 
 /***
  * @Title: ProjectService
@@ -18,4 +21,10 @@ public interface ProjectProviderService {
      * @param memberid
      */
     void saveProjectVO(ProjectVO projectVO, String memberid);
+
+    /**
+     * 获取分类项目数据
+     * @return
+     */
+    List<PortalTypeVO> getPrtalTypeProjectData();
 }

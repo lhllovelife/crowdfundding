@@ -2,6 +2,7 @@ package cn.andylhl.crowd.controller;
 
 import cn.andylhl.crowd.service.ProjectProviderService;
 import cn.andylhl.crowd.utils.ResultEntity;
+import cn.andylhl.crowd.vo.PortalTypeVO;
 import cn.andylhl.crowd.vo.ProjectVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /***
  * @Title: ProjectProviderController
@@ -45,7 +48,24 @@ public class ProjectProviderController {
             e.printStackTrace();
             return ResultEntity.failed(e.getMessage());
         }
+    }
 
+
+    /**
+     * 获取分类项目数据
+     * @return
+     */
+    @RequestMapping("/get/portal/type/project/data/remote")
+    public ResultEntity<List<PortalTypeVO>> getPrtalTypeProjectDataRemote() {
+        logger.info("mysql-provider服务，获取分类项目数据");
+
+        try {
+            List<PortalTypeVO> portalTypeVOList = projectProviderService.getPrtalTypeProjectData();
+            return ResultEntity.successWithData(portalTypeVOList);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResultEntity.failed(e.getMessage());
+        }
 
     }
 

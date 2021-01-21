@@ -10,6 +10,7 @@ public class Constant {
 
     private Constant(){}
 
+
     // 日期全格式
     public static final String DATE_Format_ALL = "yyyy-MM-dd HH:mm:ss";
 
@@ -35,6 +36,7 @@ public class Constant {
     public static final String ATTR_ERROR_MESSAGE = "message";
     public static final String ATTR_NAME_LOGIN_MEMBER = "loginMember";
     public static final String ATTR_NAME_TEMPLE_PROJECT = "templeProjectVO";
+    public static final String ATTR_NAME_PORTAL_DATA = "portalTypeVOList";
 
     public static final String REDIS_CODE_PREFIX = "crowd-register-";
 }

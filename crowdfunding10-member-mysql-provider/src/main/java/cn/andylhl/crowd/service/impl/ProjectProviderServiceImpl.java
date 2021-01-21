@@ -9,10 +9,7 @@ import cn.andylhl.crowd.po.ReturnPO;
 import cn.andylhl.crowd.service.ProjectProviderService;
 import cn.andylhl.crowd.utils.DateUtil;
 import cn.andylhl.crowd.utils.UUIDUtil;
-import cn.andylhl.crowd.vo.MemberConfirmInfoVO;
-import cn.andylhl.crowd.vo.MemberLauchInfoVO;
-import cn.andylhl.crowd.vo.ProjectVO;
-import cn.andylhl.crowd.vo.ReturnVO;
+import cn.andylhl.crowd.vo.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -21,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.swing.plaf.synth.SynthOptionPaneUI;
 import java.util.*;
 
 /***
@@ -157,22 +155,21 @@ public class ProjectProviderServiceImpl implements ProjectProviderService {
         // 保存发起人确认信息
         memberConfirmInfoPoMapper.saveMemberConfirmInfoPo(memberConfirmInfoPo);
     }
-}
 
-/*
-ProjectVO{
-typeIdList=[type1111, type2222],
-tagIdList=[tag001, tag002, tag003],
-projectName='麦克风',
-projectDescription='麦克风一句话简介',
-money=1500,
-day=12,
-createdate='null',
-headerPicturePath='http://andylhlcrowd.oss-cn-beijing.aliyuncs.com/20210120/5a22074b02de43e3b523cf172437bca8.jpg',
-detailPicturePathList=[http://andylhlcrowd.oss-cn-beijing.aliyuncs.com/20210120/d3cb50af6cdb462f81f5b8a6b5e353d9.gif, http://andylhlcrowd.oss-cn-beijing.aliyuncs.com/20210120/2bdbacc29ea64b9ebdf9ddd944c102fc.jpg],
-memberLauchInfoVO=MemberLauchInfoVO{descriptionSimple='李红亮', descriptionDetail='李红亮详细自我介绍', phoneNum='15565615212', serviceNum='4000800123'},
-returnVOList=[
-ReturnVO{type=0, supportmoney=2, content='回报内容1', count=0, signalpurchase=0, purchase=1, freight=0, invoice=0, returndate=10, describPicPath='http://andylhlcrowd.oss-cn-beijing.aliyuncs.com/20210120/a5d5f4698840413581ea2061c3bcf00d.gif'},
-ReturnVO{type=1, supportmoney=5, content='回报内容2', count=1, signalpurchase=1, purchase=15, freight=10, invoice=1, returndate=15, describPicPath='http://andylhlcrowd.oss-cn-beijing.aliyuncs.com/20210120/62b1c5b4783e4189b0b86a549655bf5c.jpg'}],
-memberConfirmInfoVO=MemberConfirmInfoVO{paynum='2432707158', cardnum='412824200004017213'}}
- */
+    /**
+     * 获取分类项目数据
+     * @return
+     */
+    @Override
+    public List<PortalTypeVO> getPrtalTypeProjectData() {
+        // 获取所有分类数据
+        List<PortalTypeVO> portalTypeVOList = projectPOMapper.getAllType();
+        // 根据分类id查询该分类下所有的项目数据
+        for (PortalTypeVO portalTypeVO : portalTypeVOList) {
+            List<PortalProjectVO> portalProjectVOList = projectPOMapper.getAllProjectByTypeId(portalTypeVO.getId());
+            // 将查询到的项目数据封装到该分类对象的属性中
+            portalTypeVO.setPortalProjectVOList(portalProjectVOList);
+        }
+        return portalTypeVOList;
+    }
+}

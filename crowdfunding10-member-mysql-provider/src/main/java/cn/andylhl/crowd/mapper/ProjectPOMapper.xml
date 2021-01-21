@@ -1,6 +1,44 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="cn.andylhl.crowd.mapper.ProjectPOMapper" >
+
+  <!--// 根据分类id查询该分类下所有的项目
+    List<PortalProjectVO> getAllProjectByTypeId(String typeid);-->
+  <select id="getAllProjectByTypeId" parameterType="String" resultType="cn.andylhl.crowd.vo.PortalProjectVO">
+      select
+        t_project.id as projectId,
+        t_project.project_name as projectName,
+        t_project.header_picture_path as headerPicturePath,
+        t_project.money as money,
+        t_project.deploydate as deploydate,
+        t_project.supportmoney / t_project.money  * 100 as percentage,
+        t_project.supporter as supporter
+      from
+          t_project
+      join
+          t_project_type
+      on
+          t_project.id = t_project_type.projectid
+      where
+          t_project_type.typeid = #{typeid}
+      order by t_project.deploydate desc
+      limit 0, 4
+  </select>
+
+
+
+  <!--// 先获取所有分类数据
+    List<PortalTypeVO> getAllType();-->
+  <select id="getAllType" resultType="cn.andylhl.crowd.vo.PortalTypeVO">
+    select
+        id,
+        name,
+        remark
+    from
+        t_type
+  </select>
+
+
   <resultMap id="BaseResultMap" type="cn.andylhl.crowd.po.ProjectPO" >
     <id column="id" property="id" jdbcType="CHAR" />
     <result column="project_name" property="projectName" jdbcType="VARCHAR" />
