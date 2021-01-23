@@ -46,8 +46,10 @@
 <!--        <table tableName="t_project_item_pic" domainObjectName="ProjectItemPicPO" />-->
 <!--        <table tableName="t_member_launch_info" domainObjectName="MemberLaunchInfoPO" />-->
 <!--        <table tableName="t_return" domainObjectName="ReturnPO" />-->
-<!--        <table tableName="t_member_confirm_info" domainObjectName="MemberConfirmInfoPo" />-->
-        <table tableName="t_project_item_pic" domainObjectName="ProjectItemPicPO" />
+        <table tableName="t_order" domainObjectName="OrderPO" />
+        <table tableName="t_address" domainObjectName="AddressPO" />
+        <table tableName="t_order_project" domainObjectName="OrderProjectPO" />
+        <table tableName="t_return_support" domainObjectName="ReturnSupportPO" />
 
 </context>
         </generatorConfiguration>

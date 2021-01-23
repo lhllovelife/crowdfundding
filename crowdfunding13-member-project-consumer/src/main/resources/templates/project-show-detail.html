@@ -210,7 +210,7 @@
                                                 </span>
                                                 <!--没有剩余回报-->
                                                 <span th:if="${return.count - return.supporterCount == 0}">
-                                                    <a href="javascipt:void(0)" class="btn btn-warning btn-lg" onclick="alert('当前支持项已满')">支持</a>
+                                                    <a href="javascipt:void(0)" class="btn btn-warning btn-lg" onclick="layer.alert('当前支持项已满')">支持</a>
                                                 </span>
                                             </span>
                                             <br><br>
@@ -383,6 +383,7 @@
 <script src="bootstrap/js/bootstrap.min.js"></script>
 <script src="script/docs.min.js"></script>
 <script src="script/back-to-top.js"></script>
+<script src="layer/layer.js"></script>
 <script>
     $(".prjtip img").css("cursor", "pointer");
     $(".prjtip img").click(function () {
