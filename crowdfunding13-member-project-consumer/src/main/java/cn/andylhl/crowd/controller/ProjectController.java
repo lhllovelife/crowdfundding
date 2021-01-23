@@ -5,15 +5,13 @@ import cn.andylhl.crowd.config.OSSProperties;
 import cn.andylhl.crowd.constant.Constant;
 import cn.andylhl.crowd.utils.CrowdUtil;
 import cn.andylhl.crowd.utils.ResultEntity;
-import cn.andylhl.crowd.vo.MemberConfirmInfoVO;
-import cn.andylhl.crowd.vo.MemberLoginVO;
-import cn.andylhl.crowd.vo.ProjectVO;
-import cn.andylhl.crowd.vo.ReturnVO;
+import cn.andylhl.crowd.vo.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -221,21 +219,22 @@ public class ProjectController {
 
         // 重定向到最终完成的页面
         return "redirect:http://127.0.0.1:80/project/create/sucess";
+    }
 
+    @RequestMapping("/get/project/detail/{projectid}")
+    public String getProjectDetail(@PathVariable("projectid") String projectid, Model model){
+        logger.info("crowd-project服务, 根据项目id获取项目详细信息");
+
+        // 1. 调用mysql服务查询项目详细信息
+        ResultEntity<DetailProjectVO> projectDetailRemote = mySQLRemoteService.getProjectDetailRemote(projectid);
+        // 若查询成功，将数据封装到request域对象
+        if (ResultEntity.SUCCESS.equals(projectDetailRemote.getResult())) {
+            DetailProjectVO detailProjectVO = projectDetailRemote.getData();
+            model.addAttribute("detailProjectVO", detailProjectVO);
+        }
+
+        // 跳转页面
+        return "project-show-detail";
     }
 
 }
-/*
-回报信息数据：ReturnVO{type=0, supportmoney=2, content='回报内容1', count=0, signalpurchase=0, purchase=1, freight=0, invoice=0, returndate=10, describPicPath='http://andylhlcrowd.oss-cn-beijing.aliyuncs.com/20210119/d376c92667c6499896d60601c1f12bbe.gif'}
-加有回报信息的projectVo:
-ProjectVO{
-typeIdList=[type1111, type2222],
-tagIdList=[tag001, tag002, tag003],
-projectName='化妆镜', projectDescription='化妆镜一句话简介',
-money=16, day=36, createdate='null',
-headerPicturePath='http://andylhlcrowd.oss-cn-beijing.aliyuncs.com/20210119/e84d4e18ec4d47ca926e286a1889b21f.jpg',
-detailPicturePathList=[http://andylhlcrowd.oss-cn-beijing.aliyuncs.com/20210119/7072e545df2249f98a976493775f91ea.gif, http://andylhlcrowd.oss-cn-beijing.aliyuncs.com/20210119/2c7389bba7c34f81b37797e96dc273a4.jpg],
-memberLauchInfoVO=MemberLauchInfoVO{descriptionSimple='李红亮', descriptionDetail='李红亮详细自我介绍', phoneNum='15565615212', serviceNum='4000800123'},
-returnVOList=[ReturnVO{type=0, supportmoney=2, content='回报内容1', count=0, signalpurchase=0, purchase=1, freight=0, invoice=0, returndate=10, describPicPath='http://andylhlcrowd.oss-cn-beijing.aliyuncs.com/20210119/d376c92667c6499896d60601c1f12bbe.gif'}],
-memberConfirmInfoVO=null}
- */

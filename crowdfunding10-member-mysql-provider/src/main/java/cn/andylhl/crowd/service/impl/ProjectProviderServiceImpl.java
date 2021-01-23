@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.swing.plaf.synth.SynthOptionPaneUI;
+import java.time.LocalDate;
 import java.util.*;
 
 /***
@@ -172,4 +173,85 @@ public class ProjectProviderServiceImpl implements ProjectProviderService {
         }
         return portalTypeVOList;
     }
+
+    /**
+     * 根据项目id,获取项目详细信息及其回报信息
+     * @param projectId
+     * @return
+     */
+    @Override
+    public DetailProjectVO getProjectDetail(String projectId) {
+        // 1. 准备要返回的数据
+        DetailProjectVO detailProjectVO = new DetailProjectVO();
+        // 2. 根据项目id查询，项目的详细信息
+        detailProjectVO = projectPOMapper.getProjectInfo(projectId);
+        // 根据status,确定statusText
+        Integer status = detailProjectVO.getStatus();
+        if (status == 0) {
+            detailProjectVO.setStatusText("审核中");
+        }
+        else if (status == 1) {
+            detailProjectVO.setStatusText("众筹中");
+        }
+        else if (status == 2) {
+            detailProjectVO.setStatusText("众筹成功");
+        }
+        else if (status == 3) {
+            detailProjectVO.setStatusText("已关闭");
+        }
+        // 根据发布日期确定，lastday
+        // 发布日期
+        String deployDate = detailProjectVO.getDeployDate();
+
+        // 开始日期
+        LocalDate startDate = LocalDate.parse(deployDate);
+        // 结束日期
+        LocalDate endDate = LocalDate.now();
+        // 已经过去天数
+        int passDay = (int) (endDate.toEpochDay() - startDate.toEpochDay());
+        // 筹集天数
+        Integer day = detailProjectVO.getDay();
+        // 项目剩余天数
+        Integer lastDay = day- passDay;
+        detailProjectVO.setLastDay(lastDay);
+
+
+        // 3. 根据项目id查询该项目的详情地址集合
+        List<String> detailPicturePathList = projectPOMapper.getDetailPicturePathList(projectId);
+        // 将查询到地址集合设置到detailProjectVO中
+        detailProjectVO.setDetailPicturePathList(detailPicturePathList);
+        // 4. 查询该项目的回报信息集合
+        List<DetailReturnVO> detailReturnVOList = projectPOMapper.getDetailReturnVOList(projectId);
+        // 遍历回报项目集合，查询每个档位回报各有多少人支持
+        for (DetailReturnVO detailReturnVO : detailReturnVOList) {
+            String returnId = detailReturnVO.getReturnId();
+            // 根据returnId查询该档位的支持人数
+            Integer supproterCount = projectPOMapper.getReturnSupportCount(returnId);
+            detailReturnVO.setSupporterCount(supproterCount);
+        }
+        // 将回报信息数据设置到detailProjectVO
+        detailProjectVO.setDetailReturnVOList(detailReturnVOList);
+
+        return detailProjectVO;
+    }
 }
+/*
+
+DetailProjectVO{
+projectId='aa918f862bb44642a7c5832cc5a54435',
+projectName='iphone12',
+projectDesc='iPhone 12是苹果公司旗下的智能手机，尺寸为6.1英寸，采用了Super Retina XDR屏幕。',
+money=7499,
+day=30,
+lastDay=null,
+ status=0,
+  statusText='null',
+  followerCount=null,
+  deployDate='null',
+   supportMoney=null,
+    percentage=null,
+    headerPicturePath='http://andylhlcrowd.oss-cn-beijing.aliyuncs.com/20210123/2264a864969d4eab9d12f7d6e5bd670c.jfif',
+     supporterCount=null,
+     detailPicturePathList=null,
+      detailReturnVOList=null}
+ */

@@ -2,6 +2,73 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="cn.andylhl.crowd.mapper.ProjectPOMapper" >
 
+  <!--    // 根据returnId查询该档位的支持人数
+    Integer getReturnSupportCount(String returnId);-->
+  <select id="getReturnSupportCount" parameterType="String" resultType="Integer">
+    select
+        count(*) as supproterCount
+    from
+        t_return_support
+    where
+        return_id = #{returnId}
+  </select>
+
+  <!--// 查询该项目的回报信息集合
+    List<DetailReturnVO> getDetailReturnVOList(String projectId);-->
+  <select id="getDetailReturnVOList" parameterType="String" resultType="cn.andylhl.crowd.vo.DetailReturnVO">
+    select
+        id as returnId,
+        supportmoney as supportMoney,
+        content as content,
+        count as count,
+        signalpurchase as signalPurchase,
+        purchase as purchase,
+        freight as freight,
+        returndate as returnDate
+    from
+        t_return
+    where
+        projectid = #{projectId}
+  </select>
+
+  <!-- //根据项目id查询该项目的详情地址集合
+    List<String> getDetailPicturePathList(String projectId);-->
+  <select id="getDetailPicturePathList" parameterType="String" resultType="String">
+    select
+        item_pic_path
+    from
+        t_project_item_pic
+    where
+        projectid = #{projectId}
+  </select>
+
+
+  <!--// 根据项目id,获取项目详细信息
+    DetailProjectVO getProjectInfo(String projectId);-->
+  <select id="getProjectInfo" parameterType="String" resultType="cn.andylhl.crowd.vo.DetailProjectVO">
+
+    select
+        id as projectId,
+        project_name as projectName,
+        project_description as projectDesc,
+        money,
+        day,
+        status,
+        deploydate,
+        supportmoney,
+        supportmoney * 100 / money as percentage,
+        supporter as supporterCount,
+        follower as followerCount,
+        header_picture_path as headerPicturePath
+    from
+        t_project
+    where
+        id = #{projectId}
+
+  </select>
+
+
+
   <!--// 根据分类id查询该分类下所有的项目
     List<PortalProjectVO> getAllProjectByTypeId(String typeid);-->
   <select id="getAllProjectByTypeId" parameterType="String" resultType="cn.andylhl.crowd.vo.PortalProjectVO">

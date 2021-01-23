@@ -31,5 +31,4 @@ public class CrowdApplicaiton {
     public static void main(String[] args) {
         SpringApplication.run(CrowdApplicaiton.class);
     }
-
 }

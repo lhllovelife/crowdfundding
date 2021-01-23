@@ -2,6 +2,7 @@ package cn.andylhl.crowd.controller;
 
 import cn.andylhl.crowd.service.ProjectProviderService;
 import cn.andylhl.crowd.utils.ResultEntity;
+import cn.andylhl.crowd.vo.DetailProjectVO;
 import cn.andylhl.crowd.vo.PortalTypeVO;
 import cn.andylhl.crowd.vo.ProjectVO;
 import org.slf4j.Logger;
@@ -62,6 +63,24 @@ public class ProjectProviderController {
         try {
             List<PortalTypeVO> portalTypeVOList = projectProviderService.getPrtalTypeProjectData();
             return ResultEntity.successWithData(portalTypeVOList);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResultEntity.failed(e.getMessage());
+        }
+    }
+
+    /**
+     * 根据项目id,获取项目详细信息及其回报信息
+     * @param projectId
+     * @return
+     */
+    @RequestMapping("/get/project/detail/remote")
+    public ResultEntity<DetailProjectVO> getProjectDetailRemote(@RequestParam("projectId") String projectId) {
+        logger.info("mysql-provider服务，根据项目id,获取项目详细信息及其回报信息");
+
+        try {
+            DetailProjectVO detailProjectVO = projectProviderService.getProjectDetail(projectId);
+            return ResultEntity.successWithData(detailProjectVO);
         } catch (Exception e) {
             e.printStackTrace();
             return ResultEntity.failed(e.getMessage());

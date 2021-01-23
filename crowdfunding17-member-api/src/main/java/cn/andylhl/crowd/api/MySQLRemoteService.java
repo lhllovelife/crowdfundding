@@ -2,6 +2,7 @@ package cn.andylhl.crowd.api;
 
 import cn.andylhl.crowd.po.MemberPO;
 import cn.andylhl.crowd.utils.ResultEntity;
+import cn.andylhl.crowd.vo.DetailProjectVO;
 import cn.andylhl.crowd.vo.PortalTypeVO;
 import cn.andylhl.crowd.vo.ProjectVO;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -54,5 +55,8 @@ public interface MySQLRemoteService {
      */
     @RequestMapping("/get/portal/type/project/data/remote")
     ResultEntity<List<PortalTypeVO>> getPrtalTypeProjectDataRemote();
+
+    @RequestMapping("/get/project/detail/remote")
+    ResultEntity<DetailProjectVO> getProjectDetailRemote(@RequestParam("projectId") String projectId);
 
 }

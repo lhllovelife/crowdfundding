@@ -1,6 +1,7 @@
 package cn.andylhl.crowd.service;
 
 import cn.andylhl.crowd.utils.ResultEntity;
+import cn.andylhl.crowd.vo.DetailProjectVO;
 import cn.andylhl.crowd.vo.PortalTypeVO;
 import cn.andylhl.crowd.vo.ProjectVO;
 
@@ -27,4 +28,11 @@ public interface ProjectProviderService {
      * @return
      */
     List<PortalTypeVO> getPrtalTypeProjectData();
+
+    /**
+     * 根据项目id,获取项目详细信息及其回报信息
+     * @param projectId
+     * @return
+     */
+    DetailProjectVO getProjectDetail(String projectId);
 }
