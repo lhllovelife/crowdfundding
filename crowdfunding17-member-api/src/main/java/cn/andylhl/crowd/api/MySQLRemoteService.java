@@ -2,10 +2,7 @@ package cn.andylhl.crowd.api;
 
 import cn.andylhl.crowd.po.MemberPO;
 import cn.andylhl.crowd.utils.ResultEntity;
-import cn.andylhl.crowd.vo.DetailProjectVO;
-import cn.andylhl.crowd.vo.OrderProjectVO;
-import cn.andylhl.crowd.vo.PortalTypeVO;
-import cn.andylhl.crowd.vo.ProjectVO;
+import cn.andylhl.crowd.vo.*;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -68,4 +65,20 @@ public interface MySQLRemoteService {
      */
     @RequestMapping("/get/order/project/vo/remote")
     ResultEntity<OrderProjectVO> getOrderProjectVORemote(@RequestParam("projectId") String projectId, @RequestParam("returnId") String returnId);
+
+    /**
+     * 保存地址信息
+     * @param addressVO
+     * @return
+     */
+    @RequestMapping("/save/address/remote")
+    ResultEntity<String> saveAddressRemote(@RequestBody AddressVO addressVO);
+
+    /**
+     * 根据memberId查询地址信息
+     * @param memberId
+     * @return
+     */
+    @RequestMapping("/get/address/list/by/memberid/remote")
+    ResultEntity<List<AddressVO>> getAddressListRemote(@RequestParam("memberId") String memberId);
 }

@@ -1,6 +1,24 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="cn.andylhl.crowd.mapper.AddressPOMapper" >
+
+  <!--// 根据memberId查询地址信息
+    List<AddressVO> getAddressList(String memberId);-->
+  <select id="getAddressList" parameterType="String" resultType="cn.andylhl.crowd.vo.AddressVO">
+    select
+      id,
+      receive_name as receiveName,
+      phone_num as phoneNum,
+      address as address,
+      member_id as memberId
+    from
+        t_address
+    where
+        member_id = #{memberId}
+  </select>
+
+
+
   <resultMap id="BaseResultMap" type="cn.andylhl.crowd.po.AddressPO" >
     <id column="id" property="id" jdbcType="CHAR" />
     <result column="receive_name" property="receiveName" jdbcType="CHAR" />

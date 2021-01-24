@@ -1,6 +1,9 @@
 package cn.andylhl.crowd.service;
 
+import cn.andylhl.crowd.vo.AddressVO;
 import cn.andylhl.crowd.vo.OrderProjectVO;
+
+import java.util.List;
 
 /***
  * @Title: OrderProviderService
@@ -17,4 +20,17 @@ public interface OrderProviderService {
      * @return
      */
     OrderProjectVO getOrderProjectVO(String projectId, String returnId);
+
+    /**
+     * 保存地址信息
+     * @param addressVO
+     */
+    void saveAddress(AddressVO addressVO);
+
+    /**
+     * 根据memberId查询地址信息
+     * @param memberId
+     * @return
+     */
+    List<AddressVO> getAddressList(String memberId);
 }

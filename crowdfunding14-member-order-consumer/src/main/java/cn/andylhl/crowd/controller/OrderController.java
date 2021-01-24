@@ -2,6 +2,8 @@ package cn.andylhl.crowd.controller;
 
 import cn.andylhl.crowd.api.MySQLRemoteService;
 import cn.andylhl.crowd.utils.ResultEntity;
+import cn.andylhl.crowd.utils.UUIDUtil;
+import cn.andylhl.crowd.vo.AddressVO;
 import cn.andylhl.crowd.vo.OrderProjectVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,8 +12,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 /***
  * @Title: OrderController
@@ -32,7 +37,7 @@ public class OrderController {
     public String showReturnConfirmInfo(@PathVariable("projectId") String projectId,
                                         @PathVariable("returnId") String returnId,
                                         HttpSession session){
-        logger.info("crowd-project服务, 获取订单项目信息");
+        logger.info("crowd-order服务, 获取订单项目信息");
 
         ResultEntity<OrderProjectVO> resultEntity =  mySQLRemoteService.getOrderProjectVORemote(projectId, returnId);
         if (ResultEntity.SUCCESS.equals(resultEntity.getResult())) {
@@ -42,4 +47,37 @@ public class OrderController {
         }
         return "confirm-return";
     }
+
+    @RequestMapping("/confirm/order/{returnCount}")
+    public String confimOrder(@PathVariable("returnCount") Integer returnCount, HttpSession session ) {
+        logger.info("crowd-order服务, 跳转到确认订单页面");
+        // 1. 从session取出orderProjectVO对象
+        OrderProjectVO orderProjectVO = (OrderProjectVO) session.getAttribute("orderProjectVO");
+        // 2. returnCount
+        orderProjectVO.setReturnCount(returnCount);
+        // 3. 将该对象重新设置到session域对象中
+        session.setAttribute("orderProjectVO", orderProjectVO);
+        // 跳转到回报页面
+        return "confirm-order";
+    }
+
+    @RequestMapping("/save/address/info")
+    public @ResponseBody ResultEntity<String> saveAddress(AddressVO addressVO) {
+        logger.info("crowd-order服务, 保存地址信息");
+        // 生成uuid主键
+        addressVO.setId(UUIDUtil.getUUID());
+        // 调用mysql-provider服务保存
+        ResultEntity<String> resultEntity = mySQLRemoteService.saveAddressRemote(addressVO);
+        return resultEntity;
+    }
+
+    @RequestMapping("/get/address/list/by/memberid")
+    public @ResponseBody ResultEntity<List<AddressVO>> getAddressListById(@RequestParam("memberId") String memberId) {
+        logger.info("crowd-order服务, 根据memberId查询地址信息");
+
+        ResultEntity<List<AddressVO>> resultEntity = mySQLRemoteService.getAddressListRemote(memberId);
+
+        return resultEntity;
+    }
+
 }

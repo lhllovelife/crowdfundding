@@ -285,11 +285,12 @@
 <script src="script/back-to-top.js"></script>
 <script src="layer/layer.js"></script>
 <script>
+
+
     $('#myTab a').click(function (e) {
         e.preventDefault()
         $(this).tab('show')
     })
-
 
     // 为填写回报数量框绑定值改变时候响应事件
     $("#returnCount").on('input propertychange', function () {
@@ -337,6 +338,8 @@
             window.location.href = "order/confirm/order/"+returnCount;
         }
     })
+
+
 </script>
 
 <div id="topcontrol" title="" style="position: fixed; bottom: 5px; right: 5px; opacity: 0; cursor: pointer;"></div>

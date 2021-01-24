@@ -2,13 +2,17 @@ package cn.andylhl.crowd.controller;
 
 import cn.andylhl.crowd.service.OrderProviderService;
 import cn.andylhl.crowd.utils.ResultEntity;
+import cn.andylhl.crowd.vo.AddressVO;
 import cn.andylhl.crowd.vo.OrderProjectVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /***
  * @Title: OrderProviderController
@@ -43,4 +47,40 @@ public class OrderProviderController {
             return ResultEntity.failed(e.getMessage());
         }
     }
+
+    /**
+     * 保存地址信息
+     * @param addressVO
+     * @return
+     */
+    @RequestMapping("/save/address/remote")
+    public ResultEntity<String> saveAddressRemote(@RequestBody AddressVO addressVO) {
+        logger.info("mysql-provider服务，保存地址信息");
+        try {
+            orderProviderService.saveAddress(addressVO);
+            return ResultEntity.successWithoutData();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResultEntity.failed(e.getMessage());
+        }
+    }
+
+    /**
+     * 根据memberId查询地址信息
+     * @param memberId
+     * @return
+     */
+    @RequestMapping("/get/address/list/by/memberid/remote")
+    public ResultEntity<List<AddressVO>> getAddressListRemote(@RequestParam("memberId") String memberId) {
+        logger.info("mysql-provider服务，根据memberId查询地址信息");
+        try {
+            List<AddressVO> addressVOList = orderProviderService.getAddressList(memberId);
+            return ResultEntity.successWithData(addressVOList);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResultEntity.failed(e.getMessage());
+        }
+
+    }
+
 }
