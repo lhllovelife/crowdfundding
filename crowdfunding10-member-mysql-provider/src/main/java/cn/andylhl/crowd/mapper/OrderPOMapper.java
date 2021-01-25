@@ -4,9 +4,11 @@ package cn.andylhl.crowd.mapper;
 import cn.andylhl.crowd.po.OrderPO;
 import cn.andylhl.crowd.po.OrderPOExample;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public interface OrderPOMapper {
     int countByExample(OrderPOExample example);
 

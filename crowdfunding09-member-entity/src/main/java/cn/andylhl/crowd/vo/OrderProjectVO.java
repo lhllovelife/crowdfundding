@@ -46,10 +46,17 @@ public class OrderProjectVO implements Serializable {
     // 每人限购数量
     private Integer purchase;
 
+    // 项目id
+    private String projectId;
+    // 回报id
+    private String returnId;
+    // 会员id
+    private String memberId;
+
     public OrderProjectVO() {
     }
 
-    public OrderProjectVO(String id, String projectName, String launchName, String returnContent, Integer returnCount, Integer count, Integer remainCount, Integer supportPrice, Integer freight, Integer orderId, Integer signalPurchase, Integer purchase) {
+    public OrderProjectVO(String id, String projectName, String launchName, String returnContent, Integer returnCount, Integer count, Integer remainCount, Integer supportPrice, Integer freight, Integer orderId, Integer signalPurchase, Integer purchase, String projectId, String returnId, String memberId) {
         this.id = id;
         this.projectName = projectName;
         this.launchName = launchName;
@@ -62,6 +69,9 @@ public class OrderProjectVO implements Serializable {
         this.orderId = orderId;
         this.signalPurchase = signalPurchase;
         this.purchase = purchase;
+        this.projectId = projectId;
+        this.returnId = returnId;
+        this.memberId = memberId;
     }
 
     public String getId() {
@@ -160,6 +170,30 @@ public class OrderProjectVO implements Serializable {
         this.purchase = purchase;
     }
 
+    public String getProjectId() {
+        return projectId;
+    }
+
+    public void setProjectId(String projectId) {
+        this.projectId = projectId;
+    }
+
+    public String getReturnId() {
+        return returnId;
+    }
+
+    public void setReturnId(String returnId) {
+        this.returnId = returnId;
+    }
+
+    public String getMemberId() {
+        return memberId;
+    }
+
+    public void setMemberId(String memberId) {
+        this.memberId = memberId;
+    }
+
     @Override
     public String toString() {
         return "OrderProjectVO{" +
@@ -175,6 +209,9 @@ public class OrderProjectVO implements Serializable {
                 ", orderId=" + orderId +
                 ", signalPurchase=" + signalPurchase +
                 ", purchase=" + purchase +
+                ", projectId='" + projectId + '\'' +
+                ", returnId='" + returnId + '\'' +
+                ", memberId='" + memberId + '\'' +
                 '}';
     }
 }

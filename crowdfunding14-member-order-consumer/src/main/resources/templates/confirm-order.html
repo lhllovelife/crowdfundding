@@ -580,12 +580,14 @@
         var invoice = $("input[name=invoice]:checked").val();
         var invoiceTitle = $.trim($("#invoiceTitle").val());
         var orderRemark = $.trim($("#remark").val());
+        var memberId = "[[${session.loginMember.id}]]";
         // 构造表单提交数据
         $("#summaryForm")
             .append("<input type='hidden' name='addressId' value='"+addressId+"'/>")
             .append("<input type='hidden' name='invoice' value='"+invoice+"'/>")
             .append("<input type='hidden' name='invoiceTitle' value='"+invoiceTitle+"'/>")
             .append("<input type='hidden' name='orderRemark' value='"+orderRemark+"'/>")
+            .append("<input type='hidden' name='memberId' value='"+memberId+"'/>")
             .submit();
     })
 

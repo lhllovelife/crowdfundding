@@ -17,6 +17,9 @@ public class Constant {
     // 年月日格式
     public static final String DATE_Format_YMD = "yyyy-MM-dd";
 
+    // 订单日期全格式
+    public static final String ORDER_DATE_Format_ALL = "yyyyMMddHHmmss";
+
 
     public static final String MESSAGE_LOGIN_FAILED = "抱歉！账号密码错误！请重新输入！";
     public static final String MESSAGE_LOGIN_ACCT_ALREADY_IN_USE = "抱歉！这个账号已经被使用了！";

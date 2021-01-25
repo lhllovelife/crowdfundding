@@ -6,7 +6,9 @@ import java.util.List;
 import cn.andylhl.crowd.po.ReturnSupportPO;
 import cn.andylhl.crowd.po.ReturnSupportPOExample;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface ReturnSupportPOMapper {
     int countByExample(ReturnSupportPOExample example);
 

@@ -4,6 +4,7 @@ import cn.andylhl.crowd.service.OrderProviderService;
 import cn.andylhl.crowd.utils.ResultEntity;
 import cn.andylhl.crowd.vo.AddressVO;
 import cn.andylhl.crowd.vo.OrderProjectVO;
+import cn.andylhl.crowd.vo.OrderVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,6 +82,19 @@ public class OrderProviderController {
             return ResultEntity.failed(e.getMessage());
         }
 
+    }
+
+    @RequestMapping("/save/order/vo/remote")
+    public ResultEntity<String> saveOrderVORemote(@RequestBody OrderVO orderVO) {
+        logger.info("mysql-provider服务，保存订单数据");
+
+        try {
+            orderProviderService.saveOrderVO(orderVO);
+            return ResultEntity.successWithoutData();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResultEntity.failed(e.getMessage());
+        }
     }
 
 }

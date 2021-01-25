@@ -2,6 +2,7 @@ package cn.andylhl.crowd.service;
 
 import cn.andylhl.crowd.vo.AddressVO;
 import cn.andylhl.crowd.vo.OrderProjectVO;
+import cn.andylhl.crowd.vo.OrderVO;
 
 import java.util.List;
 
@@ -33,4 +34,10 @@ public interface OrderProviderService {
      * @return
      */
     List<AddressVO> getAddressList(String memberId);
+
+    /**
+     * 保存订单数据
+     * @param orderVO
+     */
+    void saveOrderVO(OrderVO orderVO);
 }

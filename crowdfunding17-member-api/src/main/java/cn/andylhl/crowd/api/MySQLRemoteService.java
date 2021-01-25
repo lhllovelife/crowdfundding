@@ -81,4 +81,13 @@ public interface MySQLRemoteService {
      */
     @RequestMapping("/get/address/list/by/memberid/remote")
     ResultEntity<List<AddressVO>> getAddressListRemote(@RequestParam("memberId") String memberId);
+
+
+    /**
+     * 保存订单数据
+     * @param orderVO
+     * @return
+     */
+    @RequestMapping("/save/order/vo/remote")
+    ResultEntity<String> saveOrderVORemote(@RequestBody OrderVO orderVO);
 }
